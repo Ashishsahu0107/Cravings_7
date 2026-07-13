@@ -15,10 +15,10 @@ const CustomerSidebar = ({ activeTab, setActiveTab }) => {
   const renderTab = (tab) => (
     <li
       key={tab.value}
-      className={`cursor-pointer p-2 rounded text-(--color-neutral) flex items-center gap-3 ${
+      className={`cursor-pointer p-2 rounded text-neutral flex items-center gap-3 ${
         activeTab === tab.value
-          ? "bg-(--color-primary) text-(--color-primary-content) font-semibold"
-          : "hover:bg-(--color-secondary) hover:text-(--color-secondary-content) transition-colors duration-200"
+          ? "bg-primary text-primary-content font-semibold"
+          : "hover:bg-secondary hover:text-secondary-content transition-colors duration-200"
       }`}
       onClick={() => setActiveTab(tab.value)}
     >
@@ -32,7 +32,7 @@ const CustomerSidebar = ({ activeTab, setActiveTab }) => {
         <ul className="space-y-4 flex-1">
           {mainTabs.map((tab) => renderTab(tab))}
         </ul>
-        <ul className="space-y-4 border-t border-(--color-secondary) py-2">
+        <ul className="space-y-4 border-t border-secondary py-2">
           {renderTab(settingsTab)}
         </ul>
       </div>

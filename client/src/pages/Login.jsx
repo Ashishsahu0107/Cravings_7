@@ -85,10 +85,10 @@ const Login = () => {
     <>
       <div className="h-[90vh] bg-[url('/foodTable.webp')] flex items-center justify-start bg-cover bg-center p-10 md:ps-30">
         <div className="bg-white rounded-lg shadow-md px-10 py-6 max-w-md w-full">
-          <h1 className="text-3xl font-bold text-(--color-primary) mb-2 text-center">
+          <h1 className="text-3xl font-bold text-primary mb-2 text-center">
             Welcome Back
           </h1>
-          <p className="text-(--color-secondary) text-center mb-6">
+          <p className="text-secondary text-center mb-6">
             Login to your Cravings account
           </p>
 
@@ -96,7 +96,7 @@ const Login = () => {
           <form onSubmit={handleSubmit}>
             {/* Email */}
             <div className="mb-4">
-              <label className="block text-(--color-neutral) font-semibold mb-2">
+              <label className="block text-neutral font-semibold mb-2">
                 Email
               </label>
               <input
@@ -105,14 +105,14 @@ const Login = () => {
                 value={formData.email}
                 onChange={handleInputChange}
                 placeholder="Enter your email"
-                className={`w-full px-3 py-2 border rounded-md text-sm text-(--color-neutral) placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+                className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
                   errors.email
-                    ? "border-(--color-error) border-2"
-                    : "border-(--color-base-300)"
+                    ? "border-error border-2"
+                    : "border-base-300"
                 }`}
               />
               {errors.email && (
-                <span className="text-(--color-error) text-xs mt-1 block">
+                <span className="text-error text-xs mt-1 block">
                   {errors.email}
                 </span>
               )}
@@ -120,7 +120,7 @@ const Login = () => {
 
             {/* Password */}
             <div className="mb-4">
-              <label className="block text-(--color-neutral) font-semibold mb-2">
+              <label className="block text-neutral font-semibold mb-2">
                 Password
               </label>
               <div className="relative">
@@ -130,16 +130,16 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleInputChange}
                   placeholder="Enter your password"
-                  className={`w-full px-3 py-2 border rounded-md text-sm text-(--color-neutral) placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+                  className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
                     errors.password
-                      ? "border-(--color-error) border-2"
-                      : "border-(--color-base-300)"
+                      ? "border-error border-2"
+                      : "border-base-300"
                   }`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-2.5 text-(--color-secondary) hover:text-(--color-primary) transition-colors"
+                  className="absolute right-3 top-2.5 text-secondary hover:text-primary transition-colors"
                 >
                   {showPassword ? (
                     <FaEyeSlash className="text-sm" />
@@ -149,7 +149,7 @@ const Login = () => {
                 </button>
               </div>
               {errors.password && (
-                <span className="text-(--color-error) text-xs mt-1 block">
+                <span className="text-error text-xs mt-1 block">
                   {errors.password}
                 </span>
               )}
@@ -157,7 +157,7 @@ const Login = () => {
 
             {/* Remember Me & Forgot Password */}
             <div className="flex items-center justify-between mb-6">
-              <label className="flex items-center gap-2 cursor-pointer text-(--color-secondary)">
+              <label className="flex items-center gap-2 cursor-pointer text-secondary">
                 <input
                   type="checkbox"
                   name="rememberMe"
@@ -169,7 +169,7 @@ const Login = () => {
               </label>
               <div
                 onClick={() => setIsForgotPasswordModalOpen(true)}
-                className="text-sm text-(--color-primary) hover:underline transition-colors"
+                className="text-sm text-primary hover:underline transition-colors"
               >
                 Forgot Password?
               </div>
@@ -179,7 +179,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-(--color-primary) text-white font-semibold rounded-md hover:bg-orange-700 transition-colors duration-300 mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-primary text-white font-semibold rounded-md hover:bg-orange-700 transition-colors duration-300 mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
@@ -198,10 +198,10 @@ const Login = () => {
           </div>
 
           {/* Register Link */}
-          <p className="text-center text-(--color-secondary) text-sm">
+          <p className="text-center text-secondary text-sm">
             <Link
               to="/register"
-              className="text-(--color-primary) font-semibold hover:underline transition-colors"
+              className="text-primary font-semibold hover:underline transition-colors"
             >
               Create an account
             </Link>

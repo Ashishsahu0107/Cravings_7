@@ -57,10 +57,10 @@ const Contact = () => {
   };
 
   const inputClass = (field) =>
-    `w-full px-3 py-2 border rounded-md text-sm text-(--color-neutral) placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+    `w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
       errors[field]
-        ? "border-(--color-error) border-2"
-        : "border-(--color-base-300)"
+        ? "border-error border-2"
+        : "border-base-300"
     }`;
 
   return (
@@ -68,10 +68,10 @@ const Contact = () => {
       className="h-[90vh] flex items-center justify-start bg-[url('/contactPage.jpg')] bg-cover bg-center p-10 md:ps-30"
     >
       <div className="bg-white rounded-lg shadow-md px-10 py-6 max-w-md w-full overflow-y-auto max-h-[85vh]">
-        <h1 className="text-3xl font-bold text-(--color-primary) mb-2 text-center">
+        <h1 className="text-3xl font-bold text-primary mb-2 text-center">
           Contact Us
         </h1>
-        <p className="text-(--color-secondary) text-center mb-5">
+        <p className="text-secondary text-center mb-5">
           Have a question? We'd love to hear from you.
         </p>
 
@@ -87,7 +87,7 @@ const Contact = () => {
               className={inputClass("fullName")}
             />
             {errors.fullName && (
-              <span className="text-(--color-error) text-xs mt-1 block">
+              <span className="text-error text-xs mt-1 block">
                 {errors.fullName}
               </span>
             )}
@@ -104,7 +104,7 @@ const Contact = () => {
               className={inputClass("email")}
             />
             {errors.email && (
-              <span className="text-(--color-error) text-xs mt-1 block">
+              <span className="text-error text-xs mt-1 block">
                 {errors.email}
               </span>
             )}
@@ -133,7 +133,7 @@ const Contact = () => {
               className={inputClass("subject")}
             />
             {errors.subject && (
-              <span className="text-(--color-error) text-xs mt-1 block">
+              <span className="text-error text-xs mt-1 block">
                 {errors.subject}
               </span>
             )}
@@ -150,7 +150,7 @@ const Contact = () => {
               className={inputClass("message") + " resize-none"}
             />
             {errors.message && (
-              <span className="text-(--color-error) text-xs mt-1 block">
+              <span className="text-error text-xs mt-1 block">
                 {errors.message}
               </span>
             )}
@@ -159,7 +159,7 @@ const Contact = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-(--color-primary) text-white font-semibold rounded-md hover:bg-orange-700 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 bg-primary text-white font-semibold rounded-md hover:bg-orange-700 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Sending..." : "Send Message"}
           </button>

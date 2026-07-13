@@ -57,8 +57,8 @@ const PasswordChangeModal = ({ open, onClose }) => {
         // onClick={handleCloseModal}
       >
         <div className="bg-white w-xl rounded shadow max-h-[80vh] overflow-y-auto relative">
-          <header className="flex justify-between p-4 border-b border-(--color-secondary)">
-            <div className="font-bold text-xl text-(--color-primary)">
+          <header className="flex justify-between p-4 border-b border-secondary">
+            <div className="font-bold text-xl text-primary">
               Change Password
             </div>
             <button onClick={handleCloseModal}>
@@ -77,7 +77,7 @@ const PasswordChangeModal = ({ open, onClose }) => {
                   name="oldPassword"
                   value={formData.oldPassword}
                   onChange={handleChange}
-                  className="border border-(--color-secondary) rounded px-3 py-2 disabled:bg-(--color-secondary) disabled:text-(--color-secondary-content)"
+                  className="border border-secondary rounded px-3 py-2 disabled:bg-secondary disabled:text-secondary-content"
                   disabled={isLoading}
                 />
               </div>
@@ -91,7 +91,7 @@ const PasswordChangeModal = ({ open, onClose }) => {
                   name="newPassword"
                   value={formData.newPassword}
                   onChange={handleChange}
-                  className="border border-(--color-secondary) rounded px-3 py-2 disabled:bg-(--color-secondary) disabled:text-(--color-secondary-content)"
+                  className="border border-secondary rounded px-3 py-2 disabled:bg-secondary disabled:text-secondary-content"
                   disabled={isLoading}
                 />
               </div>
@@ -105,22 +105,22 @@ const PasswordChangeModal = ({ open, onClose }) => {
                   name="confirmNewPassword"
                   value={formData.confirmNewPassword}
                   onChange={handleChange}
-                  className="border border-(--color-secondary) rounded px-3 py-2 disabled:bg-(--color-secondary) disabled:text-(--color-secondary-content)"
+                  className="border border-secondary rounded px-3 py-2 disabled:bg-secondary disabled:text-secondary-content"
                   disabled={isLoading}
                 />
               </div>
             </div>
           </main>
-          <footer className="w-full p-4 border-t border-(--color-secondary) flex justify-end gap-3">
+          <footer className="w-full p-4 border-t border-secondary flex justify-end gap-3">
             <button
               onClick={handleCloseModal}
-              className="flex items-center gap-2 bg-(--color-secondary) text-(--color-secondary-content) px-3 py-1 rounded text-sm"
+              className="flex items-center gap-2 bg-secondary text-secondary-content px-3 py-1 rounded text-sm"
               disabled={isLoading}
             >
               Cancel
             </button>
             <button
-              className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-3 py-1 rounded text-sm"
+              className="flex items-center gap-2 bg-primary text-primary-content px-3 py-1 rounded text-sm"
               onClick={handleChangePassword}
               disabled={isLoading}
             >

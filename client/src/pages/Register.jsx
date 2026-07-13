@@ -91,16 +91,16 @@ const Register = () => {
   return (
     <div className="h-[90vh] bg-[url('/foodTable.webp')] flex items-center justify-end bg-cover bg-center p-10 md:pe-30">
       <div className="bg-white rounded-lg shadow-md px-10 py-6 max-w-md w-full overflow-y-auto max-h-[85vh]">
-        <h1 className="text-3xl font-bold text-(--color-primary) mb-2 text-center">
+        <h1 className="text-3xl font-bold text-primary mb-2 text-center">
           Create Account
         </h1>
-        <p className="text-(--color-secondary) text-center mb-4">
+        <p className="text-secondary text-center mb-4">
           Join us as a Customer, Restaurant, or Rider
         </p>
 
         {/* User Type Selection */}
         <div className="mb-6">
-          <label className="block text-(--color-neutral) font-semibold mb-3">
+          <label className="block text-neutral font-semibold mb-3">
             Register as:
           </label>
           <div className="flex gap-5">
@@ -117,7 +117,7 @@ const Register = () => {
                   onChange={handleUserTypeChange}
                   className="cursor-pointer"
                 />
-                <span className="text-(--color-neutral) capitalize">
+                <span className="text-neutral capitalize">
                   {type}
                 </span>
               </label>
@@ -135,14 +135,14 @@ const Register = () => {
               value={formData.fullName}
               onChange={handleInputChange}
               placeholder="Enter your full name"
-              className={`w-full px-3 py-2 border rounded-md text-sm text-(--color-neutral) placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+              className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
                 errors.fullName
-                  ? "border-(--color-error) border-2"
-                  : "border-(--color-base-300)"
+                  ? "border-error border-2"
+                  : "border-base-300"
               }`}
             />
             {errors.fullName && (
-              <span className="text-(--color-error) text-xs mt-1 block">
+              <span className="text-error text-xs mt-1 block">
                 {errors.fullName}
               </span>
             )}
@@ -157,14 +157,14 @@ const Register = () => {
               value={formData.email}
               onChange={handleInputChange}
               placeholder="Enter your email"
-              className={`w-full px-3 py-2 border rounded-md text-sm text-(--color-neutral) placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+              className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
                 errors.email
-                  ? "border-(--color-error) border-2"
-                  : "border-(--color-base-300)"
+                  ? "border-error border-2"
+                  : "border-base-300"
               }`}
             />
             {errors.email && (
-              <span className="text-(--color-error) text-xs mt-1 block">
+              <span className="text-error text-xs mt-1 block">
                 {errors.email}
               </span>
             )}
@@ -179,14 +179,14 @@ const Register = () => {
               value={formData.phone}
               onChange={handleInputChange}
               placeholder="Enter your phone number"
-              className={`w-full px-3 py-2 border rounded-md text-sm text-(--color-neutral) placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+              className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
                 errors.phone
-                  ? "border-(--color-error) border-2"
-                  : "border-(--color-base-300)"
+                  ? "border-error border-2"
+                  : "border-base-300"
               }`}
             />
             {errors.phone && (
-              <span className="text-(--color-error) text-xs mt-1 block">
+              <span className="text-error text-xs mt-1 block">
                 {errors.phone}
               </span>
             )}
@@ -199,10 +199,10 @@ const Register = () => {
                 name="gender"
                 value={formData.gender}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-md text-sm text-(--color-neutral) focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+                className={`w-full px-3 py-2 border rounded-md text-sm text-neutral focus:outline-none focus:ring-2 focus:ring-primary ${
                   errors.gender
-                    ? "border-(--color-error) border-2"
-                    : "border-(--color-base-300)"
+                    ? "border-error border-2"
+                    : "border-base-300"
                 }`}
               >
                 <option value="">Select gender</option>
@@ -211,7 +211,7 @@ const Register = () => {
                 <option value="other">Other</option>
               </select>
               {errors.gender && (
-                <span className="text-(--color-error) text-xs mt-1 block">
+                <span className="text-error text-xs mt-1 block">
                   {errors.gender}
                 </span>
               )}
@@ -222,14 +222,14 @@ const Register = () => {
                 name="dob"
                 value={formData.dob}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-md text-sm text-(--color-neutral) focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+                className={`w-full px-3 py-2 border rounded-md text-sm text-neutral focus:outline-none focus:ring-2 focus:ring-primary ${
                   errors.dob
-                    ? "border-(--color-error) border-2"
-                    : "border-(--color-base-300)"
+                    ? "border-error border-2"
+                    : "border-base-300"
                 }`}
               />
               {errors.dob && (
-                <span className="text-(--color-error) text-xs mt-1 block">
+                <span className="text-error text-xs mt-1 block">
                   {errors.dob}
                 </span>
               )}
@@ -245,14 +245,14 @@ const Register = () => {
               value={formData.password}
               onChange={handleInputChange}
               placeholder="Enter your password"
-              className={`w-full px-3 py-2 border rounded-md text-sm text-(--color-neutral) placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+              className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
                 errors.password
-                  ? "border-(--color-error) border-2"
-                  : "border-(--color-base-300)"
+                  ? "border-error border-2"
+                  : "border-base-300"
               }`}
             />
             {errors.password && (
-              <span className="text-(--color-error) text-xs mt-1 block">
+              <span className="text-error text-xs mt-1 block">
                 {errors.password}
               </span>
             )}
@@ -266,20 +266,20 @@ const Register = () => {
               value={formData.confirmPassword}
               onChange={handleInputChange}
               placeholder="Confirm your password"
-              className={`w-full px-3 py-2 border rounded-md text-sm text-(--color-neutral) placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${
+              className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
                 errors.confirmPassword
-                  ? "border-(--color-error) border-2"
-                  : "border-(--color-base-300)"
+                  ? "border-error border-2"
+                  : "border-base-300"
               }`}
             />
             {errors.confirmPassword && (
-              <span className="text-(--color-error) text-xs mt-1 block">
+              <span className="text-error text-xs mt-1 block">
                 {errors.confirmPassword}
               </span>
             )}
           </div>
           <div className="mb-6">
-            <label className="flex items-start gap-2 cursor-pointer text-(--color-secondary)">
+            <label className="flex items-start gap-2 cursor-pointer text-secondary">
               <input
                 type="checkbox"
                 name="agreeTerms"
@@ -289,13 +289,13 @@ const Register = () => {
               />
               <span className="text-sm">
                 I agree to the{" "}
-                <span className="text-(--color-primary) hover:underline">
+                <span className="text-primary hover:underline">
                   terms and conditions.
                 </span>
               </span>
             </label>
             {errors.agreeTerms && (
-              <span className="text-(--color-error) text-xs mt-1 block ml-7">
+              <span className="text-error text-xs mt-1 block ml-7">
                 {errors.agreeTerms}
               </span>
             )}
@@ -304,18 +304,18 @@ const Register = () => {
           {/* Register Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-(--color-primary) text-white font-semibold rounded-md hover:bg-orange-700 transition-colors duration-300 mb-4"
+            className="w-full py-3 bg-primary text-white font-semibold rounded-md hover:bg-orange-700 transition-colors duration-300 mb-4"
           >
             {loading ? "Registering..." : "Register"}
           </button>
         </form>
 
         {/* Login Link */}
-        <p className="text-center text-(--color-secondary) text-sm">
+        <p className="text-center text-secondary text-sm">
           Already registered?{" "}
           <Link
             to="/login"
-            className="text-(--color-primary) font-semibold hover:underline"
+            className="text-primary font-semibold hover:underline"
           >
             Login here
           </Link>

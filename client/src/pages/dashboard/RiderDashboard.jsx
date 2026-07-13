@@ -16,11 +16,11 @@ const RiderDashboard = () => {
     return (
       <div className="h-[92vh] bg-[url('/foodTable.webp')]  bg-cover bg-center">
         <div className="h-full backdrop-blur-lg flex flex-col items-center justify-center ">
-          <h1 className="text-2xl font-bold text-(--color-neutral-content)">
+          <h1 className="text-2xl font-bold text-neutral-content">
             Access Denied. Please log in as a Rider to view this page.
           </h1>
           <button
-            className="mt-4 px-4 py-2 bg-(--color-primary) text-white rounded-md"
+            className="mt-4 px-4 py-2 bg-primary text-white rounded-md"
             onClick={() => navigate("/login")}
           >
             Go to Login
@@ -33,10 +33,10 @@ const RiderDashboard = () => {
   return (
     <>
       <div className="h-[91vh] flex gap-2 p-2">
-        <div className="w-3/17 bg-(--color-base-200) p-4 rounded-lg shadow-md h-full">
+        <div className="w-3/17 bg-base-200 p-4 rounded-lg shadow-md h-full">
           <RiderSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
-        <div className="w-14/17 bg-(--color-base-100) p-4 rounded-lg shadow-md h-full">
+        <div className="w-14/17 bg-base-100 p-4 rounded-lg shadow-md h-full">
           {activeTab === "overview" && <RiderOverview />}
           {activeTab === "orders" && <RiderOrders />}
           {activeTab === "settings" && <RiderSetting />}

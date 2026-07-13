@@ -3,7 +3,7 @@ import { MdEdit } from "react-icons/md";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../config/ApiConfig";
 import toast from "react-hot-toast";
-import { MdOutlineAddAPhoto } from "react-icons/md";
+import { MdOutlineAddAPhoto , MdOutlineLockReset} from "react-icons/md";
 import PasswordChangeModal from "../commonModals/PasswordChangeModal";
 
 const CustomerSetting = () => {
@@ -72,20 +72,20 @@ const CustomerSetting = () => {
     <>
       <div className="overflow-y-auto h-full p-6 space-y-6">
         {/* User Profile Section */}
-        <div className="bg-(--color-base-200) rounded-lg p-6">
+        <div className="bg-base-200 rounded-lg p-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold">Profile Information</h3>
             {!editingProfile ? (
               <div className="flex gap-3">
                 <button
                   onClick={() => setEditingProfile(true)}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-3 py-1 rounded text-sm"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-3 py-1 rounded text-sm"
                 >
                   <MdEdit /> Edit
                 </button>
                 <button
                   onClick={() => setIsPasswordChangeModalOpen(true)}
-                  className="flex items-center gap-2 border border-(--color-primary) text-(--color-primary) px-3 py-1 rounded text-sm hover:bg-(--color-primary) hover:text-(--color-primary-content)"
+                  className="flex items-center gap-2 border border-primary text-primary px-3 py-1 rounded text-sm hover:bg-primary hover:text-primary-content"
                 >
                   <MdOutlineLockReset /> Change Password
                 </button>
@@ -94,14 +94,14 @@ const CustomerSetting = () => {
               <div className="flex gap-2 justify-end">
                 <button
                   onClick={handleSaveProfile}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-3 py-1 rounded text-sm"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-3 py-1 rounded text-sm"
                   disabled={isLoading}
                 >
                   {isLoading ? "Saving..." : "Save Changes"}
                 </button>
                 <button
                   onClick={handleCancelProfile}
-                  className="flex items-center gap-2 bg-(--color-secondary) text-(--color-secondary-content) px-3 py-1 rounded text-sm"
+                  className="flex items-center gap-2 bg-secondary text-secondary-content px-3 py-1 rounded text-sm"
                   disabled={isLoading}
                 >
                   Cancel
@@ -117,13 +117,13 @@ const CustomerSetting = () => {
                   <img
                     src={profilePicPreview || user.photo.url}
                     alt="Profile"
-                    className="w-full h-full rounded-full object-cover border-2 border-(--color-primary)"
+                    className="w-full h-full rounded-full object-cover border-2 border-primary"
                   />
                 </div>
 
                 {editingProfile && (
                   <div
-                    className="absolute cursor-pointer bottom-1 right-1 border p-2 rounded-full w-fit bg-(--color-base-200)"
+                    className="absolute cursor-pointer bottom-1 right-1 border p-2 rounded-full w-fit bg-base-200"
                     title="Change Photo"
                   >
                     <label htmlFor="profilePic" className="cursor-pointer">
@@ -151,7 +151,7 @@ const CustomerSetting = () => {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleProfileChange}
-                    className={`w-full px-3 py-2 border ${editingProfile ? "border-(--color-secondary)" : "border-transparent"} rounded col-span-4`}
+                    className={`w-full px-3 py-2 border ${editingProfile ? "border-secondary" : "border-transparent"} rounded col-span-4`}
                     disabled={!editingProfile}
                   />
 
@@ -163,7 +163,7 @@ const CustomerSetting = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleProfileChange}
-                    className={`w-full px-3 py-2 border ${editingProfile ? "border-(--color-secondary) text-(--color-secondary) disabled:bg-(--color-secondary)/50 cursor-not-allowed" : "border-transparent"} rounded col-span-4`}
+                    className={`w-full px-3 py-2 border ${editingProfile ? "border-secondary text-secondary disabled:bg-secondary/50 cursor-not-allowed" : "border-transparent"} rounded col-span-4`}
                     disabled
                   />
 
@@ -175,7 +175,7 @@ const CustomerSetting = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleProfileChange}
-                    className={`w-full px-3 py-2 border ${editingProfile ? "border-(--color-secondary)" : "border-transparent"} rounded col-span-4`}
+                    className={`w-full px-3 py-2 border ${editingProfile ? "border-secondary" : "border-transparent"} rounded col-span-4`}
                     disabled={!editingProfile}
                   />
                 </div>

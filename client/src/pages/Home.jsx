@@ -108,7 +108,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section with Carousel Background */}
-      <section className="relative text-(--color-primary-content) py-16 md:py-40 overflow-hidden">
+      <section className="relative text-primary-content py-16 md:py-40 overflow-hidden">
         {/* Carousel Background */}
         <div className="absolute inset-0 z-0">
           <CarouselComponent />
@@ -133,13 +133,13 @@ const Home = () => {
               <div className="flex gap-4 justify-center">
                 <button
                   onClick={() => navigate("/register/customer")}
-                  className="bg-(--color-primary) text-(--color-primary-content) px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition"
+                  className="bg-primary text-primary-content px-8 py-3 rounded-lg font-semibold hover:opacity-90 transition"
                 >
                   Sign Up
                 </button>
                 <button
                   onClick={() => navigate("/order-now")}
-                  className="bg-(--color-base-100) text-(--color-base-content) px-8 py-3 rounded-lg font-semibold hover:bg-(--color-base-200) transition"
+                  className="bg-base-100 text-base-content px-8 py-3 rounded-lg font-semibold hover:bg-base-200 transition"
                 >
                   Order Now
                 </button>
@@ -149,30 +149,30 @@ const Home = () => {
 
           {/* Search and Location Bar */}
 
-          <div className="flex items-center bg-(--color-base-100) rounded-lg px-4 py-3 max-w-4xl mx-auto">
-            <IoSearch className="text-(--color-base-content) text-xl mr-3" />
+          <div className="flex items-center bg-base-100 rounded-lg px-4 py-3 max-w-4xl mx-auto">
+            <IoSearch className="text-base-content text-xl mr-3" />
             <input
               type="text"
               placeholder="Search restaurants or dishes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-(--color-base-100) w-full outline-none text-(--color-primary)"
+              className="bg-base-100 w-full outline-none text-primary"
             />
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-4 md:py-8 bg-linear-to-b from-(--color-primary) to-(--color-primary-content)">
+      <section className="py-4 md:py-8 bg-linear-to-b from-primary to-primary-content">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Results Header */}
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-(--color-primary-content) mb-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-primary-content mb-2">
               {selectedCategory === "all"
                 ? "Featured Restaurants"
                 : `${categories.find((c) => c.id === selectedCategory)?.label} Options`}
             </h2>
-            <p className="text-(--color-primary-content)/70">
+            <p className="text-primary-content/70">
               {filteredRestaurants.length} restaurant
               {filteredRestaurants.length !== 1 ? "s" : ""} available
             </p>
@@ -181,8 +181,8 @@ const Home = () => {
           {/* Restaurants Grid */}
           {loading ? (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-(--color-primary)"></div>
-              <p className="mt-4 text-(--color-base-content)">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+              <p className="mt-4 text-base-content">
                 Loading restaurants...
               </p>
             </div>
@@ -192,16 +192,16 @@ const Home = () => {
                 <div
                   key={restaurant.id}
                   onClick={() => navigate(`/restaurant-menu/${restaurant.id}`)}
-                  className="flex flex-col bg-(--color-base-100) rounded-xl overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer transform hover:scale-105"
+                  className="flex flex-col bg-base-100 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer transform hover:scale-105"
                 >
                   {/* Restaurant Image */}
-                  <div className="relative h-48 overflow-hidden bg-(--color-base-200)">
+                  <div className="relative h-48 overflow-hidden bg-base-200">
                     <img
                       src={restaurant.image}
                       alt={restaurant.name}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-3 right-3 bg-(--color-primary) text-(--color-primary-content) px-3 py-1 rounded-full flex items-center gap-1 font-semibold text-sm">
+                    <div className="absolute top-3 right-3 bg-primary text-primary-content px-3 py-1 rounded-full flex items-center gap-1 font-semibold text-sm">
                       <IoStar size={16} />
                       {restaurant.rating}
                     </div>
@@ -212,7 +212,7 @@ const Home = () => {
                     <h3 className="font-bold text-(--color-content) text-lg mb-1">
                       {restaurant.name}
                     </h3>
-                    <p className="text-(--color-base-content) text-sm mb-3">
+                    <p className="text-base-content text-sm mb-3">
                       {restaurant.description}
                     </p>
 
@@ -221,7 +221,7 @@ const Home = () => {
                       {restaurant.cuisines.split(",").map((cuisine, idx) => (
                         <span
                           key={idx}
-                          className="text-xs bg-(--color-base-300) text-(--color-base-content) px-2 py-1 rounded capitalize"
+                          className="text-xs bg-base-300 text-base-content px-2 py-1 rounded capitalize"
                         >
                           {cuisine}
                         </span>
@@ -229,13 +229,13 @@ const Home = () => {
                     </div>
 
                     {/* Footer Info */}
-                    <div className="mt-auto pt-3 border-t border-(--color-base-200)">
+                    <div className="mt-auto pt-3 border-t border-base-200">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           navigate(`/restaurant-menu/${restaurant.id}`);
                         }}
-                        className="w-full bg-(--color-primary) text-(--color-primary-content) px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition"
+                        className="w-full bg-primary text-primary-content px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition"
                       >
                         Explore Menu
                       </button>
@@ -246,7 +246,7 @@ const Home = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-(--color-base-content) text-lg">
+              <p className="text-base-content text-lg">
                 No restaurants found matching your criteria.
               </p>
               <button
@@ -254,7 +254,7 @@ const Home = () => {
                   setSearchQuery("");
                   setSelectedCategory("all");
                 }}
-                className="mt-4 bg-(--color-primary) text-(--color-primary-content) px-6 py-2 rounded-lg font-semibold hover:opacity-90 transition"
+                className="mt-4 bg-primary text-primary-content px-6 py-2 rounded-lg font-semibold hover:opacity-90 transition"
               >
                 Clear Filters
               </button>
@@ -264,13 +264,13 @@ const Home = () => {
       </section>
 
       {/* Statistics Section */}
-      <section className="bg-(--color-base-100) py-12 md:py-16">
+      <section className="bg-base-100 py-12 md:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-(--color-content) mb-4">
               Cravings by the Numbers
             </h2>
-            <p className="text-lg text-(--color-base-content)">
+            <p className="text-lg text-base-content">
               See why millions trust us for their daily food delivery needs
             </p>
           </div>
@@ -279,14 +279,14 @@ const Home = () => {
             {/* Successful Deliveries */}
             <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
               <div className="mb-4">
-                <div className="text-4xl md:text-5xl font-bold text-(--color-primary) mb-2">
+                <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
                   2.5M+
                 </div>
               </div>
               <h3 className="text-lg font-semibold text-(--color-content) mb-2">
                 Successful Deliveries
               </h3>
-              <p className="text-(--color-base-content)">
+              <p className="text-base-content">
                 Orders delivered with care and precision
               </p>
             </div>
@@ -294,14 +294,14 @@ const Home = () => {
             {/* Happy Customers */}
             <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
               <div className="mb-4">
-                <div className="text-4xl md:text-5xl font-bold text-(--color-accent) mb-2">
+                <div className="text-4xl md:text-5xl font-bold text-accent mb-2">
                   500K+
                 </div>
               </div>
               <h3 className="text-lg font-semibold text-(--color-content) mb-2">
                 Happy Customers
               </h3>
-              <p className="text-(--color-base-content)">
+              <p className="text-base-content">
                 Satisfied users enjoying delicious food
               </p>
             </div>
@@ -309,14 +309,14 @@ const Home = () => {
             {/* Partner Restaurants */}
             <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
               <div className="mb-4">
-                <div className="text-4xl md:text-5xl font-bold text-(--color-primary) mb-2">
+                <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
                   5K+
                 </div>
               </div>
               <h3 className="text-lg font-semibold text-(--color-content) mb-2">
                 Partner Restaurants
               </h3>
-              <p className="text-(--color-base-content)">
+              <p className="text-base-content">
                 Restaurants serving amazing cuisine
               </p>
             </div>
@@ -324,14 +324,14 @@ const Home = () => {
             {/* Available Partners */}
             <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
               <div className="mb-4">
-                <div className="text-4xl md:text-5xl font-bold text-(--color-accent) mb-2">
+                <div className="text-4xl md:text-5xl font-bold text-accent mb-2">
                   1K+
                 </div>
               </div>
               <h3 className="text-lg font-semibold text-(--color-content) mb-2">
                 Active Delivery Partners
               </h3>
-              <p className="text-(--color-base-content)">
+              <p className="text-base-content">
                 Riders ensuring quick and safe delivery
               </p>
             </div>
@@ -346,14 +346,14 @@ const Home = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-(--color-content) mb-4">
               What Our Customers Say
             </h2>
-            <p className="text-lg text-(--color-base-content)">
+            <p className="text-lg text-base-content">
               Real feedback from real food lovers
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Review Card 1 */}
-            <div className="bg-(--color-base-100) rounded-lg p-8 shadow-md hover:shadow-lg transition">
+            <div className="bg-base-100 rounded-lg p-8 shadow-md hover:shadow-lg transition">
               <div className="flex items-center gap-2 mb-4">
                 {[...Array(5)].map((_, i) => (
                   <IoStar key={i} size={20} className="text-yellow-400" />
@@ -362,19 +362,19 @@ const Home = () => {
               <h3 className="text-lg font-semibold text-(--color-content) mb-2">
                 Amazing Service!
               </h3>
-              <p className="text-(--color-base-content) mb-4">
+              <p className="text-base-content mb-4">
                 "The food arrived hot and fresh. The delivery was incredibly
                 fast. Highly impressed with Cravings' service!"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-(--color-primary) flex items-center justify-center text-white font-bold">
+                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold">
                   AJ
                 </div>
                 <div>
                   <p className="font-semibold text-(--color-content)">
                     Arun J.
                   </p>
-                  <p className="text-sm text-(--color-base-content)">
+                  <p className="text-sm text-base-content">
                     Verified Buyer
                   </p>
                 </div>
@@ -382,7 +382,7 @@ const Home = () => {
             </div>
 
             {/* Review Card 2 */}
-            <div className="bg-(--color-base-100) rounded-lg p-8 shadow-md hover:shadow-lg transition">
+            <div className="bg-base-100 rounded-lg p-8 shadow-md hover:shadow-lg transition">
               <div className="flex items-center gap-2 mb-4">
                 {[...Array(5)].map((_, i) => (
                   <IoStar key={i} size={20} className="text-yellow-400" />
@@ -391,19 +391,19 @@ const Home = () => {
               <h3 className="text-lg font-semibold text-(--color-content) mb-2">
                 Best App Ever!
               </h3>
-              <p className="text-(--color-base-content) mb-4">
+              <p className="text-base-content mb-4">
                 "Easy to use interface, wide variety of restaurants, and quick
                 delivery. I order from Cravings every week!"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-(--color-accent) flex items-center justify-center text-white font-bold">
+                <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-white font-bold">
                   SP
                 </div>
                 <div>
                   <p className="font-semibold text-(--color-content)">
                     Sneha P.
                   </p>
-                  <p className="text-sm text-(--color-base-content)">
+                  <p className="text-sm text-base-content">
                     Verified Buyer
                   </p>
                 </div>
@@ -411,7 +411,7 @@ const Home = () => {
             </div>
 
             {/* Review Card 3 */}
-            <div className="bg-(--color-base-100) rounded-lg p-8 shadow-md hover:shadow-lg transition">
+            <div className="bg-base-100 rounded-lg p-8 shadow-md hover:shadow-lg transition">
               <div className="flex items-center gap-2 mb-4">
                 {[...Array(5)].map((_, i) => (
                   <IoStar key={i} size={20} className="text-yellow-400" />
@@ -420,19 +420,19 @@ const Home = () => {
               <h3 className="text-lg font-semibold text-(--color-content) mb-2">
                 Excellent Choices
               </h3>
-              <p className="text-(--color-base-content) mb-4">
+              <p className="text-base-content mb-4">
                 "Love the variety of restaurants available. Found my new
                 favorite spot through Cravings. Definitely worth it!"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-(--color-primary) flex items-center justify-center text-white font-bold">
+                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold">
                   RK
                 </div>
                 <div>
                   <p className="font-semibold text-(--color-content)">
                     Raj Kumar
                   </p>
-                  <p className="text-sm text-(--color-base-content)">
+                  <p className="text-sm text-base-content">
                     Verified Buyer
                   </p>
                 </div>
@@ -443,7 +443,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-(--color-primary) text-(--color-primary-content) py-12 md:py-16">
+      <section className="bg-primary text-primary-content py-12 md:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Become a Restaurant Partner
@@ -454,7 +454,7 @@ const Home = () => {
           </p>
           <button
             onClick={() => navigate("/register")}
-            className="bg-(--color-base-100) text-(--color-primary) px-8 py-3 rounded-lg font-semibold hover:bg-(--color-base-200) transition"
+            className="bg-base-100 text-primary px-8 py-3 rounded-lg font-semibold hover:bg-base-200 transition"
           >
             Partner With Us
           </button>
