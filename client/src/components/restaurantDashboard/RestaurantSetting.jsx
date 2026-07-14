@@ -18,6 +18,9 @@ const RestaurantSetting = () => {
 
   const [editingRestaurant, setEditingRestaurant] = useState(false);
 
+  const [coverImageFile, setCoverImageFile] = useState(null);
+  const [restaurantImageFiles, setRestaurantImageFiles] = useState([]);
+
   const [socialMediaLinks, setSocialMediaLinks] = useState([
     {
       platform: "",
@@ -94,6 +97,20 @@ const RestaurantSetting = () => {
     }));
   };
 
+  const handleCoverImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setCoverImageFile(file);
+    }
+  };
+
+  const handleRestaurantImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length > 0) {
+      setRestaurantImageFiles(files);
+    }
+  };
+
   const [formData, setFormData] = useState({
     fullName: user?.fullName || "",
     email: user?.email || "",
@@ -131,18 +148,108 @@ const RestaurantSetting = () => {
     }
   };
 
+  const handleSaveRestaurant = async () => {
+    try {
+      setIsLoadingRestaurant(true);
+
+      const payload = new FormData();
+      payload.append("restaurantName", restaurantData.restaurantName);
+      payload.append("description", restaurantData.description);
+      payload.append("restaurantType", restaurantData.restaurantType);
+      payload.append("address", restaurantData.address);
+      payload.append("city", restaurantData.city);
+      payload.append("state", restaurantData.state);
+      payload.append("pinCode", restaurantData.pinCode);
+      payload.append("country", restaurantData.country);
+      payload.append("latitude", restaurantData.latitude);
+      payload.append("longitude", restaurantData.longitude);
+      payload.append("legalName", restaurantData.legalName);
+      payload.append("companyType", restaurantData.companyType);
+      payload.append("gstCertificate", restaurantData.gstCertificate);
+      payload.append("fssaiCertificate", restaurantData.fssaiCertificate);
+      payload.append("panCard", restaurantData.panCard);
+      payload.append("bankName", restaurantData.bankName);
+      payload.append("accountNumber", restaurantData.accountNumber);
+      payload.append("ifscCode", restaurantData.ifscCode);
+      payload.append("email", restaurantData.email);
+      payload.append("phone", restaurantData.phone);
+      payload.append("openingTime", restaurantData.openingTime);
+      payload.append("closingTime", restaurantData.closingTime);
+      payload.append("cuisineTypes", restaurantData.cuisineTypes);
+      payload.append("isOpen", restaurantData.isOpen);
+      payload.append("socialMediaLinks", JSON.stringify(socialMediaLinks));
+
+      // Append cover image if provided
+      if (coverImageFile) {
+        payload.append("coverImage", coverImageFile);
+      }
+
+      // Append restaurant images if provided
+      restaurantImageFiles.forEach((file) => {
+        payload.append("restaurantImage", file);
+      });
+
+      const response = await api.put(`/restaurant/update-profile`, payload);
+
+      setRestaurantData(response.data.data);
+      setCoverImageFile(null);
+      setRestaurantImageFiles([]);
+      setEditingRestaurant(false);
+      toast.success("Restaurant information updated successfully!");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to update restaurant information");
+    } finally {
+      setIsLoadingRestaurant(false);
+    }
+  };
+
   const fetchRestaurantData = async () => {
     try {
       setIsLoadingRestaurant(true);
+
       const res = await api.get(
         `/restaurant/get-restaurant-data?id=${user._id}`,
       );
-      setRestaurantData(res.data.data);
+
+      const restaurant = res.data.data;
+
+      setRestaurantData({
+        ...restaurant,
+
+        coverImage: restaurant.coverImage,
+        restaurantImage: restaurant.restaurantImage,
+
+        latitude: restaurant.geoLocation?.lat || "",
+        longitude: restaurant.geoLocation?.lon || "",
+
+        legalName: restaurant.documents?.legalName || "",
+        companyType: restaurant.documents?.companyType || "",
+        gstCertificate: restaurant.documents?.gstCertificate || "",
+        fssaiCertificate: restaurant.documents?.fssaiCertificate || "",
+        panCard: restaurant.documents?.panCard || "",
+
+        bankName: restaurant.financialDetails?.bankName || "",
+        accountNumber: restaurant.financialDetails?.accountNumber || "",
+        ifscCode: restaurant.financialDetails?.ifscCode || "",
+
+        email: restaurant.contactDetails?.email || "",
+        phone: restaurant.contactDetails?.phone || "",
+
+        openingTime: restaurant.servingHours?.openingTime || "",
+        closingTime: restaurant.servingHours?.closingTime || "",
+
+        cuisineTypes: restaurant.cuisineTypes?.join(", ") || "",
+      });
+
+      setSocialMediaLinks(
+        restaurant.socialMediaLinks?.length
+          ? restaurant.socialMediaLinks
+          : [{ platform: "", url: "" }],
+      );
     } catch (error) {
-      setIsLoadingRestaurant(false);
       toast.error(
         error.response?.data?.message ||
-          "Unknown error occurred while fetching restaurant data. Please try again.",
+          "Unknown error occurred while fetching restaurant data.",
       );
     } finally {
       setIsLoadingRestaurant(false);
@@ -264,8 +371,8 @@ const RestaurantSetting = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleProfileChange}
-                    className={`w-full px-3 py-2 border ${editingProfile ? "border-secondary text-secondary disabled:bg-secondary/50 cursor-not-allowed" : "border-transparent"} rounded col-span-4`}
-                    disabled
+                    className={`w-full px-3 py-2 border ${editingProfile ? "border-secondary" : "border-transparent"} rounded col-span-4`}
+                    disabled={true}
                   />
 
                   <label className="block text-sm font-semibold mb-2">
@@ -304,11 +411,18 @@ const RestaurantSetting = () => {
                 </button>
               ) : (
                 <div className="flex gap-2">
-                  <button className="btn btn-primary btn-sm">Save</button>
+                  <button 
+                    className="btn btn-primary btn-sm"
+                    onClick={handleSaveRestaurant}
+                    disabled={isLoadingRestaurant}
+                  >
+                    {isLoadingRestaurant ? "Saving..." : "Save"}
+                  </button>
 
                   <button
                     className="btn btn-outline btn-sm"
                     onClick={() => setEditingRestaurant(false)}
+                    disabled={isLoadingRestaurant}
                   >
                     Cancel
                   </button>
@@ -317,6 +431,74 @@ const RestaurantSetting = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-5">
+              <div className="space-y-3">
+                <label className="font-semibold">Restaurant Images</label>
+
+                <div className="grid grid-cols-4 gap-4">
+                  {restaurantData.restaurantImage?.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image.url}
+                      alt=""
+                      className="h-32 w-full rounded-lg object-cover"
+                    />
+                  ))}
+                </div>
+
+                {editingRestaurant && (
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold">
+                      Upload New Restaurant Images
+                    </label>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleRestaurantImagesChange}
+                      className="file-input file-input-bordered w-full"
+                      disabled={!editingRestaurant}
+                    />
+                    {restaurantImageFiles.length > 0 && (
+                      <div className="text-xs text-primary">
+                        {restaurantImageFiles.length} image(s) selected
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <label className="font-semibold">Cover Image</label>
+
+                  {restaurantData.coverImage?.url && (
+                    <img
+                      src={restaurantData.coverImage.url}
+                      alt="Cover"
+                      className="w-full h-52 rounded-lg object-cover"
+                    />
+                  )}
+
+                  {editingRestaurant && (
+                    <div className="space-y-2">
+                      <label className="block text-sm font-semibold">
+                        Upload New Cover Image
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleCoverImageChange}
+                        className="file-input file-input-bordered w-full"
+                        disabled={!editingRestaurant}
+                      />
+                      {coverImageFile && (
+                        <div className="text-xs text-primary">
+                          {coverImageFile.name} selected
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+
               {/* Restaurant Name */}
 
               <fieldset className="fieldset">
