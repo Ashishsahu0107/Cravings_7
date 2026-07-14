@@ -1,5 +1,6 @@
 import cloudinary from "./src/config/cloudinary.config.js";
 import express from "express";
+import dotenv from "dotenv";
 import connectDB from "./src/config/dbConnection.config.js";
 import AuthRouter from "./src/router/auth.route.js";
 import PublicRouter from "./src/router/public.route.js";
@@ -8,6 +9,8 @@ import RestaurantRouter from "./src/router/restaurant.route.js";
 import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+
+dotenv.config();
 
 const app = express();
 
@@ -21,6 +24,7 @@ app.use("/auth", AuthRouter);
 app.use("/public", PublicRouter);
 app.use("/user", CommonRouter);
 app.use("/restaurant", RestaurantRouter);
+
 //Default API
 app.get("/", (req, res) => {
   console.log("Default Get API Hit");

@@ -143,7 +143,7 @@ export const SendOtp = async (req, res, next) => {
     res.status(200).json({ message: `OTP sent on '${email}'` });
   } catch (error) {
     console.log(error.message);
-    next();
+    next(error);
   }
 };
 export const VerifyOtp = async (req, res, next) => {
@@ -166,7 +166,7 @@ export const VerifyOtp = async (req, res, next) => {
     const isVerified = await bcrypt.compare(otp, existingOTP.otp);
     if (!isVerified) {
       const error = new Error("OTP Expired");
-      const statusCode = 401;
+      error.statusCode = 401;
       return next(error);
     }
 
@@ -185,7 +185,7 @@ export const VerifyOtp = async (req, res, next) => {
       .json({ message: "OTP verified. Create You New Password Now" });
   } catch (error) {
     console.log(error.message);
-    next();
+    next(error);
   }
 };
 export const ResetPassword = async (req, res, next) => {
@@ -203,6 +203,6 @@ export const ResetPassword = async (req, res, next) => {
     res.status(200).json({ message: "Password Changed" });
   } catch (error) {
     console.log(error.message);
-    next();
+    next(error);
   }
 };
