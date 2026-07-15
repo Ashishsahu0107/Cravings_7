@@ -40,7 +40,7 @@ const RestaurantDashboard = () => {
             setActiveTab={setActiveTab}
           />
         </div>
-        <div className="w-14/17 bg-base-100 p-4 rounded-lg shadow-md h-full">
+        <div className="w-14/17 bg-base-100 p-4 rounded-lg h-full">
           {activeTab === "overview" && <RestaurantOverview />}
           {activeTab === "orders" && <RestaurantOrders />}
           {activeTab === "settings" && <RestaurantSetting />}

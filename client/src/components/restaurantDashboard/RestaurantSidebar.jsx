@@ -15,10 +15,10 @@ const RestaurantSidebar = ({ activeTab, setActiveTab }) => {
   const renderTab = (tab) => (
     <li
       key={tab.value}
-      className={`cursor-pointer p-2 rounded text-neutral flex items-center gap-3 ${
+      className={`cursor-pointer p-2 rounded text-neutral rounded-sm flex items-center gap-3 ${
         activeTab === tab.value
           ? "bg-primary text-primary-content font-semibold"
-          : "hover:bg-secondary hover:text-secondary-content transition-colors duration-200"
+          : "hover:bg-primary/15 hover:text-secondary transition-colors duration-200"
       }`}
       onClick={() => setActiveTab(tab.value)}
     >
