@@ -11,6 +11,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const active = useLocation().state?.activeTab;
   const [activeTab, setActiveTab] = React.useState(active || "overview");
+  const [isCollapsed, setIsCollapsed] = React.useState(false);
 
   if (!isLogin || role !== "admin") {
     return (
@@ -33,10 +34,10 @@ const AdminDashboard = () => {
   return (
     <>
       <div className="h-[91vh] flex gap-2 p-2">
-        <div className="w-3/17 bg-base-200 p-4 rounded-lg shadow-md h-full">
-          <AdminSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <div className={`transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"} bg-base-200 p-4 rounded-lg shadow-md h-full`}>
+          <AdminSidebar activeTab={activeTab} setActiveTab={setActiveTab} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
         </div>
-        <div className="w-14/17 bg-base-100 p-4 rounded-lg shadow-md h-full">
+        <div className="flex-1 transition-all duration-300 bg-base-100 p-4 rounded-lg shadow-md h-full overflow-hidden">
           {activeTab === "overview" && <AdminOverview />}
           {activeTab === "orders" && <AdminOrders />}
           {activeTab === "settings" && <AdminSetting />}
