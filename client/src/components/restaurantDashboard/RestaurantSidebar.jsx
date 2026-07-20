@@ -15,7 +15,7 @@ const RestaurantSidebar = ({ activeTab, setActiveTab, isCollapsed, setIsCollapse
   const renderTab = (tab) => (
     <li
       key={tab.value}
-      className={`cursor-pointer p-2 rounded text-neutral rounded-sm flex items-center gap-3 ${
+      className={`cursor-pointer p-2 rounded-sm text-neutral flex items-center gap-3 ${
         activeTab === tab.value
           ? "bg-primary text-primary-content font-semibold"
           : "hover:bg-primary/15 hover:text-secondary transition-colors duration-200"
@@ -35,7 +35,7 @@ const RestaurantSidebar = ({ activeTab, setActiveTab, isCollapsed, setIsCollapse
           {!isCollapsed && <span className="font-bold text-xl ml-2">Menu</span>}
           <button 
             onClick={() => setIsCollapsed(!isCollapsed)} 
-            className="p-1 hover:bg-base-300 rounded-md transition-colors"
+            className="p-1 hover:bg-primary hover:text-primary-content rounded-md transition-colors"
           >
             {isCollapsed ? <MdMenu className="text-2xl" /> : <MdChevronLeft className="text-2xl" />}
           </button>

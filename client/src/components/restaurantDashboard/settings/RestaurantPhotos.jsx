@@ -121,31 +121,6 @@ const RestaurantPhotos = () => {
           </div>
 
           <div className="space-y-3">
-            <div className="rounded-xl border border-dashed border-(--color-secondary) bg-(--color-base-100) p-3">
-              <label
-                htmlFor="coverImage"
-                className="inline-flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-3 py-1.5 rounded-md text-xs cursor-pointer shadow-sm hover:opacity-95 transition"
-              >
-                <MdOutlineAddAPhoto className="text-sm" />
-                Upload Cover Image
-              </label>
-              <input
-                id="coverImage"
-                type="file"
-                accept="image/*"
-                onChange={handleCoverImageChange}
-                className="hidden"
-              />
-              <p className="mt-2 text-xs text-(--color-secondary)">
-                Best for banner-style photos. JPG, PNG, AVIF, WEBP all work.
-              </p>
-              {errors.cover && (
-                <p className="text-xs text-(--color-error) mt-2">
-                  {errors.cover}
-                </p>
-              )}
-            </div>
-
             {coverImage && coverPreview ? (
               <div className="overflow-hidden rounded-xl border border-(--color-secondary) bg-white shadow-sm">
                 <div className="relative">
@@ -165,9 +140,20 @@ const RestaurantPhotos = () => {
               </div>
             ) : (
               <div className="rounded-xl border border-dashed border-(--color-secondary) bg-linear-to-br from-white to-(--color-base-100) px-4 py-8 text-center">
-                <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-(--color-primary)/10 text-(--color-primary)">
-                  <MdOutlineAddAPhoto className="text-2xl" />
-                </div>
+                <label
+                htmlFor="coverImage"
+                className="inline-flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-3 py-1.5 rounded-md text-xs cursor-pointer shadow-sm hover:opacity-95 transition"
+              >
+                <MdOutlineAddAPhoto className="text-2xl" />
+              </label>
+              <input
+                id="coverImage"
+                type="file"
+                accept="image/*"
+                onChange={handleCoverImageChange}
+                className="hidden"
+              />
+
                 <p className="text-sm font-semibold text-(--color-primary)">
                   No cover selected
                 </p>
