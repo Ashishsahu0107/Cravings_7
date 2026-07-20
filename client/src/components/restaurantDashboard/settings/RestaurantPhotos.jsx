@@ -141,18 +141,18 @@ const RestaurantPhotos = () => {
             ) : (
               <div className="rounded-xl border border-dashed border-(--color-secondary) bg-linear-to-br from-white to-(--color-base-100) px-4 py-8 text-center">
                 <label
-                htmlFor="coverImage"
-                className="inline-flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-3 py-1.5 rounded-md text-xs cursor-pointer shadow-sm hover:opacity-95 transition"
-              >
-                <MdOutlineAddAPhoto className="text-2xl" />
-              </label>
-              <input
-                id="coverImage"
-                type="file"
-                accept="image/*"
-                onChange={handleCoverImageChange}
-                className="hidden"
-              />
+                  htmlFor="coverImage"
+                  className="inline-flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-3 py-1.5 rounded-md text-xs cursor-pointer shadow-sm hover:opacity-95 transition"
+                >
+                  <MdOutlineAddAPhoto className="text-2xl" />
+                </label>
+                <input
+                  id="coverImage"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleCoverImageChange}
+                  className="hidden"
+                />
 
                 <p className="text-sm font-semibold text-(--color-primary)">
                   No cover selected

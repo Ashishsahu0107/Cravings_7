@@ -53,7 +53,6 @@ const RestaurantSetting = () => {
 
 export default RestaurantSetting;
 
-
 // const RestaurantSetting = () => {
 //   const { user, setUser } = useAuth();
 //   const [isLoadingRestaurant, setIsLoadingRestaurant] = useState(false);

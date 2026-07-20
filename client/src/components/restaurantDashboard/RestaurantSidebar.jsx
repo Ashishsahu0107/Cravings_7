@@ -4,13 +4,22 @@ import { FaShoppingCart } from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 
-const RestaurantSidebar = ({ activeTab, setActiveTab, isCollapsed, setIsCollapsed }) => {
+const RestaurantSidebar = ({
+  activeTab,
+  setActiveTab,
+  isCollapsed,
+  setIsCollapsed,
+}) => {
   const mainTabs = [
     { name: "Overview", value: "overview", icon: <MdDashboard /> },
     { name: "Orders", value: "orders", icon: <FaShoppingCart /> },
   ];
 
-  const settingsTab = { name: "Settings", value: "settings", icon: <IoMdSettings /> };
+  const settingsTab = {
+    name: "Settings",
+    value: "settings",
+    icon: <IoMdSettings />,
+  };
 
   const renderTab = (tab) => (
     <li
@@ -31,13 +40,19 @@ const RestaurantSidebar = ({ activeTab, setActiveTab, isCollapsed, setIsCollapse
   return (
     <>
       <div className="h-full flex flex-col">
-        <div className={`flex items-center ${isCollapsed ? "justify-center" : "justify-between"} mb-6`}>
+        <div
+          className={`flex items-center ${isCollapsed ? "justify-center" : "justify-between"} mb-6`}
+        >
           {!isCollapsed && <span className="font-bold text-xl ml-2">Menu</span>}
-          <button 
-            onClick={() => setIsCollapsed(!isCollapsed)} 
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
             className="p-1 hover:bg-primary hover:text-primary-content rounded-md transition-colors"
           >
-            {isCollapsed ? <MdMenu className="text-2xl" /> : <MdChevronLeft className="text-2xl" />}
+            {isCollapsed ? (
+              <MdMenu className="text-2xl" />
+            ) : (
+              <MdChevronLeft className="text-2xl" />
+            )}
           </button>
         </div>
         <ul className="space-y-4 flex-1">
