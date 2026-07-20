@@ -21,7 +21,7 @@ const RestaurantSetting = () => {
               <>
                 <div
                   key={idx}
-                  className={`px-2 uppercase cursor-pointer ${activeTab === tab.id ? "text-primary-content rounded-sm mb-2 bg-primary border-primary" : ""}`}
+                  className={`px-2 py-1 uppercase cursor-pointer ${activeTab === tab.id ? "text-primary-content rounded-sm mb-2 bg-primary border-primary" : ""}`}
                   onClick={() => setActiveTab(tab.id)}
                 >
                   {tab.label}
