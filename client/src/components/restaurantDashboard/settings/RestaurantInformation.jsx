@@ -15,8 +15,7 @@ const RestaurantInformation = () => {
   const [isPasswordChangeModalOpen, setIsPasswordChangeModalOpen] =
     useState(false);
 
-  // Profile handlers
-
+    
   const [editingProfile, setEditingProfile] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [profilePicPreview, setProfilePicPreview] = useState(null);
