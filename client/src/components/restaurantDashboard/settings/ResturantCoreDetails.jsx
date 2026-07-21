@@ -78,8 +78,18 @@ const ResturantCoreDetails = () => {
     try {
       setIsLoading(true);
 
-      // Prepare payload for restaurant update
-      console.log("restaurantFormData", restaurantFormData);
+      const payload = {
+        ...restaurantFormData,
+        socialMediaLinks: JSON.stringify(restaurantFormData.socialMediaLinks),
+      };
+
+      const res = await api.put("/restaurant/update-core-details", payload);
+      
+      toast.success(res.data.message || "Core details updated successfully");
+      
+      // Update local state with the returned data
+      setRestaurantData(res.data.data);
+      
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Failed to update restaurant",
@@ -120,25 +130,29 @@ const ResturantCoreDetails = () => {
       setIsLoadingRestaurant(true);
 
       const res = await api.get(
-        `/restaurant/get-resturant-data?id=${user._id}`,
+        `/restaurant/get-restaurant-data?id=${user._id}`,
       );
       setRestaurantData(res.data.data);
     } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          "Unknown error occurred fetching restaurant. Please try again.",
-      );
-      setLoadingRestaurantError(
-        error.response?.data?.message ||
-          "Unknown error occurred fetching restaurant. Please try again.",
-      );
+      if (error.response?.status === 404) {
+        setRestaurantData(null);
+      } else {
+        toast.error(
+          error.response?.data?.message ||
+            "Unknown error occurred fetching restaurant. Please try again.",
+        );
+        setLoadingRestaurantError(
+          error.response?.data?.message ||
+            "Unknown error occurred fetching restaurant. Please try again.",
+        );
+      }
     } finally {
       setIsLoadingRestaurant(false);
     }
   };
 
   useEffect(() => {
-    // fetchRestaurantData();
+    fetchRestaurantData();
   }, [user]);
 
   return (
