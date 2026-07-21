@@ -11,7 +11,7 @@ const RestaurantPhotos = () => {
   const [errors, setErrors] = useState({ cover: "", gallery: "" });
 
   const coverPreview = useMemo(() => {
-    return coverImage ? URL.createObjectURL(coverImage) : "";
+    return coverImage ? URL.createObjectURL(coverImage) : ""; 
   }, [coverImage]);
 
   const galleryPreviews = useMemo(() => {

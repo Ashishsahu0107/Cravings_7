@@ -4,7 +4,7 @@ import api from "../../config/ApiConfig";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 
-import ResturantCoreDetails from "./settings/ResturantCoreDetails";
+import ResturantCoreDetails from "./settings/coreDetails/Index";
 import RestaurantPhotos from "./settings/RestaurantPhotos";
 import Information from "./settings/restaurantInformation/Index";
 
@@ -30,6 +30,9 @@ const RestaurantSetting = () => {
         }
       } catch (error) {
         // ignore if not found
+        if (error.response?.status !== 404) {
+          toast.error(error.response?.data?.message || "Failed to fetch restaurant status");
+        }
       }
     };
     if (user?._id) fetchStatus();
