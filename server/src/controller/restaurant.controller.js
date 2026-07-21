@@ -1,165 +1,157 @@
 import Restaurant from "../models/restaurant.model.js";
-
-import {
-  uploadMultipleImages,
-  deleteMultipleImages,
-  UploadSingleImage,
-  deleteSingleImage,
-} from "../utils/image.service.js";
-
-export const restaurantUpdateProfile = async (req, res, next) => {
+// ======================
+// Upsert Basic Information
+// ======================
+export const updateRestaurantInfo = async (req, res, next) => {
   try {
     const currentUser = req.user;
-    const restaurantDataFromFE = req.body;
-    const coverImageFromFE = req.files?.coverImage?.[0];
-    const restaurantImageFromFE = req.files?.restaurantImage;
+    const data = req.body;
 
-    // Parse JSON strings from FormData
-    if (restaurantDataFromFE.socialMediaLinks) {
-      restaurantDataFromFE.socialMediaLinks = JSON.parse(restaurantDataFromFE.socialMediaLinks);
+    let cuisineTypes = data.cuisineTypes;
+    if (typeof cuisineTypes === "string") {
+      cuisineTypes = cuisineTypes.split(",").map(c => c.trim()).filter(c => c);
     }
 
-    // Parse cuisineTypes if it's a string
-    if (restaurantDataFromFE.cuisineTypes && typeof restaurantDataFromFE.cuisineTypes === "string") {
-      restaurantDataFromFE.cuisineTypes = restaurantDataFromFE.cuisineTypes
-        .split(",")
-        .map((cuisine) => cuisine.trim())
-        .filter((cuisine) => cuisine);
-    }
-
-    // Parse geoLocation
-    const restaurantData = {
-      restaurantName: restaurantDataFromFE.restaurantName,
-      description: restaurantDataFromFE.description,
-      restaurantType: restaurantDataFromFE.restaurantType,
-      address: restaurantDataFromFE.address,
-      city: restaurantDataFromFE.city,
-      state: restaurantDataFromFE.state,
-      pinCode: restaurantDataFromFE.pinCode,
-      country: restaurantDataFromFE.country,
-      geoLocation: {
-        lat: restaurantDataFromFE.latitude,
-        lon: restaurantDataFromFE.longitude,
-      },
-      documents: {
-        legalName: restaurantDataFromFE.legalName,
-        companyType: restaurantDataFromFE.companyType,
-        gstCertificate: restaurantDataFromFE.gstCertificate,
-        fssaiCertificate: restaurantDataFromFE.fssaiCertificate,
-        panCard: restaurantDataFromFE.panCard,
-      },
-      financialDetails: {
-        bankName: restaurantDataFromFE.bankName,
-        accountNumber: restaurantDataFromFE.accountNumber,
-        ifscCode: restaurantDataFromFE.ifscCode,
-      },
+    const payload = {
+      restaurantName: data.restaurantName,
+      description: data.description,
+      restaurantType: data.restaurantType,
+      cuisineTypes: cuisineTypes || [],
+      isOpen: data.isOpen === "true" || data.isOpen === true,
       contactDetails: {
-        email: restaurantDataFromFE.email,
-        phone: restaurantDataFromFE.phone,
+        email: data.contactEmail,
+        phone: data.contactPhone,
       },
       servingHours: {
-        openingTime: restaurantDataFromFE.openingTime,
-        closingTime: restaurantDataFromFE.closingTime,
+        openingTime: data.openingTime,
+        closingTime: data.closingTime,
       },
-      cuisineTypes: restaurantDataFromFE.cuisineTypes || [],
-      isOpen: restaurantDataFromFE.isOpen === "true" || restaurantDataFromFE.isOpen === true,
-      socialMediaLinks: restaurantDataFromFE.socialMediaLinks || [],
     };
+
+    let existingRestaurant = await Restaurant.findOne({
+      managerId: currentUser._id,
+    });
+
+    if (!existingRestaurant) {
+      if (!payload.restaurantName) {
+        return res.status(400).json({ message: "Restaurant Name is required to create a restaurant." });
+      }
+      existingRestaurant = await Restaurant.create({
+        managerId: currentUser._id,
+        ...payload
+      });
+      return res.status(201).json({
+        success: true,
+        message: "Restaurant profile created successfully",
+        data: existingRestaurant,
+      });
+    }
+
+    // Update existing
+    Object.keys(payload).forEach((key) => {
+      if (payload[key] !== undefined) {
+        existingRestaurant[key] = payload[key];
+      }
+    });
+
+    await existingRestaurant.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Restaurant basic information updated successfully",
+      data: existingRestaurant,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+// ======================
+// Update Legal Information
+// ======================
+export const updateLegalInfo = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    const { legalName, companyType } = req.body;
 
     const existingRestaurant = await Restaurant.findOne({
       managerId: currentUser._id,
     });
 
     if (!existingRestaurant) {
-      // Creating new restaurant
-      if (coverImageFromFE) {
-        const coverImage = await UploadSingleImage(
-          coverImageFromFE,
-          `restaurant/${currentUser.phone}/coverPhoto`,
-        );
-        restaurantData.coverImage = coverImage;
-      } else {
-        return res.status(400).json({
-          message: "Cover image is required",
-        });
-      }
-
-      if (restaurantImageFromFE && restaurantImageFromFE.length > 0) {
-        const restaurantImages = await uploadMultipleImages(
-          restaurantImageFromFE,
-          `restaurant/${currentUser.phone}/restaurantPhotos`,
-        );
-        restaurantData.restaurantImage = restaurantImages;
-      } else {
-        return res.status(400).json({
-          message: "At least one restaurant image is required",
-        });
-      }
-
-      const newRestaurant = await Restaurant.create({
-        managerId: currentUser._id,
-        ...restaurantData,
-      });
-
-      return res.status(201).json({
-        message: "Restaurant profile created successfully",
-        data: newRestaurant,
-      });
-    } else {
-      // Updating existing restaurant
-      if (coverImageFromFE) {
-        // Delete old cover image if exists
-        if (existingRestaurant.coverImage?.publicId) {
-          try {
-            await deleteSingleImage(existingRestaurant.coverImage);
-          } catch (error) {
-            console.log("Error deleting old cover image:", error.message);
-          }
-        }
-
-        const coverImage = await UploadSingleImage(
-          coverImageFromFE,
-          `restaurant/${currentUser.phone}/coverPhoto`,
-        );
-        restaurantData.coverImage = coverImage;
-      }
-
-      if (restaurantImageFromFE && restaurantImageFromFE.length > 0) {
-        // Delete old restaurant images if exist
-        if (
-          existingRestaurant.restaurantImage &&
-          existingRestaurant.restaurantImage.length > 0
-        ) {
-          try {
-            await deleteMultipleImages(existingRestaurant.restaurantImage);
-          } catch (error) {
-            console.log("Error deleting old restaurant images:", error.message);
-          }
-        }
-
-        const restaurantImages = await uploadMultipleImages(
-          restaurantImageFromFE,
-          `restaurant/${currentUser.phone}/restaurantPhotos`,
-        );
-        restaurantData.restaurantImage = restaurantImages;
-      }
-
-      // Update only provided fields
-      Object.keys(restaurantData).forEach((key) => {
-        if (restaurantData[key] !== undefined) {
-          existingRestaurant[key] = restaurantData[key];
-        }
-      });
-
-      await existingRestaurant.save();
-
-      return res.status(200).json({
-        message: "Restaurant profile updated successfully",
-        data: existingRestaurant,
-      });
+      return res.status(404).json({ message: "Restaurant not found. Please fill basic information first." });
     }
+
+    existingRestaurant.documents = {
+      ...(existingRestaurant.documents || {}),
+      legalName: legalName,
+      companyType: companyType,
+    };
+
+    await existingRestaurant.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Restaurant legal information updated successfully",
+      data: existingRestaurant,
+    });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
+    next(error);
+  }
+};
+
+// ======================
+// Update Core Details
+// ======================
+export const updateCoreDetails = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    const data = req.body;
+
+    let socialMediaLinks = data.socialMediaLinks;
+    if (typeof socialMediaLinks === "string") {
+      socialMediaLinks = JSON.parse(socialMediaLinks);
+    }
+
+    const existingRestaurant = await Restaurant.findOne({
+      managerId: currentUser._id,
+    });
+
+    if (!existingRestaurant) {
+      return res.status(404).json({ message: "Restaurant not found. Please fill basic information first." });
+    }
+
+    existingRestaurant.address = data.address;
+    existingRestaurant.city = data.city;
+    existingRestaurant.state = data.state;
+    existingRestaurant.pinCode = data.pinCode;
+    existingRestaurant.country = data.country;
+    
+    existingRestaurant.geoLocation = {
+      lat: data.geoLat,
+      lon: data.geoLon,
+    };
+
+    existingRestaurant.financialDetails = {
+      ...(existingRestaurant.financialDetails || {}),
+      bankName: data.bankName,
+      accountNumber: data.accountNumber,
+      ifscCode: data.ifscCode,
+    };
+
+    existingRestaurant.socialMediaLinks = socialMediaLinks || [];
+
+    await existingRestaurant.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Restaurant core details updated successfully",
+      data: existingRestaurant,
+    });
+  } catch (error) {
+    console.log(error);
     next(error);
   }
 };
@@ -201,5 +193,33 @@ export const getRestaurantData = async (req, res, next) => {
       success: false,
       message: "Internal Server Error",
     });
+  }
+};
+
+export const updateOpenStatus = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    const { isRestaurantOpen } = req.params;
+
+    const existingRestaurant = await Restaurant.findOne({
+      managerId: currentUser._id,
+    });
+
+    if (!existingRestaurant) {
+      return res.status(404).json({ message: "Restaurant not found. Please fill basic information first." });
+    }
+
+    existingRestaurant.isOpen = isRestaurantOpen === "true";
+
+    await existingRestaurant.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Restaurant open status updated successfully",
+      data: existingRestaurant,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
 };
