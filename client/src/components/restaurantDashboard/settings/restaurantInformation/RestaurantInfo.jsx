@@ -144,6 +144,7 @@ const RestaurantInfo = () => {
             {!editingRestaurant ? (
               <div className="flex gap-3">
                 <button
+                  type="button"
                   onClick={() => setEditingRestaurant(true)}
                   className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
                 >
@@ -153,6 +154,7 @@ const RestaurantInfo = () => {
             ) : (
               <div className="flex gap-2 justify-end">
                 <button
+                  type="button"
                   onClick={handleSaveRestaurant}
                   className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
@@ -160,6 +162,7 @@ const RestaurantInfo = () => {
                   {isLoading ? "Saving..." : "Save Changes"}
                 </button>
                 <button
+                  type="button"
                   onClick={handleCancelRestaurant}
                   className="flex items-center gap-2 bg-(--color-secondary) text-(--color-secondary-content) px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}

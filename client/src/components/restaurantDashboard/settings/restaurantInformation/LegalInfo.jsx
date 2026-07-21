@@ -51,8 +51,8 @@ const LegalInfo = () => {
   useEffect(() => {
     if (restaurantData) {
       setLegalFormData({
-        legalName: restaurantData.legalName || "",
-        companyType: restaurantData.companyType || "",
+        legalName: restaurantData.documents?.legalName || "",
+        companyType: restaurantData.documents?.companyType || "",
       });
     }
   }, [restaurantData]);
@@ -89,8 +89,8 @@ const LegalInfo = () => {
   const handleCancelLegal = () => {
     if (restaurantData) {
       setLegalFormData({
-        legalName: restaurantData.legalName || "",
-        companyType: restaurantData.companyType || "",
+        legalName: restaurantData.documents?.legalName || "",
+        companyType: restaurantData.documents?.companyType || "",
       });
     }
     setEditingLegal(false);
@@ -123,6 +123,7 @@ const LegalInfo = () => {
             {!editingLegal ? (
               <div className="flex gap-3">
                 <button
+                  type="button"
                   onClick={() => setEditingLegal(true)}
                   className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
                 >
@@ -132,6 +133,7 @@ const LegalInfo = () => {
             ) : (
               <div className="flex gap-2 justify-end">
                 <button
+                  type="button"
                   onClick={handleSaveLegal}
                   className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
@@ -139,6 +141,7 @@ const LegalInfo = () => {
                   {isLoading ? "Saving..." : "Save Changes"}
                 </button>
                 <button
+                  type="button"
                   onClick={handleCancelLegal}
                   className="flex items-center gap-2 bg-(--color-secondary) text-(--color-secondary-content) px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}

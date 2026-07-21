@@ -9,7 +9,10 @@ export const updateRestaurantInfo = async (req, res, next) => {
 
     let cuisineTypes = data.cuisineTypes;
     if (typeof cuisineTypes === "string") {
-      cuisineTypes = cuisineTypes.split(",").map(c => c.trim()).filter(c => c);
+      cuisineTypes = cuisineTypes
+        .split(",")
+        .map((c) => c.trim())
+        .filter((c) => c);
     }
 
     const payload = {
@@ -34,11 +37,15 @@ export const updateRestaurantInfo = async (req, res, next) => {
 
     if (!existingRestaurant) {
       if (!payload.restaurantName) {
-        return res.status(400).json({ message: "Restaurant Name is required to create a restaurant." });
+        return res
+          .status(400)
+          .json({
+            message: "Restaurant Name is required to create a restaurant.",
+          });
       }
       existingRestaurant = await Restaurant.create({
         managerId: currentUser._id,
-        ...payload
+        ...payload,
       });
       return res.status(201).json({
         success: true,
@@ -80,7 +87,11 @@ export const updateLegalInfo = async (req, res, next) => {
     });
 
     if (!existingRestaurant) {
-      return res.status(404).json({ message: "Restaurant not found. Please fill basic information first." });
+      return res
+        .status(404)
+        .json({
+          message: "Restaurant not found. Please fill basic information first.",
+        });
     }
 
     existingRestaurant.documents = {
@@ -120,28 +131,38 @@ export const updateCoreDetails = async (req, res, next) => {
     });
 
     if (!existingRestaurant) {
-      return res.status(404).json({ message: "Restaurant not found. Please fill basic information first." });
+      return res
+        .status(404)
+        .json({
+          message: "Restaurant not found. Please fill basic information first.",
+        });
     }
 
-    existingRestaurant.address = data.address;
-    existingRestaurant.city = data.city;
-    existingRestaurant.state = data.state;
-    existingRestaurant.pinCode = data.pinCode;
-    existingRestaurant.country = data.country;
-    
-    existingRestaurant.geoLocation = {
-      lat: data.geoLat,
-      lon: data.geoLon,
-    };
+    if (data.address !== undefined) existingRestaurant.address = data.address;
+    if (data.city !== undefined) existingRestaurant.city = data.city;
+    if (data.state !== undefined) existingRestaurant.state = data.state;
+    if (data.pinCode !== undefined) existingRestaurant.pinCode = data.pinCode;
+    if (data.country !== undefined) existingRestaurant.country = data.country;
 
-    existingRestaurant.financialDetails = {
-      ...(existingRestaurant.financialDetails || {}),
-      bankName: data.bankName,
-      accountNumber: data.accountNumber,
-      ifscCode: data.ifscCode,
-    };
+    if (data.geoLat !== undefined || data.geoLon !== undefined) {
+      existingRestaurant.geoLocation = {
+        lat: data.geoLat !== undefined ? data.geoLat : existingRestaurant.geoLocation?.lat,
+        lon: data.geoLon !== undefined ? data.geoLon : existingRestaurant.geoLocation?.lon,
+      };
+    }
 
-    existingRestaurant.socialMediaLinks = socialMediaLinks || [];
+    if (data.bankName !== undefined || data.accountNumber !== undefined || data.ifscCode !== undefined) {
+      existingRestaurant.financialDetails = {
+        ...(existingRestaurant.financialDetails || {}),
+        bankName: data.bankName !== undefined ? data.bankName : existingRestaurant.financialDetails?.bankName,
+        accountNumber: data.accountNumber !== undefined ? data.accountNumber : existingRestaurant.financialDetails?.accountNumber,
+        ifscCode: data.ifscCode !== undefined ? data.ifscCode : existingRestaurant.financialDetails?.ifscCode,
+      };
+    }
+
+    if (data.socialMediaLinks !== undefined) {
+      existingRestaurant.socialMediaLinks = socialMediaLinks;
+    }
 
     await existingRestaurant.save();
 
@@ -206,7 +227,11 @@ export const updateOpenStatus = async (req, res, next) => {
     });
 
     if (!existingRestaurant) {
-      return res.status(404).json({ message: "Restaurant not found. Please fill basic information first." });
+      return res
+        .status(404)
+        .json({
+          message: "Restaurant not found. Please fill basic information first.",
+        });
     }
 
     existingRestaurant.isOpen = isRestaurantOpen === "true";
