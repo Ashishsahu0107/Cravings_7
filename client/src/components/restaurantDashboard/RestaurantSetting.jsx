@@ -68,7 +68,7 @@ const RestaurantSetting = () => {
                   activeTab === tab.id
                     ? "bg-primary text-primary-content shadow-md"
                     : "hover:bg-base-300"
-                }`}
+                  }`}
             >
               {tab.label}
             </button>

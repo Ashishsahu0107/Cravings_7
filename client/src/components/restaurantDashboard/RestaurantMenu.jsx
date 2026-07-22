@@ -116,8 +116,8 @@ const RestaurantMenu = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 bg-(--color-base-200) min-h-screen">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+    <div className="p-4 sm:p-6 bg-(--color-base-200) min-h-[83vh]">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-(--color-primary)">Menu Management</h1>
           <p className="text-sm text-(--color-secondary-content)">Add and manage your restaurant's dishes</p>
