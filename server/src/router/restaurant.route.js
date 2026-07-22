@@ -7,7 +7,9 @@ import {
   updateCoreDetails,
   updateOpenStatus,
   updateRestaurantPhotos,
+  getDashboardOverview,
 } from "../controller/restaurant.controller.js";
+import { getMenu, addMenuItem } from "../controller/menu.controller.js";
 import { RestaurantAuthProtect } from "../middleware/auth.middelware.js";
 
 const router = express.Router();
@@ -37,5 +39,9 @@ router.put(
   ]),
   updateRestaurantPhotos
 );
+
+router.get("/get-menu", RestaurantAuthProtect, getMenu);
+router.post("/add-dish", RestaurantAuthProtect, Upload.single("image"), addMenuItem);
+router.get("/overview", RestaurantAuthProtect, getDashboardOverview);
 
 export default router;

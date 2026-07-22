@@ -1,4 +1,6 @@
 import Restaurant from "../models/restaurant.model.js";
+import Order from "../models/order.model.js";
+import Menu from "../models/menu.model.js";
 import { UploadSingleImage, uploadMultipleImages, deleteSingleImage } from "../utils/image.service.js";
 // ======================
 // Upsert Basic Information
@@ -338,3 +340,111 @@ export const updateRestaurantPhotos = async (req, res, next) => {
   }
 };
 
+// ======================
+// Get Dashboard Overview
+// ======================
+export const getDashboardOverview = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+
+    const restaurant = await Restaurant.findOne({
+      managerId: currentUser._id,
+    });
+
+    if (!restaurant) {
+      return res.status(404).json({
+        message: "Restaurant not found.",
+      });
+    }
+
+    // 1. Total Orders & Total Revenue
+    // Using delivered/completed orders for revenue.
+    const orderStats = await Order.aggregate([
+      { $match: { restaurantId: restaurant._id } },
+      {
+        $group: {
+          _id: null,
+          totalOrders: { $sum: 1 },
+          totalRevenue: {
+            $sum: {
+              $cond: [
+                { $eq: ["$orderStatus", "delivered"] },
+                "$billDetails.totalAmount",
+                0
+              ]
+            }
+          },
+          avgRating: {
+            $avg: "$rating"
+          }
+        }
+      }
+    ]);
+
+    const stats = orderStats[0] || { totalOrders: 0, totalRevenue: 0, avgRating: 0 };
+
+    // 2. Active Menu Items
+    const menu = await Menu.findOne({ restaurantId: restaurant._id });
+    const activeMenuItems = menu ? menu.menuItems.filter(item => item.isAvailable).length : 0;
+
+    // 3. Recent Orders
+    const recentOrdersRaw = await Order.find({ restaurantId: restaurant._id })
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .populate({
+        path: "customerId",
+        populate: {
+          path: "customerId",
+          model: "user",
+          select: "fullName"
+        }
+      });
+
+    const recentOrders = recentOrdersRaw.map((order) => {
+      // Calculate time string (e.g. "10 mins ago")
+      const diffMs = new Date() - new Date(order.createdAt);
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHrs = Math.floor(diffMins / 60);
+      let timeStr = "";
+      if (diffMins < 60) {
+        timeStr = `${diffMins || 1} mins ago`;
+      } else {
+        timeStr = `${diffHrs} hour${diffHrs > 1 ? 's' : ''} ago`;
+      }
+
+      // Map status
+      let mappedStatus = "Preparing";
+      if (["pickedUp", "onTheWay", "outForDelivery"].includes(order.orderStatus)) mappedStatus = "Ready";
+      if (order.orderStatus === "delivered") mappedStatus = "Delivered";
+      if (["pending", "accepted"].includes(order.orderStatus)) mappedStatus = "Preparing";
+
+      return {
+        id: `#ORD-${order._id.toString().slice(-4).toUpperCase()}`,
+        customer: order.customerId?.customerId?.fullName || "Guest User",
+        items: order.orderItems.reduce((acc, item) => acc + item.quantity, 0),
+        total: order.billDetails.totalAmount,
+        status: mappedStatus,
+        time: timeStr
+      };
+    });
+
+    const payload = {
+      stats: {
+        totalRevenue: stats.totalRevenue || 0,
+        totalOrders: stats.totalOrders || 0,
+        activeMenuItems,
+        avgRating: stats.avgRating ? Number(stats.avgRating.toFixed(1)) : 5.0,
+      },
+      recentOrders
+    };
+
+    return res.status(200).json({
+      success: true,
+      data: payload,
+    });
+
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};

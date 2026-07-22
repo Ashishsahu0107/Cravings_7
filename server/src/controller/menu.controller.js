@@ -1,0 +1,94 @@
+import Menu from "../models/menu.model.js";
+import Restaurant from "../models/restaurant.model.js";
+import { UploadSingleImage } from "../utils/image.service.js";
+
+// ======================
+// Get Menu
+// ======================
+export const getMenu = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+
+    const restaurant = await Restaurant.findOne({ managerId: currentUser._id });
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found." });
+    }
+
+    const menu = await Menu.findOne({ restaurantId: restaurant._id });
+    if (!menu) {
+      return res.status(200).json({
+        success: true,
+        data: [],
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: menu.menuItems,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+// ======================
+// Add Menu Item
+// ======================
+export const addMenuItem = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    const { itemName, description, price, category } = req.body;
+
+    if (!itemName || !description || !price || !category) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const restaurant = await Restaurant.findOne({ managerId: currentUser._id });
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found." });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: "Dish image is required" });
+    }
+
+    // Upload image
+    const result = await UploadSingleImage(req.file, "cravings/menu/dish");
+
+    const newMenuItem = {
+      itemName,
+      description,
+      price: Number(price),
+      category,
+      image: {
+        url: result.url,
+        publicId: result.publicId,
+      },
+    };
+
+    let menu = await Menu.findOne({ restaurantId: restaurant._id });
+    
+    if (!menu) {
+      // Create new menu document
+      menu = new Menu({
+        restaurantId: restaurant._id,
+        menuItems: [newMenuItem],
+      });
+    } else {
+      // Add to existing menu document
+      menu.menuItems.push(newMenuItem);
+    }
+
+    await menu.save();
+
+    return res.status(201).json({
+      success: true,
+      message: "Menu item added successfully",
+      data: menu.menuItems,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
