@@ -3,6 +3,7 @@ import { MdDashboard, MdMenu, MdChevronLeft } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
+import { RiMenu5Fill } from "react-icons/ri";
 
 const RestaurantSidebar = ({
   activeTab,
@@ -12,6 +13,7 @@ const RestaurantSidebar = ({
 }) => {
   const mainTabs = [
     { name: "Overview", value: "overview", icon: <MdDashboard /> },
+    { name: "Menu", value: "menu", icon: <RiMenu5Fill /> },
     { name: "Orders", value: "orders", icon: <FaShoppingCart /> },
   ];
 

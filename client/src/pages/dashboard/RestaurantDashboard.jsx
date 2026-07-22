@@ -5,6 +5,7 @@ import RestaurantSidebar from "../../components/restaurantDashboard/RestaurantSi
 import RestaurantOverview from "../../components/restaurantDashboard/RestaurantOverview";
 import RestaurantSetting from "../../components/restaurantDashboard/RestaurantSetting";
 import RestaurantOrders from "../../components/restaurantDashboard/RestaurantOrders";
+import RestaurantMenu from "../../components/restaurantDashboard/RestaurantMenu";
 
 const RestaurantDashboard = () => {
   const { isLogin,role } = useAuth();
@@ -38,10 +39,11 @@ const RestaurantDashboard = () => {
         <div className={`transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"} bg-base-200 p-4 rounded-lg shadow-md h-full`}>
           <RestaurantSidebar activeTab={activeTab} setActiveTab={setActiveTab} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
         </div>
-        <div className="flex-1 transition-all duration-300 bg-base-100 p-4 rounded-lg shadow-md h-full overflow-hidden">
+        <div className="flex-1 transition-all duration-300 bg-base-100 p-4 rounded-lg shadow-md h-full overflow-auto">
           {activeTab === "overview" && <RestaurantOverview />}
           {activeTab === "orders" && <RestaurantOrders />}
           {activeTab === "settings" && <RestaurantSetting />}
+          {activeTab === "menu" && <RestaurantMenu />}
         </div>
       </div>
     </>

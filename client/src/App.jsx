@@ -12,6 +12,7 @@ import RestaurantDashboard from "./pages/dashboard/RestaurantDashboard";
 import RiderDashboard from "./pages/dashboard/RiderDashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import Map from "./pages/Map";
+import RestaurantMenu from "./components/restaurantDashboard/RestaurantMenu";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <Toaster />
       <Navbar />
       <Routes>
+        
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/map" element={<Map />} />
@@ -28,6 +30,7 @@ const App = () => {
         <Route path="/register/:userType" element={<Register />} />
         <Route path="/customer-dashboard" element={<CustomerDashboard />} />
         <Route path="/restaurant-dashboard" element={<RestaurantDashboard />} />
+        <Route path="/restaurant-dashboard/menu" element={<RestaurantMenu />} />
         <Route path="/rider-dashboard" element={<RiderDashboard />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>
