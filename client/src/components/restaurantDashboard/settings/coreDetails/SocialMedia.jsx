@@ -7,21 +7,21 @@ import RunningLoader from "../../../../assets/loadingAnimation.gif";
 
 const SocialMedia = () => {
   const { user } = useAuth();
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingRestaurant, setIsLoadingRestaurant] = useState(false);
   const [loadingRestaurantError, setLoadingRestaurantError] = useState(null);
   const [restaurantData, setRestaurantData] = useState(null);
   const [editingSocial, setEditingSocial] = useState(false);
-  
+
   const [socialMediaLinks, setSocialMediaLinks] = useState([]);
 
   const fetchRestaurantData = async () => {
     try {
       setIsLoadingRestaurant(true);
-      const res = await api.get(
-        `/restaurant/get-restaurant-data`, { params: { id: user._id } }
-      );
+      const res = await api.get(`/restaurant/get-restaurant-data`, {
+        params: { id: user._id },
+      });
       setRestaurantData(res.data.data);
     } catch (error) {
       if (error.response?.status === 404) {
@@ -55,10 +55,7 @@ const SocialMedia = () => {
   };
 
   const addSocialMediaLink = () => {
-    setSocialMediaLinks([
-      ...socialMediaLinks,
-      { platform: "", url: "" },
-    ]);
+    setSocialMediaLinks([...socialMediaLinks, { platform: "", url: "" }]);
   };
 
   const removeSocialMediaLink = (index) => {
@@ -72,7 +69,9 @@ const SocialMedia = () => {
         socialMediaLinks: JSON.stringify(socialMediaLinks),
       };
       const res = await api.put("/restaurant/update-core-details", payload);
-      toast.success(res.data.message || "Social media links updated successfully");
+      toast.success(
+        res.data.message || "Social media links updated successfully",
+      );
       setRestaurantData(res.data.data);
     } catch (error) {
       toast.error(
@@ -118,14 +117,14 @@ const SocialMedia = () => {
                 <button
                   type="button"
                   onClick={addSocialMediaLink}
-                  className="text-xs bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded"
+                  className="flex items-center text-xs bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded"
                 >
                   + Add Link
                 </button>
                 <button
                   type="button"
                   onClick={handleSave}
-                  className="text-xs bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded"
+                  className="flex items-center text-xs bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded"
                   disabled={isLoading}
                 >
                   {isLoading ? "Saving..." : "Save Changes"}
@@ -133,7 +132,7 @@ const SocialMedia = () => {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="text-xs bg-(--color-secondary) text-(--color-secondary-content) px-2 py-0.5 rounded"
+                  className="flex items-center text-xs bg-(--color-secondary) text-(--color-secondary-content) px-2 py-2.5 rounded"
                   disabled={isLoading}
                 >
                   Cancel
@@ -143,7 +142,7 @@ const SocialMedia = () => {
               <button
                 type="button"
                 onClick={() => setEditingSocial(true)}
-                className="flex items-center gap-2 text-xs bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded"
+                className="flex items-center text-xs bg-(--color-primary) text-(--color-primary-content) px-2 py-2.5 rounded"
               >
                 <MdEdit /> Edit
               </button>
@@ -154,10 +153,7 @@ const SocialMedia = () => {
             className="flex flex-col gap-2 h-27 overflow-y-auto border-0 p-0 m-0"
           >
             {socialMediaLinks.map((link, index) => (
-              <div
-                key={index}
-                className="grid grid-cols-2 gap-2 items-center"
-              >
+              <div key={index} className="grid grid-cols-2 gap-2 items-center">
                 <input
                   type="text"
                   placeholder="Platform (e.g. Instagram)"

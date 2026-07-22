@@ -87,6 +87,10 @@ const RestaurantSchema = mongoose.Schema(
         {
           platform: { type: String, required: true },
           url: { type: String, required: true },
+          icon: {
+            url: { type: String },
+            publicId: { type: String },
+          },
         },
       ],
     },
