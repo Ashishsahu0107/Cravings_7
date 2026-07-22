@@ -1,4 +1,5 @@
 import Restaurant from "../models/restaurant.model.js";
+import { UploadSingleImage, uploadMultipleImages, deleteSingleImage } from "../utils/image.service.js";
 // ======================
 // Upsert Basic Information
 // ======================
@@ -37,11 +38,9 @@ export const updateRestaurantInfo = async (req, res, next) => {
 
     if (!existingRestaurant) {
       if (!payload.restaurantName) {
-        return res
-          .status(400)
-          .json({
-            message: "Restaurant Name is required to create a restaurant.",
-          });
+        return res.status(400).json({
+          message: "Restaurant Name is required to create a restaurant.",
+        });
       }
       existingRestaurant = await Restaurant.create({
         managerId: currentUser._id,
@@ -87,11 +86,9 @@ export const updateLegalInfo = async (req, res, next) => {
     });
 
     if (!existingRestaurant) {
-      return res
-        .status(404)
-        .json({
-          message: "Restaurant not found. Please fill basic information first.",
-        });
+      return res.status(404).json({
+        message: "Restaurant not found. Please fill basic information first.",
+      });
     }
 
     existingRestaurant.documents = {
@@ -131,11 +128,9 @@ export const updateCoreDetails = async (req, res, next) => {
     });
 
     if (!existingRestaurant) {
-      return res
-        .status(404)
-        .json({
-          message: "Restaurant not found. Please fill basic information first.",
-        });
+      return res.status(404).json({
+        message: "Restaurant not found. Please fill basic information first.",
+      });
     }
 
     if (data.address !== undefined) existingRestaurant.address = data.address;
@@ -146,17 +141,36 @@ export const updateCoreDetails = async (req, res, next) => {
 
     if (data.geoLat !== undefined || data.geoLon !== undefined) {
       existingRestaurant.geoLocation = {
-        lat: data.geoLat !== undefined ? data.geoLat : existingRestaurant.geoLocation?.lat,
-        lon: data.geoLon !== undefined ? data.geoLon : existingRestaurant.geoLocation?.lon,
+        lat:
+          data.geoLat !== undefined
+            ? data.geoLat
+            : existingRestaurant.geoLocation?.lat,
+        lon:
+          data.geoLon !== undefined
+            ? data.geoLon
+            : existingRestaurant.geoLocation?.lon,
       };
     }
 
-    if (data.bankName !== undefined || data.accountNumber !== undefined || data.ifscCode !== undefined) {
+    if (
+      data.bankName !== undefined ||
+      data.accountNumber !== undefined ||
+      data.ifscCode !== undefined
+    ) {
       existingRestaurant.financialDetails = {
         ...(existingRestaurant.financialDetails || {}),
-        bankName: data.bankName !== undefined ? data.bankName : existingRestaurant.financialDetails?.bankName,
-        accountNumber: data.accountNumber !== undefined ? data.accountNumber : existingRestaurant.financialDetails?.accountNumber,
-        ifscCode: data.ifscCode !== undefined ? data.ifscCode : existingRestaurant.financialDetails?.ifscCode,
+        bankName:
+          data.bankName !== undefined
+            ? data.bankName
+            : existingRestaurant.financialDetails?.bankName,
+        accountNumber:
+          data.accountNumber !== undefined
+            ? data.accountNumber
+            : existingRestaurant.financialDetails?.accountNumber,
+        ifscCode:
+          data.ifscCode !== undefined
+            ? data.ifscCode
+            : existingRestaurant.financialDetails?.ifscCode,
       };
     }
 
@@ -227,11 +241,9 @@ export const updateOpenStatus = async (req, res, next) => {
     });
 
     if (!existingRestaurant) {
-      return res
-        .status(404)
-        .json({
-          message: "Restaurant not found. Please fill basic information first.",
-        });
+      return res.status(404).json({
+        message: "Restaurant not found. Please fill basic information first.",
+      });
     }
 
     existingRestaurant.isOpen = isRestaurantOpen === "true";
@@ -248,3 +260,81 @@ export const updateOpenStatus = async (req, res, next) => {
     next(error);
   }
 };
+
+// ======================
+// Update Restaurant Photos
+// ======================
+export const updateRestaurantPhotos = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    let retainedGalleryImages = req.body.retainedGalleryImages;
+    if (typeof retainedGalleryImages === "string") {
+      retainedGalleryImages = JSON.parse(retainedGalleryImages);
+    }
+
+    const existingRestaurant = await Restaurant.findOne({
+      managerId: currentUser._id,
+    });
+
+    if (!existingRestaurant) {
+      return res.status(404).json({
+        message: "Restaurant not found. Please fill basic information first.",
+      });
+    }
+
+    // Handle Cover Image
+    if (req.files && req.files.coverImage && req.files.coverImage.length > 0) {
+      const coverFile = req.files.coverImage[0];
+      const result = await UploadSingleImage(coverFile, "cravings/restaurant/cover");
+
+      if (existingRestaurant.coverImage && existingRestaurant.coverImage.publicId) {
+        await deleteSingleImage(existingRestaurant.coverImage).catch(() => {});
+      }
+
+      existingRestaurant.coverImage = {
+        url: result.url,
+        publicId: result.publicId,
+      };
+    } else if (req.body.removeCoverImage === "true") {
+      if (existingRestaurant.coverImage && existingRestaurant.coverImage.publicId) {
+        await deleteSingleImage(existingRestaurant.coverImage).catch(() => {});
+      }
+      existingRestaurant.coverImage = undefined;
+    }
+
+    // Handle Gallery Images
+    let currentGallery = existingRestaurant.restaurantImage || [];
+    
+    // Delete images that are not in the retained list
+    if (retainedGalleryImages && Array.isArray(retainedGalleryImages)) {
+      const retainedIds = retainedGalleryImages.map((img) => img.publicId);
+      const imagesToDelete = currentGallery.filter((img) => !retainedIds.includes(img.publicId));
+
+      for (const img of imagesToDelete) {
+        await deleteSingleImage(img).catch(() => {});
+      }
+
+      currentGallery = currentGallery.filter((img) => retainedIds.includes(img.publicId));
+    }
+
+    // Upload new gallery images
+    if (req.files && req.files.galleryImages && req.files.galleryImages.length > 0) {
+      const newImages = await uploadMultipleImages(req.files.galleryImages, "cravings/restaurant/gallery");
+      currentGallery = [...currentGallery, ...newImages];
+    }
+
+    existingRestaurant.restaurantImage = currentGallery;
+
+    await existingRestaurant.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Restaurant photos updated successfully",
+      data: existingRestaurant,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
