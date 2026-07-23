@@ -21,6 +21,7 @@ const RestaurantMenu = () => {
     category: "",
     imageFile: null,
     imagePreview: "",
+    
   });
 
   const fileInputRef = useRef(null);
@@ -76,6 +77,21 @@ const RestaurantMenu = () => {
     });
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
+    }
+  };
+
+  const handleToggleStatus = async (itemId, currentStatus) => {
+    try {
+      const res = await api.patch(`/restaurant/toggle-status/${itemId}`, {
+        isAvailable: !currentStatus
+      });
+      if (res.data.success) {
+        setMenuList(res.data.data);
+        toast.success("Status updated successfully");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update status");
     }
   };
 
@@ -178,8 +194,20 @@ const RestaurantMenu = () => {
                 </div>
               </div>
               <div className="p-4 flex-1 flex flex-col">
-                <div className="text-xs font-medium text-(--color-primary) uppercase tracking-wider mb-1">
-                  {item.category}
+                <div className="flex justify-between items-start mb-1">
+                  <div className="text-xs font-medium text-(--color-primary) uppercase tracking-wider">
+                    {item.category}
+                  </div>
+                  <button
+                    onClick={() => handleToggleStatus(item._id, item.isAvailable)}
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-bold border transition-colors ${
+                      item.isAvailable 
+                        ? 'bg-green-50 text-green-600 border-green-200 hover:bg-green-100' 
+                        : 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100'
+                    }`}
+                  >
+                    {item.isAvailable ? 'Available' : 'Out of Stock'}
+                  </button>
                 </div>
                 <h3 className="text-lg font-bold text-gray-800 mb-2 leading-tight">
                   {item.itemName}

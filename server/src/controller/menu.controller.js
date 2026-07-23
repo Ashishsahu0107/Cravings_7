@@ -92,3 +92,46 @@ export const addMenuItem = async (req, res, next) => {
     next(error);
   }
 };
+
+// ======================
+// Toggle Menu Item Status
+// ======================
+export const toggleMenuItemStatus = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    const { itemId } = req.params;
+    const { isAvailable } = req.body;
+
+    const restaurant = await Restaurant.findOne({ managerId: currentUser._id });
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found." });
+    }
+
+    const menu = await Menu.findOne({ restaurantId: restaurant._id });
+    if (!menu) {
+      return res.status(404).json({ message: "Menu not found." });
+    }
+
+    const menuItem = menu.menuItems.id(itemId);
+    if (!menuItem) {
+      return res.status(404).json({ message: "Menu item not found." });
+    }
+
+    if (isAvailable !== undefined) {
+      menuItem.isAvailable = isAvailable;
+    } else {
+      menuItem.isAvailable = !menuItem.isAvailable;
+    }
+
+    await menu.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Menu item status updated successfully",
+      data: menu.menuItems,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
