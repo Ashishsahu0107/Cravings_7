@@ -152,7 +152,7 @@ const RestaurantOverview = () => {
               View All <MdChevronRight className="text-lg" />
             </button>
           </div>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-(--color-primary) [&::-webkit-scrollbar-thumb]:rounded-full">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-50/50 text-gray-500 text-sm">

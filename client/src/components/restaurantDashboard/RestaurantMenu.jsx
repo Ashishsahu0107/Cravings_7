@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { MdOutlineAdd, MdClose, MdImage } from "react-icons/md";
+import { MdOutlineAdd, MdClose, MdImage, MdEdit, MdVisibility, MdDelete, MdStar, MdViewList, MdGridView } from "react-icons/md";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../config/ApiConfig";
 import toast from "react-hot-toast";
 import RunningLoader from "../../assets/loadingAnimation.gif";
+import AddNewItemModal from "./restaurants/AddNewItemModal";
+import EditorViewModal from "./restaurants/EditorViewModal";
+import ComfirmModal from "./restaurants/ComfirmModal";
 
 const RestaurantMenu = () => {
   const { user } = useAuth();
@@ -11,8 +14,15 @@ const RestaurantMenu = () => {
   const [menuList, setMenuList] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [viewMode, setViewMode] = useState("table");
   
   const [addMenuModal, setAddMenuModal] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editItemId, setEditItemId] = useState(null);
+
+  const [viewMenuModal, setViewMenuModal] = useState(false);
+  const [viewItem, setViewItem] = useState(null);
+  const [confirmModal, setConfirmModal] = useState({ isOpen: false, itemId: null });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -67,6 +77,8 @@ const RestaurantMenu = () => {
 
   const handleCloseModal = () => {
     setAddMenuModal(false);
+    setIsEditMode(false);
+    setEditItemId(null);
     setFormData({
       name: "",
       description: "",
@@ -80,10 +92,54 @@ const RestaurantMenu = () => {
     }
   };
 
-  const handleToggleStatus = async (itemId, currentStatus) => {
+  const handleOpenEditModal = (item) => {
+    setIsEditMode(true);
+    setEditItemId(item._id);
+    setFormData({
+      name: item.itemName,
+      description: item.description,
+      price: item.price,
+      category: item.category,
+      imageFile: null,
+      imagePreview: item.image?.url || "",
+    });
+    setAddMenuModal(true);
+  };
+
+  const handleOpenViewModal = (item) => {
+    setViewItem(item);
+    setViewMenuModal(true);
+  };
+
+  const handleCloseViewModal = () => {
+    setViewMenuModal(false);
+    setViewItem(null);
+  };
+
+  const openDeleteConfirm = (itemId) => {
+    setConfirmModal({ isOpen: true, itemId });
+  };
+
+  const executeDeleteMenu = async () => {
+    const itemId = confirmModal.itemId;
+    if (!itemId) return;
+    
+    try {
+      const res = await api.delete(`/restaurant/delete-dish/${itemId}`);
+      if (res.data.success) {
+        setMenuList(res.data.data);
+        toast.success("Dish deleted successfully");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete dish");
+    }
+  };
+
+  const handleStatusChange = async (itemId, newStatus) => {
     try {
       const res = await api.patch(`/restaurant/toggle-status/${itemId}`, {
-        isAvailable: !currentStatus
+        isAvailable: newStatus
       });
       if (res.data.success) {
         setMenuList(res.data.data);
@@ -98,8 +154,13 @@ const RestaurantMenu = () => {
   const handleAddMenu = async (e) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.description || !formData.price || !formData.category || !formData.imageFile) {
-      toast.error("Please fill all required fields and upload an image");
+    if (!formData.name || !formData.description || !formData.price || !formData.category) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+
+    if (!isEditMode && !formData.imageFile) {
+      toast.error("Please upload an image for the new dish");
       return;
     }
 
@@ -110,22 +171,33 @@ const RestaurantMenu = () => {
       data.append("description", formData.description);
       data.append("price", formData.price);
       data.append("category", formData.category);
-      data.append("image", formData.imageFile);
+      if (formData.imageFile) {
+        data.append("image", formData.imageFile);
+      }
 
-      const res = await api.post("/restaurant/add-dish", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      let res;
+      if (isEditMode) {
+        res = await api.put(`/restaurant/edit-dish/${editItemId}`, data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } else {
+        res = await api.post("/restaurant/add-dish", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
 
       if (res.data.success) {
-        toast.success("Menu added successfully");
+        toast.success(isEditMode ? "Menu updated successfully" : "Menu added successfully");
         setMenuList(res.data.data); // Update with new list from backend
         handleCloseModal();
       }
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.message || "Failed to add menu");
+      toast.error(error.response?.data?.message || (isEditMode ? "Failed to update menu" : "Failed to add menu"));
     } finally {
       setIsSubmitting(false);
     }
@@ -138,13 +210,31 @@ const RestaurantMenu = () => {
           <h1 className="text-2xl font-bold text-(--color-primary)">Menu Management</h1>
           <p className="text-sm text-(--color-secondary-content)">Add and manage your restaurant's dishes</p>
         </div>
-        <button
-          onClick={() => setAddMenuModal(true)}
-          className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-5 py-2.5 rounded-lg font-medium shadow hover:-translate-y-0.5 transition-transform"
-        >
-          <MdOutlineAdd className="text-xl" />
-          Add New Menu
-        </button>
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+            <button
+              onClick={() => setViewMode("table")}
+              className={`p-2 transition-colors ${viewMode === "table" ? "bg-(--color-primary) text-white" : "text-gray-500 hover:bg-gray-50"}`}
+              title="Table View"
+            >
+              <MdViewList size={20} />
+            </button>
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`p-2 transition-colors ${viewMode === "grid" ? "bg-(--color-primary) text-white" : "text-gray-500 hover:bg-gray-50"}`}
+              title="Grid View"
+            >
+              <MdGridView size={20} />
+            </button>
+          </div>
+          <button
+            onClick={() => setAddMenuModal(true)}
+            className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-5 py-2.5 rounded-lg font-medium shadow hover:-translate-y-0.5 transition-transform"
+          >
+            <MdOutlineAdd className="text-xl" />
+            Add New Menu
+          </button>
+        </div>
       </div>
 
       {isFetching ? (
@@ -170,12 +260,100 @@ const RestaurantMenu = () => {
             Add Menu Item
           </button>
         </div>
+      ) : viewMode === "table" ? (
+        <div className="bg-(--color-base-100) rounded-2xl shadow-sm border border-(--color-secondary)/20 overflow-x-auto">
+          <table className="w-full text-left border-collapse min-w-[800px]">
+            <thead>
+              <tr className="bg-gray-50 border-b border-gray-100 text-sm font-medium text-primary uppercase tracking-wider">
+                <th className="p-4">Item Image</th>
+                <th className="p-4">Item Name</th>
+                <th className="p-4">Item Type</th>
+                <th className="p-4">Price</th>
+                <th className="p-4">Status</th>
+                <th className="p-4">Rating</th>
+                <th className="p-4 text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {menuList.map((item, index) => (
+                <tr key={index} className="hover:bg-gray-50/50 transition-colors">
+                  <td className="p-4">
+                    <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
+                      {item.image && item.image.url ? (
+                        <img src={item.image.url} alt={item.itemName} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                          <MdImage size={24} />
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                  <td className="p-4">
+                    <div className="font-semibold text-gray-800">{item.itemName}</div>
+                  </td>
+                  <td className="p-4 text-gray-600 text-sm">
+                    {item.category}
+                  </td>
+                  <td className="p-4 font-bold text-gray-800">
+                    ${item.price?.toFixed(2)}
+                  </td>
+                  <td className="p-4">
+                    <select
+                      value={item.isAvailable}
+                      onChange={(e) => handleStatusChange(item._id, e.target.value === 'true')}
+                      className={`text-sm px-3 py-1.5 rounded-lg border font-medium outline-none cursor-pointer ${
+                        item.isAvailable
+                          ? 'bg-green-50 text-green-700 border-green-200 focus:ring-2 focus:ring-green-500/20'
+                          : 'bg-red-50 text-red-700 border-red-200 focus:ring-2 focus:ring-red-500/20'
+                      }`}
+                    >
+                      <option value="true">Available</option>
+                      <option value="false">Unavailable</option>
+                    </select>
+                  </td>
+                  <td className="p-4">
+                    <div className="flex items-center gap-1 text-amber-500">
+                      <MdStar className="text-lg" />
+                      <span className="font-semibold text-gray-700">{item.rating > 0 ? item.rating.toFixed(1) : "N/A"}</span>
+                    </div>
+                  </td>
+                  <td className="p-4">
+                    <div className="flex items-center justify-center gap-2">
+                      <button
+                        onClick={() => handleOpenViewModal(item)}
+                        className="p-2 rounded-full text-blue-600 hover:bg-blue-50 transition-colors"
+                        title="View"
+                      >
+                        <MdVisibility size={20} />
+                      </button>
+                      <button
+                        onClick={() => handleOpenEditModal(item)}
+                        className="p-2 rounded-full text-emerald-600 hover:bg-emerald-50 transition-colors"
+                        title="Edit"
+                      >
+                        <MdEdit size={20} />
+                      </button>
+                      <button
+                        onClick={() => openDeleteConfirm(item._id)}
+                        className="p-2 rounded-full text-red-600 hover:bg-red-50 transition-colors"
+                        title="Delete"
+                      >
+                        <MdDelete size={20} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {menuList.map((item, index) => (
             <div
               key={index}
-              className="bg-(--color-base-100) rounded-2xl overflow-hidden border border-(--color-secondary)/20 shadow-sm hover:shadow-md transition-shadow group flex flex-col"
+              className="bg-(--color-base-100) rounded-2xl overflow-hidden border border-(--color-secondary)/20 shadow-sm hover:shadow-md transition-shadow group flex flex-col cursor-pointer"
+              onClick={() => handleOpenViewModal(item)}
             >
               <div className="relative h-48 bg-gray-100">
                 {item.image && item.image.url ? (
@@ -198,176 +376,84 @@ const RestaurantMenu = () => {
                   <div className="text-xs font-medium text-(--color-primary) uppercase tracking-wider">
                     {item.category}
                   </div>
-                  <button
-                    onClick={() => handleToggleStatus(item._id, item.isAvailable)}
-                    className={`text-[10px] px-2 py-0.5 rounded-full font-bold border transition-colors ${
+                  <div className="flex items-center gap-1 text-amber-500 text-xs font-medium">
+                    <MdStar /> {item.rating > 0 ? item.rating.toFixed(1) : "N/A"}
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold text-gray-800 mb-2 leading-tight">
+                  {item.itemName}
+                </h3>
+                <div className="flex justify-between items-center mt-auto pt-3 border-t border-gray-100">
+                  <select
+                    value={item.isAvailable}
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      handleStatusChange(item._id, e.target.value === 'true');
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-bold border transition-colors outline-none cursor-pointer ${
                       item.isAvailable 
                         ? 'bg-green-50 text-green-600 border-green-200 hover:bg-green-100' 
                         : 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100'
                     }`}
                   >
-                    {item.isAvailable ? 'Available' : 'Out of Stock'}
-                  </button>
+                    <option value="true">Available</option>
+                    <option value="false">Out of Stock</option>
+                  </select>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenEditModal(item);
+                      }}
+                      className="text-gray-500 hover:text-emerald-600 transition-colors p-1 rounded hover:bg-emerald-50"
+                      title="Edit"
+                    >
+                      <MdEdit size={16} />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openDeleteConfirm(item._id);
+                      }}
+                      className="text-gray-500 hover:text-red-600 transition-colors p-1 rounded hover:bg-red-50"
+                      title="Delete"
+                    >
+                      <MdDelete size={16} />
+                    </button>
+                  </div>
                 </div>
-                <h3 className="text-lg font-bold text-gray-800 mb-2 leading-tight">
-                  {item.itemName}
-                </h3>
-                <p className="text-sm text-gray-500 line-clamp-2 flex-1">
-                  {item.description}
-                </p>
               </div>
             </div>
           ))}
         </div>
       )}
 
-      {/* Add Menu Modal */}
-      {addMenuModal && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-(--color-base-100) rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom-4 duration-300">
-            <div className="flex items-center justify-between p-5 border-b border-gray-100">
-              <h2 className="text-xl font-bold text-gray-800">Add New Dish</h2>
-              <button
-                onClick={handleCloseModal}
-                className="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50"
-              >
-                <MdClose className="text-2xl" />
-              </button>
-            </div>
-            
-            <form onSubmit={handleAddMenu} className="p-5 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Dish Name *</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="e.g. Margherita Pizza"
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-(--color-primary)/50 focus:border-(--color-primary) outline-none transition-all bg-white text-black"
-                  required
-                />
-              </div>
+      <AddNewItemModal
+        isOpen={addMenuModal}
+        onClose={handleCloseModal}
+        isEditMode={isEditMode}
+        formData={formData}
+        setFormData={setFormData}
+        handleChange={handleChange}
+        handleImageChange={handleImageChange}
+        handleAddMenu={handleAddMenu}
+        isSubmitting={isSubmitting}
+        fileInputRef={fileInputRef}
+      />
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
-                  <input
-                    type="text"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                    placeholder="e.g. Main Course"
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-(--color-primary)/50 focus:border-(--color-primary) outline-none transition-all bg-white text-black"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Price ($) *</label>
-                  <input
-                    type="number"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00"
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-(--color-primary)/50 focus:border-(--color-primary) outline-none transition-all bg-white text-black"
-                    required
-                  />
-                </div>
-              </div>
+      <EditorViewModal
+        isOpen={viewMenuModal}
+        onClose={handleCloseViewModal}
+        viewItem={viewItem}
+      />
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  rows="3"
-                  placeholder="Describe the ingredients and flavor..."
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-(--color-primary)/50 focus:border-(--color-primary) outline-none transition-all resize-none bg-white text-black"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Dish Image *</label>
-                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:bg-gray-50 transition-colors">
-                  <div className="space-y-1 text-center">
-                    {formData.imagePreview ? (
-                      <div className="relative inline-block">
-                        <img
-                          src={formData.imagePreview}
-                          alt="Preview"
-                          className="h-32 w-auto rounded-lg object-cover shadow-sm"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setFormData((prev) => ({ ...prev, imageFile: null, imagePreview: "" }));
-                            if (fileInputRef.current) fileInputRef.current.value = "";
-                          }}
-                          className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow hover:bg-red-600 transition"
-                        >
-                          <MdClose size={14} />
-                        </button>
-                      </div>
-                    ) : (
-                      <>
-                        <MdImage className="mx-auto h-12 w-12 text-gray-400" />
-                        <div className="flex text-sm text-gray-600 justify-center">
-                          <label
-                            htmlFor="file-upload"
-                            className="relative cursor-pointer bg-white rounded-md font-medium text-(--color-primary) hover:text-(--color-primary)/80 focus-within:outline-none"
-                          >
-                            <span>Upload a file</span>
-                            <input
-                              id="file-upload"
-                              name="file-upload"
-                              type="file"
-                              accept="image/*"
-                              className="sr-only"
-                              ref={fileInputRef}
-                              onChange={handleImageChange}
-                              required
-                            />
-                          </label>
-                        </div>
-                        <p className="text-xs text-gray-500">PNG, JPG, GIF up to 2MB</p>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 flex gap-3">
-                <button
-                  type="button"
-                  onClick={handleCloseModal}
-                  className="flex-1 px-4 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="flex-1 px-4 py-2.5 bg-(--color-primary) text-(--color-primary-content) font-medium rounded-lg hover:opacity-90 transition-opacity disabled:opacity-70 flex items-center justify-center gap-2"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                      Saving...
-                    </>
-                  ) : (
-                    "Save Dish"
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <ComfirmModal
+        isOpen={confirmModal.isOpen}
+        onClose={() => setConfirmModal({ isOpen: false, itemId: null })}
+        onConfirm={executeDeleteMenu}
+        message="Are you sure you want to delete this dish?"
+      />
     </div>
   );
 };
