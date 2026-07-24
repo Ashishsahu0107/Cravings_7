@@ -1,6 +1,9 @@
 import Menu from "../models/menu.model.js";
 import Restaurant from "../models/restaurant.model.js";
-import { UploadSingleImage, deleteSingleImage } from "../utils/image.service.js";
+import {
+  UploadSingleImage,
+  deleteSingleImage,
+} from "../utils/image.service.js";
 
 // ======================
 // Get Menu
@@ -68,7 +71,7 @@ export const addMenuItem = async (req, res, next) => {
     };
 
     let menu = await Menu.findOne({ restaurantId: restaurant._id });
-    
+
     if (!menu) {
       // Create new menu document
       menu = new Menu({
@@ -240,7 +243,7 @@ export const deleteMenuItem = async (req, res, next) => {
 
     // Remove the item
     menu.menuItems.pull(itemId);
-    
+
     await menu.save();
 
     return res.status(200).json({
