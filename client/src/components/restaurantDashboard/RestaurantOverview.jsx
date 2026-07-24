@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
-  MdTrendingUp,
   MdOutlineRestaurantMenu,
   MdAttachMoney,
   MdOutlineShoppingBag,
@@ -10,6 +9,7 @@ import {
 } from "react-icons/md";
 import api from "../../config/ApiConfig";
 import RunningLoader from "../../assets/loadingAnimation.gif";
+import toast from "react-hot-toast";
 
 const RestaurantOverview = () => {
   const [payload, setPayload] = useState(null);

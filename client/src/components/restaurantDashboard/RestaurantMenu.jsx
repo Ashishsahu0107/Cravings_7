@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { MdOutlineAdd, MdClose, MdImage, MdEdit, MdVisibility, MdDelete, MdStar, MdViewList, MdGridView } from "react-icons/md";
+import { MdOutlineAdd, MdImage, MdEdit, MdVisibility, MdDelete, MdStar, MdStarBorder, MdThumbUp, MdOutlineThumbUp, MdNewReleases, MdOutlineNewReleases, MdViewList, MdGridView, MdSearch } from "react-icons/md";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../config/ApiConfig";
 import toast from "react-hot-toast";
@@ -15,6 +15,7 @@ const RestaurantMenu = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [viewMode, setViewMode] = useState("table");
+  const [searchQuery, setSearchQuery] = useState("");
   
   const [addMenuModal, setAddMenuModal] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -151,6 +152,21 @@ const RestaurantMenu = () => {
     }
   };
 
+  const handleBadgeChange = async (itemId, field, value) => {
+    try {
+      const res = await api.patch(`/restaurant/toggle-status/${itemId}`, {
+        [field]: value
+      });
+      if (res.data.success) {
+        setMenuList(res.data.data);
+        toast.success("Badge updated successfully");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update badge");
+    }
+  };
+
   const handleAddMenu = async (e) => {
     e.preventDefault();
     
@@ -203,6 +219,14 @@ const RestaurantMenu = () => {
     }
   };
 
+  const filteredMenu = menuList.filter((item) => {
+    const q = searchQuery.toLowerCase();
+    return (
+      item.itemName?.toLowerCase().includes(q) ||
+      item.category?.toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="p-4 sm:p-6 bg-(--color-base-200) min-h-[83vh]">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -210,32 +234,48 @@ const RestaurantMenu = () => {
           <h1 className="text-2xl font-bold text-(--color-primary)">Menu Management</h1>
           <p className="text-sm text-(--color-secondary-content)">Add and manage your restaurant's dishes</p>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-end">
+          <div className="relative w-full sm:w-64">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+              <MdSearch size={20} />
+            </div>
+            <input
+              type="text"
+              placeholder="Search dishes, types..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary)/20 focus:border-(--color-primary) transition-all shadow-sm"
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+              <button
+                onClick={() => setViewMode("table")}
+                className={`p-2 transition-colors ${viewMode === "table" ? "bg-(--color-primary) text-white" : "text-gray-500 hover:bg-gray-50"}`}
+                title="Table View"
+              >
+                <MdViewList size={20} />
+              </button>
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`p-2 transition-colors ${viewMode === "grid" ? "bg-(--color-primary) text-white" : "text-gray-500 hover:bg-gray-50"}`}
+                title="Grid View"
+              >
+                <MdGridView size={20} />
+              </button>
+            </div>
             <button
-              onClick={() => setViewMode("table")}
-              className={`p-2 transition-colors ${viewMode === "table" ? "bg-(--color-primary) text-white" : "text-gray-500 hover:bg-gray-50"}`}
-              title="Table View"
+              onClick={() => setAddMenuModal(true)}
+              className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-5 py-2.5 rounded-lg font-medium shadow hover:-translate-y-0.5 transition-transform"
             >
-              <MdViewList size={20} />
-            </button>
-            <button
-              onClick={() => setViewMode("grid")}
-              className={`p-2 transition-colors ${viewMode === "grid" ? "bg-(--color-primary) text-white" : "text-gray-500 hover:bg-gray-50"}`}
-              title="Grid View"
-            >
-              <MdGridView size={20} />
+              <MdOutlineAdd className="text-xl" />
+              Add New Menu
             </button>
           </div>
-          <button
-            onClick={() => setAddMenuModal(true)}
-            className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-5 py-2.5 rounded-lg font-medium shadow hover:-translate-y-0.5 transition-transform"
-          >
-            <MdOutlineAdd className="text-xl" />
-            Add New Menu
-          </button>
         </div>
       </div>
+
+      <div className="mt-6"></div>
 
       {isFetching ? (
         <div className="flex flex-col justify-center items-center h-64">
@@ -271,11 +311,12 @@ const RestaurantMenu = () => {
                 <th className="p-4">Price</th>
                 <th className="p-4">Status</th>
                 <th className="p-4">Rating</th>
+                <th className="p-4 text-center">Badges</th>
                 <th className="p-4 text-center">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {menuList.map((item, index) => (
+              {filteredMenu.map((item, index) => (
                 <tr key={index} className="hover:bg-gray-50/50 transition-colors">
                   <td className="p-4">
                     <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
@@ -320,6 +361,31 @@ const RestaurantMenu = () => {
                   <td className="p-4">
                     <div className="flex items-center justify-center gap-2">
                       <button
+                        onClick={() => handleBadgeChange(item._id, "isTopRated", !item.isTopRated)}
+                        className={`p-1.5 rounded-full transition-colors ${item.isTopRated ? 'text-amber-500 bg-amber-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                        title="Top Rated"
+                      >
+                        {item.isTopRated ? <MdStar size={18} /> : <MdStarBorder size={18} />}
+                      </button>
+                      <button
+                        onClick={() => handleBadgeChange(item._id, "isRecommended", !item.isRecommended)}
+                        className={`p-1.5 rounded-full transition-colors ${item.isRecommended ? 'text-blue-500 bg-blue-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                        title="Recommended"
+                      >
+                        {item.isRecommended ? <MdThumbUp size={18} /> : <MdOutlineThumbUp size={18} />}
+                      </button>
+                      <button
+                        onClick={() => handleBadgeChange(item._id, "isNew", !item.isNew)}
+                        className={`p-1.5 rounded-full transition-colors ${item.isNew ? 'text-purple-500 bg-purple-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                        title="New Item"
+                      >
+                        {item.isNew ? <MdNewReleases size={18} /> : <MdOutlineNewReleases size={18} />}
+                      </button>
+                    </div>
+                  </td>
+                  <td className="p-4">
+                    <div className="flex items-center justify-center gap-2">
+                      <button
                         onClick={() => handleOpenViewModal(item)}
                         className="p-2 rounded-full text-blue-600 hover:bg-blue-50 transition-colors"
                         title="View"
@@ -349,7 +415,7 @@ const RestaurantMenu = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-          {menuList.map((item, index) => (
+          {filteredMenu.map((item, index) => (
             <div
               key={index}
               className="bg-(--color-base-100) rounded-2xl overflow-hidden border border-(--color-secondary)/20 shadow-sm hover:shadow-md transition-shadow group flex flex-col cursor-pointer"
@@ -373,8 +439,13 @@ const RestaurantMenu = () => {
               </div>
               <div className="p-4 flex-1 flex flex-col">
                 <div className="flex justify-between items-start mb-1">
-                  <div className="text-xs font-medium text-(--color-primary) uppercase tracking-wider">
-                    {item.category}
+                  <div className="flex items-center gap-2">
+                    <div className="text-xs font-medium text-(--color-primary) uppercase tracking-wider">
+                      {item.category}
+                    </div>
+                    {item.isNew && (
+                      <span className="bg-purple-100 text-purple-700 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">New</span>
+                    )}
                   </div>
                   <div className="flex items-center gap-1 text-amber-500 text-xs font-medium">
                     <MdStar /> {item.rating > 0 ? item.rating.toFixed(1) : "N/A"}
@@ -400,7 +471,39 @@ const RestaurantMenu = () => {
                     <option value="true">Available</option>
                     <option value="false">Out of Stock</option>
                   </select>
-                  <div className="flex gap-2">
+                  <div className="flex gap-1 items-center">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleBadgeChange(item._id, "isTopRated", !item.isTopRated);
+                      }}
+                      className={`p-1 rounded transition-colors ${item.isTopRated ? 'text-amber-500 bg-amber-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                      title="Top Rated"
+                    >
+                      {item.isTopRated ? <MdStar size={16} /> : <MdStarBorder size={16} />}
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleBadgeChange(item._id, "isRecommended", !item.isRecommended);
+                      }}
+                      className={`p-1 rounded transition-colors ${item.isRecommended ? 'text-blue-500 bg-blue-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                      title="Recommended"
+                    >
+                      {item.isRecommended ? <MdThumbUp size={16} /> : <MdOutlineThumbUp size={16} />}
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleBadgeChange(item._id, "isNew", !item.isNew);
+                      }}
+                      className={`p-1 rounded transition-colors ${item.isNew ? 'text-purple-500 bg-purple-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                      title="New Item"
+                    >
+                      {item.isNew ? <MdNewReleases size={16} /> : <MdOutlineNewReleases size={16} />}
+                    </button>
+                  </div>
+                  <div className="flex gap-1 border-l pl-2 ml-1 border-gray-200">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();

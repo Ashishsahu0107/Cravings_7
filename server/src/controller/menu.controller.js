@@ -119,8 +119,18 @@ export const toggleMenuItemStatus = async (req, res, next) => {
 
     if (isAvailable !== undefined) {
       menuItem.isAvailable = isAvailable;
-    } else {
+    } else if (Object.keys(req.body).length === 0) {
       menuItem.isAvailable = !menuItem.isAvailable;
+    }
+
+    if (req.body.isTopRated !== undefined) {
+      menuItem.isTopRated = req.body.isTopRated;
+    }
+    if (req.body.isRecommended !== undefined) {
+      menuItem.isRecommended = req.body.isRecommended;
+    }
+    if (req.body.isNew !== undefined) {
+      menuItem.isNew = req.body.isNew;
     }
 
     await menu.save();
