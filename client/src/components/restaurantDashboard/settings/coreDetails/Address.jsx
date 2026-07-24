@@ -7,13 +7,13 @@ import RunningLoader from "../../../../assets/loadingAnimation.gif";
 
 const Address = () => {
   const { user } = useAuth();
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingRestaurant, setIsLoadingRestaurant] = useState(false);
   const [loadingRestaurantError, setLoadingRestaurantError] = useState(null);
   const [restaurantData, setRestaurantData] = useState(null);
   const [editingAddress, setEditingAddress] = useState(false);
-  
+
   const [addressFormData, setAddressFormData] = useState({
     address: "",
     city: "",
@@ -27,9 +27,9 @@ const Address = () => {
   const fetchRestaurantData = async () => {
     try {
       setIsLoadingRestaurant(true);
-      const res = await api.get(
-        `/restaurant/get-restaurant-data`, { params: { id: user._id } }
-      );
+      const res = await api.get(`/restaurant/get-restaurant-data`, {
+        params: { id: user._id },
+      });
       setRestaurantData(res.data.data);
     } catch (error) {
       if (error.response?.status === 404) {
@@ -74,13 +74,14 @@ const Address = () => {
   const handleSave = async () => {
     try {
       setIsLoading(true);
-      const res = await api.put("/restaurant/update-core-details", addressFormData);
+      const res = await api.put(
+        "/restaurant/update-core-details",
+        addressFormData,
+      );
       toast.success(res.data.message || "Address updated successfully");
       setRestaurantData(res.data.data);
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Failed to update address",
-      );
+      toast.error(error.response?.data?.message || "Failed to update address");
     } finally {
       setIsLoading(false);
       setEditingAddress(false);

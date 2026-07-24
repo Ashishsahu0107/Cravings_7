@@ -16,7 +16,7 @@ const RestaurantPhotos = () => {
 
   const [existingCover, setExistingCover] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
-  
+
   const [existingGallery, setExistingGallery] = useState([]);
   const [galleryImages, setGalleryImages] = useState([]);
   const [errors, setErrors] = useState({ cover: "", gallery: "" });
@@ -46,7 +46,11 @@ const RestaurantPhotos = () => {
   }, [user]);
 
   const coverPreview = useMemo(() => {
-    return coverImage ? URL.createObjectURL(coverImage) : existingCover ? existingCover.url : ""; 
+    return coverImage
+      ? URL.createObjectURL(coverImage)
+      : existingCover
+        ? existingCover.url
+        : "";
   }, [coverImage, existingCover]);
 
   const galleryPreviews = useMemo(() => {
@@ -58,7 +62,7 @@ const RestaurantPhotos = () => {
       key: img.publicId,
       size: null,
     }));
-    
+
     const newFiles = galleryImages.map((image) => ({
       file: image,
       url: URL.createObjectURL(image),
@@ -149,9 +153,13 @@ const RestaurantPhotos = () => {
   const removeGalleryImage = (indexToRemove) => {
     const previewToRemove = galleryPreviews[indexToRemove];
     if (previewToRemove.file) {
-      setGalleryImages((prev) => prev.filter((f) => f !== previewToRemove.file));
+      setGalleryImages((prev) =>
+        prev.filter((f) => f !== previewToRemove.file),
+      );
     } else {
-      setExistingGallery((prev) => prev.filter((img) => img.publicId !== previewToRemove.publicId));
+      setExistingGallery((prev) =>
+        prev.filter((img) => img.publicId !== previewToRemove.publicId),
+      );
     }
     setErrors((prev) => ({ ...prev, gallery: "" }));
   };
@@ -166,7 +174,7 @@ const RestaurantPhotos = () => {
       } else if (!existingCover) {
         formData.append("removeCoverImage", "true");
       }
-      
+
       if (galleryImages.length > 0) {
         galleryImages.forEach((file) => {
           formData.append("galleryImages", file);
@@ -175,11 +183,15 @@ const RestaurantPhotos = () => {
 
       formData.append("retainedGalleryImages", JSON.stringify(existingGallery));
 
-      const res = await api.put("/restaurant/update-restaurant-photos", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const res = await api.put(
+        "/restaurant/update-restaurant-photos",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
-      });
+      );
 
       toast.success(res.data.message || "Photos updated successfully");
       const updatedData = res.data.data;
@@ -256,7 +268,9 @@ const RestaurantPhotos = () => {
                   </button>
                 </div>
                 <div className="flex items-center justify-between gap-2 px-3 py-2 text-xs">
-                  <p className="truncate font-medium">{coverImage ? coverImage.name : "Existing Image"}</p>
+                  <p className="truncate font-medium">
+                    {coverImage ? coverImage.name : "Existing Image"}
+                  </p>
                   {coverImage && (
                     <span className="shrink-0 rounded-full bg-(--color-secondary)/20 px-2 py-1 text-[11px]">
                       {(coverImage.size / 1024).toFixed(1)} KB

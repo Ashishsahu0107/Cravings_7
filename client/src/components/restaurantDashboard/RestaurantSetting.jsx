@@ -22,8 +22,8 @@ const RestaurantSetting = () => {
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const res = await api.get('/restaurant/get-restaurant-data', {
-          params: { id: user._id }
+        const res = await api.get("/restaurant/get-restaurant-data", {
+          params: { id: user._id },
         });
         if (res.data.data) {
           setIsRestaurantOpen(res.data.data.isOpen);
@@ -31,7 +31,10 @@ const RestaurantSetting = () => {
       } catch (error) {
         // ignore if not found
         if (error.response?.status !== 404) {
-          toast.error(error.response?.data?.message || "Failed to fetch restaurant status");
+          toast.error(
+            error.response?.data?.message ||
+              "Failed to fetch restaurant status",
+          );
         }
       }
     };
@@ -44,12 +47,17 @@ const RestaurantSetting = () => {
       const newStatus = !isRestaurantOpen;
       // Optimistic UI update
       setIsRestaurantOpen(newStatus);
-      const res = await api.patch(`/restaurant/update-open-status/${newStatus}`);
+      const res = await api.patch(
+        `/restaurant/update-open-status/${newStatus}`,
+      );
       toast.success(res.data.message || "Status updated successfully");
     } catch (error) {
       // Revert on error
       setIsRestaurantOpen(isRestaurantOpen);
-      toast.error(error.response?.data?.message || "Failed to update restaurant open status");
+      toast.error(
+        error.response?.data?.message ||
+          "Failed to update restaurant open status",
+      );
     }
   };
 
@@ -68,7 +76,7 @@ const RestaurantSetting = () => {
                   activeTab === tab.id
                     ? "bg-primary text-primary-content shadow-md"
                     : "hover:bg-base-300"
-                  }`}
+                }`}
             >
               {tab.label}
             </button>

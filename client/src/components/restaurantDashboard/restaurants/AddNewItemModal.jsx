@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { MdClose, MdImage } from "react-icons/md";
 
 const AddNewItemModal = ({
@@ -11,7 +11,7 @@ const AddNewItemModal = ({
   handleImageChange,
   handleAddMenu,
   isSubmitting,
-  fileInputRef
+  fileInputRef,
 }) => {
   if (!isOpen) return null;
 
@@ -19,7 +19,9 @@ const AddNewItemModal = ({
     <div className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="bg-(--color-base-100) rounded-2xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom-4 duration-300">
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
-          <h2 className="text-xl font-bold text-gray-800">{isEditMode ? "Edit Dish" : "Add New Dish"}</h2>
+          <h2 className="text-xl font-bold text-gray-800">
+            {isEditMode ? "Edit Dish" : "Add New Dish"}
+          </h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50"
@@ -27,10 +29,12 @@ const AddNewItemModal = ({
             <MdClose className="text-2xl" />
           </button>
         </div>
-        
+
         <form onSubmit={handleAddMenu} className="p-5 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Dish Name *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Dish Name *
+            </label>
             <input
               type="text"
               name="name"
@@ -44,7 +48,9 @@ const AddNewItemModal = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Category *
+              </label>
               <input
                 type="text"
                 name="category"
@@ -56,7 +62,9 @@ const AddNewItemModal = ({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Price ($) *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Price ($) *
+              </label>
               <input
                 type="number"
                 name="price"
@@ -72,7 +80,9 @@ const AddNewItemModal = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Description *
+            </label>
             <textarea
               name="description"
               value={formData.description}
@@ -85,7 +95,9 @@ const AddNewItemModal = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Dish Image {isEditMode ? "" : "*"}</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Dish Image {isEditMode ? "" : "*"}
+            </label>
             <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:bg-gray-50 transition-colors">
               <div className="space-y-1 text-center">
                 {formData.imagePreview ? (
@@ -98,8 +110,13 @@ const AddNewItemModal = ({
                     <button
                       type="button"
                       onClick={() => {
-                        setFormData((prev) => ({ ...prev, imageFile: null, imagePreview: "" }));
-                        if (fileInputRef.current) fileInputRef.current.value = "";
+                        setFormData((prev) => ({
+                          ...prev,
+                          imageFile: null,
+                          imagePreview: "",
+                        }));
+                        if (fileInputRef.current)
+                          fileInputRef.current.value = "";
                       }}
                       className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow hover:bg-red-600 transition"
                     >
@@ -127,7 +144,9 @@ const AddNewItemModal = ({
                         />
                       </label>
                     </div>
-                    <p className="text-xs text-gray-500">PNG, JPG, GIF up to 2MB</p>
+                    <p className="text-xs text-gray-500">
+                      PNG, JPG, GIF up to 2MB
+                    </p>
                   </>
                 )}
               </div>
@@ -152,8 +171,10 @@ const AddNewItemModal = ({
                   <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
                   Saving...
                 </>
+              ) : isEditMode ? (
+                "Update Dish"
               ) : (
-                isEditMode ? "Update Dish" : "Save Dish"
+                "Save Dish"
               )}
             </button>
           </div>
