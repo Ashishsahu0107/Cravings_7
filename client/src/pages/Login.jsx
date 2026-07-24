@@ -106,9 +106,7 @@ const Login = () => {
                 onChange={handleInputChange}
                 placeholder="Enter your email"
                 className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
-                  errors.email
-                    ? "border-error border-2"
-                    : "border-base-300"
+                  errors.email ? "border-error border-2" : "border-base-300"
                 }`}
               />
               {errors.email && (

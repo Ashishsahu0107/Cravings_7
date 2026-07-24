@@ -182,9 +182,7 @@ const Home = () => {
           {loading ? (
             <div className="text-center py-12">
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-              <p className="mt-4 text-base-content">
-                Loading restaurants...
-              </p>
+              <p className="mt-4 text-base-content">Loading restaurants...</p>
             </div>
           ) : filteredRestaurants.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -374,9 +372,7 @@ const Home = () => {
                   <p className="font-semibold text-(--color-content)">
                     Arun J.
                   </p>
-                  <p className="text-sm text-base-content">
-                    Verified Buyer
-                  </p>
+                  <p className="text-sm text-base-content">Verified Buyer</p>
                 </div>
               </div>
             </div>
@@ -403,9 +399,7 @@ const Home = () => {
                   <p className="font-semibold text-(--color-content)">
                     Sneha P.
                   </p>
-                  <p className="text-sm text-base-content">
-                    Verified Buyer
-                  </p>
+                  <p className="text-sm text-base-content">Verified Buyer</p>
                 </div>
               </div>
             </div>
@@ -432,9 +426,7 @@ const Home = () => {
                   <p className="font-semibold text-(--color-content)">
                     Raj Kumar
                   </p>
-                  <p className="text-sm text-base-content">
-                    Verified Buyer
-                  </p>
+                  <p className="text-sm text-base-content">Verified Buyer</p>
                 </div>
               </div>
             </div>
