@@ -32,7 +32,6 @@ export const AuthProtect = async (req, res, next) => {
     // Send the verified user to the Controller for further processing
     req.user = verifiedUser;
     next();
-
   } catch (error) {
     console.log(error.message);
     next(error);
@@ -69,7 +68,6 @@ export const OTPAuthProtect = async (req, res, next) => {
     // Send the verified user to the Controller for further processing
     req.user = verifiedUser;
     next();
-
   } catch (error) {
     console.log(error.message);
     next(error);
@@ -104,7 +102,7 @@ export const RestaurantAuthProtect = async (req, res, next) => {
       return next(error);
     }
 
-    if(verifiedUser.userType !== "restaurant") {
+    if (verifiedUser.userType !== "restaurant") {
       const error = new Error("Unauthorized Access");
       error.statusCode = 403;
       return next(error);
@@ -113,11 +111,8 @@ export const RestaurantAuthProtect = async (req, res, next) => {
     // Send the verified user to the Controller for further processing
     req.user = verifiedUser;
     next();
-
   } catch (error) {
     console.log(error.message);
     next(error);
   }
 };
-
-

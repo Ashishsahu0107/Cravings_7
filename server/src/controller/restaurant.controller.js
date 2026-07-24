@@ -1,7 +1,11 @@
 import Restaurant from "../models/restaurant.model.js";
 import Order from "../models/order.model.js";
 import Menu from "../models/menu.model.js";
-import { UploadSingleImage, uploadMultipleImages, deleteSingleImage } from "../utils/image.service.js";
+import {
+  UploadSingleImage,
+  uploadMultipleImages,
+  deleteSingleImage,
+} from "../utils/image.service.js";
 // ======================
 // Upsert Basic Information
 // ======================
@@ -287,9 +291,15 @@ export const updateRestaurantPhotos = async (req, res, next) => {
     // Handle Cover Image
     if (req.files && req.files.coverImage && req.files.coverImage.length > 0) {
       const coverFile = req.files.coverImage[0];
-      const result = await UploadSingleImage(coverFile, "cravings/restaurant/cover");
+      const result = await UploadSingleImage(
+        coverFile,
+        "cravings/restaurant/cover",
+      );
 
-      if (existingRestaurant.coverImage && existingRestaurant.coverImage.publicId) {
+      if (
+        existingRestaurant.coverImage &&
+        existingRestaurant.coverImage.publicId
+      ) {
         await deleteSingleImage(existingRestaurant.coverImage).catch(() => {});
       }
 
@@ -298,7 +308,10 @@ export const updateRestaurantPhotos = async (req, res, next) => {
         publicId: result.publicId,
       };
     } else if (req.body.removeCoverImage === "true") {
-      if (existingRestaurant.coverImage && existingRestaurant.coverImage.publicId) {
+      if (
+        existingRestaurant.coverImage &&
+        existingRestaurant.coverImage.publicId
+      ) {
         await deleteSingleImage(existingRestaurant.coverImage).catch(() => {});
       }
       existingRestaurant.coverImage = undefined;
@@ -306,22 +319,33 @@ export const updateRestaurantPhotos = async (req, res, next) => {
 
     // Handle Gallery Images
     let currentGallery = existingRestaurant.restaurantImage || [];
-    
+
     // Delete images that are not in the retained list
     if (retainedGalleryImages && Array.isArray(retainedGalleryImages)) {
       const retainedIds = retainedGalleryImages.map((img) => img.publicId);
-      const imagesToDelete = currentGallery.filter((img) => !retainedIds.includes(img.publicId));
+      const imagesToDelete = currentGallery.filter(
+        (img) => !retainedIds.includes(img.publicId),
+      );
 
       for (const img of imagesToDelete) {
         await deleteSingleImage(img).catch(() => {});
       }
 
-      currentGallery = currentGallery.filter((img) => retainedIds.includes(img.publicId));
+      currentGallery = currentGallery.filter((img) =>
+        retainedIds.includes(img.publicId),
+      );
     }
 
     // Upload new gallery images
-    if (req.files && req.files.galleryImages && req.files.galleryImages.length > 0) {
-      const newImages = await uploadMultipleImages(req.files.galleryImages, "cravings/restaurant/gallery");
+    if (
+      req.files &&
+      req.files.galleryImages &&
+      req.files.galleryImages.length > 0
+    ) {
+      const newImages = await uploadMultipleImages(
+        req.files.galleryImages,
+        "cravings/restaurant/gallery",
+      );
       currentGallery = [...currentGallery, ...newImages];
     }
 
@@ -370,22 +394,28 @@ export const getDashboardOverview = async (req, res, next) => {
               $cond: [
                 { $eq: ["$orderStatus", "delivered"] },
                 "$billDetails.totalAmount",
-                0
-              ]
-            }
+                0,
+              ],
+            },
           },
           avgRating: {
-            $avg: "$rating"
-          }
-        }
-      }
+            $avg: "$rating",
+          },
+        },
+      },
     ]);
 
-    const stats = orderStats[0] || { totalOrders: 0, totalRevenue: 0, avgRating: 0 };
+    const stats = orderStats[0] || {
+      totalOrders: 0,
+      totalRevenue: 0,
+      avgRating: 0,
+    };
 
     // 2. Active Menu Items
     const menu = await Menu.findOne({ restaurantId: restaurant._id });
-    const activeMenuItems = menu ? menu.menuItems.filter(item => item.isAvailable).length : 0;
+    const activeMenuItems = menu
+      ? menu.menuItems.filter((item) => item.isAvailable).length
+      : 0;
 
     // 3. Recent Orders
     const recentOrdersRaw = await Order.find({ restaurantId: restaurant._id })
@@ -396,8 +426,8 @@ export const getDashboardOverview = async (req, res, next) => {
         populate: {
           path: "customerId",
           model: "user",
-          select: "fullName"
-        }
+          select: "fullName",
+        },
       });
 
     const recentOrders = recentOrdersRaw.map((order) => {
@@ -409,14 +439,18 @@ export const getDashboardOverview = async (req, res, next) => {
       if (diffMins < 60) {
         timeStr = `${diffMins || 1} mins ago`;
       } else {
-        timeStr = `${diffHrs} hour${diffHrs > 1 ? 's' : ''} ago`;
+        timeStr = `${diffHrs} hour${diffHrs > 1 ? "s" : ""} ago`;
       }
 
       // Map status
       let mappedStatus = "Preparing";
-      if (["pickedUp", "onTheWay", "outForDelivery"].includes(order.orderStatus)) mappedStatus = "Ready";
+      if (
+        ["pickedUp", "onTheWay", "outForDelivery"].includes(order.orderStatus)
+      )
+        mappedStatus = "Ready";
       if (order.orderStatus === "delivered") mappedStatus = "Delivered";
-      if (["pending", "accepted"].includes(order.orderStatus)) mappedStatus = "Preparing";
+      if (["pending", "accepted"].includes(order.orderStatus))
+        mappedStatus = "Preparing";
 
       return {
         id: `#ORD-${order._id.toString().slice(-4).toUpperCase()}`,
@@ -424,7 +458,7 @@ export const getDashboardOverview = async (req, res, next) => {
         items: order.orderItems.reduce((acc, item) => acc + item.quantity, 0),
         total: order.billDetails.totalAmount,
         status: mappedStatus,
-        time: timeStr
+        time: timeStr,
       };
     });
 
@@ -435,14 +469,13 @@ export const getDashboardOverview = async (req, res, next) => {
         activeMenuItems,
         avgRating: stats.avgRating ? Number(stats.avgRating.toFixed(1)) : 5.0,
       },
-      recentOrders
+      recentOrders,
     };
 
     return res.status(200).json({
       success: true,
       data: payload,
     });
-
   } catch (error) {
     console.log(error);
     next(error);

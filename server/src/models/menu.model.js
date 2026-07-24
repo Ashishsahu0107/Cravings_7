@@ -30,7 +30,6 @@ const MenuSchema = mongoose.Schema(
   { timestamps: true },
 );
 
-
 const Menu = mongoose.model("menu", MenuSchema);
 
 export default Menu;
