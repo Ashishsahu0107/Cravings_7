@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMapEvents,
+  useMap,
+} from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
@@ -68,18 +75,21 @@ const Map = () => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setCurrentLocation([position.coords.latitude, position.coords.longitude]);
+          setCurrentLocation([
+            position.coords.latitude,
+            position.coords.longitude,
+          ]);
         },
         (error) => {
           console.error("Error getting location:", error);
           // Fallback location if user denies geolocation (e.g. New Delhi)
-          setCurrentLocation([28.6139, 77.2090]);
+          setCurrentLocation([28.6139, 77.209]);
         },
-        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 },
       );
     } else {
       // Geolocation not supported
-      setCurrentLocation([28.6139, 77.2090]);
+      setCurrentLocation([28.6139, 77.209]);
     }
   }, []);
 
@@ -88,7 +98,9 @@ const Map = () => {
       <div className="flex h-screen items-center justify-center bg-gray-50">
         <div className="animate-pulse flex flex-col items-center">
           <div className="h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-lg font-medium text-gray-600">Loading Map & Getting Location...</p>
+          <p className="mt-4 text-lg font-medium text-gray-600">
+            Loading Map & Getting Location...
+          </p>
         </div>
       </div>
     );
@@ -111,7 +123,7 @@ const Map = () => {
           )}
         </p>
       </div>
-      
+
       <MapContainer
         center={currentLocation}
         zoom={13}
@@ -122,7 +134,7 @@ const Map = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        
+
         {/* Only show default marker if routing is not active, because routing control adds its own markers */}
         {!destination && (
           <Marker position={currentLocation}>

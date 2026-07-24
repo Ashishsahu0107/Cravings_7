@@ -34,8 +34,15 @@ const RiderDashboard = () => {
   return (
     <>
       <div className="h-[91vh] flex gap-2 p-2">
-        <div className={`transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"} bg-base-200 p-4 rounded-lg shadow-md h-full`}>
-          <RiderSidebar activeTab={activeTab} setActiveTab={setActiveTab} isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+        <div
+          className={`transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"} bg-base-200 p-4 rounded-lg shadow-md h-full`}
+        >
+          <RiderSidebar
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            isCollapsed={isCollapsed}
+            setIsCollapsed={setIsCollapsed}
+          />
         </div>
         <div className="flex-1 transition-all duration-300 bg-base-100 p-4 rounded-lg shadow-md h-full overflow-hidden">
           {activeTab === "overview" && <RiderOverview />}

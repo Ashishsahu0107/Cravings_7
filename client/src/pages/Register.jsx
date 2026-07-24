@@ -117,9 +117,7 @@ const Register = () => {
                   onChange={handleUserTypeChange}
                   className="cursor-pointer"
                 />
-                <span className="text-neutral capitalize">
-                  {type}
-                </span>
+                <span className="text-neutral capitalize">{type}</span>
               </label>
             ))}
           </div>
@@ -136,9 +134,7 @@ const Register = () => {
               onChange={handleInputChange}
               placeholder="Enter your full name"
               className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
-                errors.fullName
-                  ? "border-error border-2"
-                  : "border-base-300"
+                errors.fullName ? "border-error border-2" : "border-base-300"
               }`}
             />
             {errors.fullName && (
@@ -150,7 +146,6 @@ const Register = () => {
 
           {/* Email */}
           <div className="mb-4">
-            
             <input
               type="email"
               name="email"
@@ -158,9 +153,7 @@ const Register = () => {
               onChange={handleInputChange}
               placeholder="Enter your email"
               className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
-                errors.email
-                  ? "border-error border-2"
-                  : "border-base-300"
+                errors.email ? "border-error border-2" : "border-base-300"
               }`}
             />
             {errors.email && (
@@ -172,7 +165,6 @@ const Register = () => {
 
           {/* Phone */}
           <div className="mb-4">
-           
             <input
               type="number"
               name="phone"
@@ -180,9 +172,7 @@ const Register = () => {
               onChange={handleInputChange}
               placeholder="Enter your phone number"
               className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
-                errors.phone
-                  ? "border-error border-2"
-                  : "border-base-300"
+                errors.phone ? "border-error border-2" : "border-base-300"
               }`}
             />
             {errors.phone && (
@@ -200,9 +190,7 @@ const Register = () => {
                 value={formData.gender}
                 onChange={handleInputChange}
                 className={`w-full px-3 py-2 border rounded-md text-sm text-neutral focus:outline-none focus:ring-2 focus:ring-primary ${
-                  errors.gender
-                    ? "border-error border-2"
-                    : "border-base-300"
+                  errors.gender ? "border-error border-2" : "border-base-300"
                 }`}
               >
                 <option value="">Select gender</option>
@@ -223,9 +211,7 @@ const Register = () => {
                 value={formData.dob}
                 onChange={handleInputChange}
                 className={`w-full px-3 py-2 border rounded-md text-sm text-neutral focus:outline-none focus:ring-2 focus:ring-primary ${
-                  errors.dob
-                    ? "border-error border-2"
-                    : "border-base-300"
+                  errors.dob ? "border-error border-2" : "border-base-300"
                 }`}
               />
               {errors.dob && (
@@ -238,7 +224,6 @@ const Register = () => {
 
           {/* Password */}
           <div className="mb-4">
-          
             <input
               type="password"
               name="password"
@@ -246,9 +231,7 @@ const Register = () => {
               onChange={handleInputChange}
               placeholder="Enter your password"
               className={`w-full px-3 py-2 border rounded-md text-sm text-neutral placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary ${
-                errors.password
-                  ? "border-error border-2"
-                  : "border-base-300"
+                errors.password ? "border-error border-2" : "border-base-300"
               }`}
             />
             {errors.password && (
