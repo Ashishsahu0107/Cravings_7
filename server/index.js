@@ -30,7 +30,6 @@ app.use("/auth", AuthRouter);
 app.use("/public", PublicRouter);
 app.use("/user", CommonRouter);
 
-
 app.use("/admin", AdminRouter);
 app.use("/restaurant", RestaurantRouter);
 app.use("/customer", CustomerRouter);

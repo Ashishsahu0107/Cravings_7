@@ -20,7 +20,6 @@ const App = () => {
       <Toaster />
       <Navbar />
       <Routes>
-        
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/map" element={<Map />} />

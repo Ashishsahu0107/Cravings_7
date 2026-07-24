@@ -14,8 +14,7 @@ const Seed = async () => {
     //Call The Function which we need to Seed.
   } catch (error) {
     console.log(error.message);
-  }
-  finally{
+  } finally {
     process.exit(1);
   }
 };
