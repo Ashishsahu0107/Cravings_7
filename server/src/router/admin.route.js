@@ -1,9 +1,7 @@
-import express from 'express'
+import express from "express";
 
 const router = express.Router();
 
-const AdminRouter = () => { 
-    
-}
+const AdminRouter = () => {};
 
 export default router;
