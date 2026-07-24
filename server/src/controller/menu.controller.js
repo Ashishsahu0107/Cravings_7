@@ -14,7 +14,10 @@ export const getMenu = async (req, res, next) => {
 
     const restaurant = await Restaurant.findOne({ managerId: currentUser._id });
     if (!restaurant) {
-      return res.status(404).json({ message: "Restaurant not found." });
+      return res.status(200).json({
+        success: true,
+        data: [],
+      });
     }
 
     const menu = await Menu.findOne({ restaurantId: restaurant._id });

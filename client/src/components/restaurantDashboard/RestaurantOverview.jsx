@@ -22,8 +22,6 @@ const RestaurantOverview = () => {
         if (response.data.success) {
           setPayload(response.data.data);
         }
-
-        toast.success(response.data.message);
       } catch (error) {
         console.error("Failed to fetch overview", error);
         toast.error(error.message);

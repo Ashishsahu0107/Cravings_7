@@ -1,86 +1,154 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 
-const UserData = [
+const users = [
+  // ==================== Managers ====================
   {
-    fullName: "Manager",
-    email: "manager@gmail.com",
-    password: await bcrypt.hash("Manager@123", 10),
+    fullName: "Manager 1",
+    email: "manager1@gmail.com",
+    password: "Manager@123",
     dob: "2000-01-01",
     gender: "other",
     userType: "restaurant",
     phone: "9876543210",
-    photo: { url: "https://placehold.co/600x400?text=M", publicId: null },
+    photo: {
+      url: "https://placehold.co/600x400?text=M1",
+      publicId: null,
+    },
   },
   {
-    fullName: "Customer",
-    email: "customer@gmail.com",
-    password: await bcrypt.hash("Customer@123", 10),
+    fullName: "Manager 2",
+    email: "manager2@gmail.com",
+    password: "Manager@123",
     dob: "2000-01-01",
     gender: "other",
-    userType: "customer",
-    phone: "9876543210",
-    photo: { url: "https://placehold.co/600x400?text=C", publicId: null },
+    userType: "restaurant",
+    phone: "9876543211",
+    photo: {
+      url: "https://placehold.co/600x400?text=M2",
+      publicId: null,
+    },
   },
   {
-    fullName: "Rider",
-    email: "rider@gmail.com",
-    password: await bcrypt.hash("Rider@123", 10),
+    fullName: "Manager 3",
+    email: "manager3@gmail.com",
+    password: "Manager@123",
     dob: "2000-01-01",
     gender: "other",
+    userType: "restaurant",
+    phone: "9876543212",
+    photo: {
+      url: "https://placehold.co/600x400?text=M3",
+      publicId: null,
+    },
+  },
+
+  // ==================== Riders ====================
+  {
+    fullName: "Rider 1",
+    email: "rider1@gmail.com",
+    password: "Rider@123",
+    dob: "2000-01-01",
+    gender: "male",
     userType: "rider",
-    phone: "9876543210",
-    photo: { url: "https://placehold.co/600x400?text=R", publicId: null },
+    phone: "9876543220",
+    photo: {
+      url: "https://placehold.co/600x400?text=R1",
+      publicId: null,
+    },
+  },
+  {
+    fullName: "Rider 2",
+    email: "rider2@gmail.com",
+    password: "Rider@123",
+    dob: "2000-01-01",
+    gender: "male",
+    userType: "rider",
+    phone: "9876543221",
+    photo: {
+      url: "https://placehold.co/600x400?text=R2",
+      publicId: null,
+    },
+  },
+  {
+    fullName: "Rider 3",
+    email: "rider3@gmail.com",
+    password: "Rider@123",
+    dob: "2000-01-01",
+    gender: "male",
+    userType: "rider",
+    phone: "9876543222",
+    photo: {
+      url: "https://placehold.co/600x400?text=R3",
+      publicId: null,
+    },
+  },
+
+  // ==================== Admins ====================
+  {
+    fullName: "Admin 1",
+    email: "admin1@gmail.com",
+    password: "Admin@123",
+    dob: "2000-01-01",
+    gender: "other",
+    userType: "admin",
+    phone: "9876543230",
+    photo: {
+      url: "https://placehold.co/600x400?text=A1",
+      publicId: null,
+    },
+  },
+  {
+    fullName: "Admin 2",
+    email: "admin2@gmail.com",
+    password: "Admin@123",
+    dob: "2000-01-01",
+    gender: "other",
+    userType: "admin",
+    phone: "9876543231",
+    photo: {
+      url: "https://placehold.co/600x400?text=A2",
+      publicId: null,
+    },
+  },
+  {
+    fullName: "Admin 3",
+    email: "admin3@gmail.com",
+    password: "Admin@123",
+    dob: "2000-01-01",
+    gender: "other",
+    userType: "admin",
+    phone: "9876543232",
+    photo: {
+      url: "https://placehold.co/600x400?text=A3",
+      publicId: null,
+    },
   },
 ];
 
 const userSeed = async () => {
   try {
-    //Seeding Restaurant
-    const existingRestaurant = await User.findOne({ email: UserData[0].email });
+    await Promise.all(
+      users.map(async (user) => {
+        // Delete existing user
+        await User.deleteOne({ email: user.email });
 
-    if (existingRestaurant) {
-      console.log("Existing Resturant Found");
-      console.log("Deleting Existing Resturant");
-      await existingRestaurant.deleteOne();
-    }
+        // Hash password
+        const hashedPassword = await bcrypt.hash(user.password, 10);
 
-    console.log("Creating New Restaurant");
+        // Create user
+        await User.create({
+          ...user,
+          password: hashedPassword,
+        });
 
-    const newRestaurant = await User.create(UserData[0]);
-    console.log("Restaurant Created Sucessfully");
+        console.log(`✅ ${user.fullName} created`);
+      })
+    );
 
-    //Seeding Customer
-
-    const existingCustomer = await User.findOne({ email: UserData[1].email });
-
-    if (existingCustomer) {
-      console.log("Existing Customer Found");
-      console.log("Deleting Existing Customer");
-      await existingCustomer.deleteOne();
-    }
-
-    console.log("Creating New Customer");
-
-    const newCustomer = await User.create(UserData[1]);
-    console.log("Customer Created Sucessfully");
-
-    // Seeding Rider
-
-    const existingRider = await User.findOne({ email: UserData[2].email });
-
-    if (existingRider) {
-      console.log("Existing Rider Found");
-      console.log("Deleting Existing Rider");
-      await existingRider.deleteOne();
-    }
-
-    console.log("Creating New Rider");
-
-    const newRider = await User.create(UserData[2]);
-    console.log("Rider Created Sucessfully");
+    console.log("🎉 All users seeded successfully");
   } catch (error) {
-    console.log("User Not Created");
+    console.error("❌ Error seeding users:", error);
     throw error;
   }
 };

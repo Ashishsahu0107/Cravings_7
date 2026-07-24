@@ -376,8 +376,17 @@ export const getDashboardOverview = async (req, res, next) => {
     });
 
     if (!restaurant) {
-      return res.status(404).json({
-        message: "Restaurant not found.",
+      return res.status(200).json({
+        success: true,
+        data: {
+          stats: {
+            totalRevenue: 0,
+            totalOrders: 0,
+            activeMenuItems: 0,
+            avgRating: 5.0,
+          },
+          recentOrders: [],
+        },
       });
     }
 
