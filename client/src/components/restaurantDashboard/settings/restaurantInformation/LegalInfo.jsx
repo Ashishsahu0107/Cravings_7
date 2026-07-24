@@ -7,13 +7,13 @@ import RunningLoader from "../../../../assets/loadingAnimation.gif";
 
 const LegalInfo = () => {
   const { user } = useAuth();
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingLegal, setIsLoadingLegal] = useState(false);
   const [loadingLegalError, setLoadingLegalError] = useState(null);
   const [restaurantData, setRestaurantData] = useState(null);
   const [editingLegal, setEditingLegal] = useState(false);
-  
+
   const [legalFormData, setLegalFormData] = useState({
     legalName: "",
     companyType: "",
@@ -70,12 +70,11 @@ const LegalInfo = () => {
       setIsLoading(true);
 
       const res = await api.put("/restaurant/update-legal-info", legalFormData);
-      
+
       toast.success(res.data.message || "Legal info updated successfully");
-      
+
       // Update local state with the returned data
       setRestaurantData(res.data.data);
-      
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Failed to update legal information",

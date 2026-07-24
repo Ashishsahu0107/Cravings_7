@@ -7,13 +7,13 @@ import RunningLoader from "../../../../assets/loadingAnimation.gif";
 
 const RestaurantInfo = () => {
   const { user } = useAuth();
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingRestaurant, setIsLoadingRestaurant] = useState(false);
   const [loadingRestaurantError, setLoadingRestaurantError] = useState(null);
   const [restaurantData, setRestaurantData] = useState(null);
   const [editingRestaurant, setEditingRestaurant] = useState(false);
-  
+
   const [restaurantFormData, setRestaurantFormData] = useState({
     restaurantName: "",
     description: "",
@@ -83,13 +83,15 @@ const RestaurantInfo = () => {
     try {
       setIsLoading(true);
 
-      const res = await api.put("/restaurant/update-restaurant-info", restaurantFormData);
-      
+      const res = await api.put(
+        "/restaurant/update-restaurant-info",
+        restaurantFormData,
+      );
+
       toast.success(res.data.message || "Restaurant info updated successfully");
-      
+
       // Update local state with the returned data
       setRestaurantData(res.data.data);
-      
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Failed to update restaurant",

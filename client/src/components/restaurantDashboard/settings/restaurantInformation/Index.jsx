@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import PersonalInfo from './PersonalInfo';
-import RestaurantInfo from './RestaurantInfo';
-import LegalInfo from './LegalInfo';
+import React, { useState } from "react";
+import PersonalInfo from "./PersonalInfo";
+import RestaurantInfo from "./RestaurantInfo";
+import LegalInfo from "./LegalInfo";
 
 const Index = () => {
-  const [activeSubTab, setActiveSubTab] = useState('personal');
+  const [activeSubTab, setActiveSubTab] = useState("personal");
 
   return (
     <div className="flex flex-col h-full gap-2">

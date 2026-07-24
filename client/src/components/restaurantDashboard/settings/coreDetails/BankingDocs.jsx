@@ -7,13 +7,13 @@ import RunningLoader from "../../../../assets/loadingAnimation.gif";
 
 const BankingDocs = () => {
   const { user } = useAuth();
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingRestaurant, setIsLoadingRestaurant] = useState(false);
   const [loadingRestaurantError, setLoadingRestaurantError] = useState(null);
   const [restaurantData, setRestaurantData] = useState(null);
   const [editingBanking, setEditingBanking] = useState(false);
-  
+
   const [bankingFormData, setBankingFormData] = useState({
     bankName: "",
     accountNumber: "",
@@ -26,9 +26,9 @@ const BankingDocs = () => {
   const fetchRestaurantData = async () => {
     try {
       setIsLoadingRestaurant(true);
-      const res = await api.get(
-        `/restaurant/get-restaurant-data`, { params: { id: user._id } }
-      );
+      const res = await api.get(`/restaurant/get-restaurant-data`, {
+        params: { id: user._id },
+      });
       setRestaurantData(res.data.data);
     } catch (error) {
       if (error.response?.status === 404) {
@@ -72,8 +72,13 @@ const BankingDocs = () => {
   const handleSave = async () => {
     try {
       setIsLoading(true);
-      const res = await api.put("/restaurant/update-core-details", bankingFormData);
-      toast.success(res.data.message || "Banking & Documents updated successfully");
+      const res = await api.put(
+        "/restaurant/update-core-details",
+        bankingFormData,
+      );
+      toast.success(
+        res.data.message || "Banking & Documents updated successfully",
+      );
       setRestaurantData(res.data.data);
     } catch (error) {
       toast.error(
@@ -170,9 +175,7 @@ const BankingDocs = () => {
               />
             </div>
             <div className="w-full">
-              <label className="text-xs font-semibold">
-                Account Number
-              </label>
+              <label className="text-xs font-semibold">Account Number</label>
               <input
                 type="text"
                 name="accountNumber"
@@ -192,9 +195,7 @@ const BankingDocs = () => {
               />
             </div>
             <div className="w-full">
-              <label className="text-xs font-semibold">
-                Pan Card Number
-              </label>
+              <label className="text-xs font-semibold">Pan Card Number</label>
               <input
                 type="text"
                 name="panCard"

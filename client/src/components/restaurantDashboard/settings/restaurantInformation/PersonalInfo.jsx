@@ -7,9 +7,10 @@ import PasswordChangeModal from "../../../commonModals/PasswordChangeModal";
 
 const PersonalInfo = () => {
   const { user, setUser } = useAuth();
-  
+
   const [isLoading, setIsLoading] = useState(false);
-  const [isPasswordChangeModalOpen, setIsPasswordChangeModalOpen] = useState(false);
+  const [isPasswordChangeModalOpen, setIsPasswordChangeModalOpen] =
+    useState(false);
   const [editingProfile, setEditingProfile] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
   const [profilePicPreview, setProfilePicPreview] = useState(null);
