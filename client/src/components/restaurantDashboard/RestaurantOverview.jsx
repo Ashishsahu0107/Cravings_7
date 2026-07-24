@@ -22,6 +22,7 @@ const RestaurantOverview = () => {
         if (response.data.success) {
           setPayload(response.data.data);
         }
+
         toast.success(response.data.message);
       } catch (error) {
         console.error("Failed to fetch overview", error);
@@ -84,13 +85,11 @@ const RestaurantOverview = () => {
             <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform">
               <MdAttachMoney className="text-2xl" />
             </div>
-          <p className="text-3xl font-black text-gray-900">
-            ${payload.stats.totalRevenue.toLocaleString()}
-          </p>
+            <p className="text-3xl font-black text-gray-900">
+              ${payload.stats.totalRevenue.toLocaleString()}
+            </p>
           </div>
-          <h3 className="text-gray-500 text-sm font-semibold">
-            Total Revenue
-          </h3>
+          <h3 className="text-gray-500 text-sm font-semibold">Total Revenue</h3>
         </div>
 
         {/* Orders Card */}
@@ -100,13 +99,10 @@ const RestaurantOverview = () => {
               <MdOutlineShoppingBag className="text-2xl" />
             </div>
             <p className="text-3xl font-black text-gray-900">
-            {payload.stats.totalOrders}
-          </p>
+              {payload.stats.totalOrders}
+            </p>
           </div>
-          <h3 className="text-gray-500 text-sm font-semibold">
-            Total Orders
-          </h3>
-          
+          <h3 className="text-gray-500 text-sm font-semibold">Total Orders</h3>
         </div>
 
         {/* Menu Items Card */}
@@ -116,8 +112,8 @@ const RestaurantOverview = () => {
               <MdOutlineRestaurantMenu className="text-2xl" />
             </div>
             <p className="text-3xl font-black text-gray-900">
-            {payload.stats.activeMenuItems}
-          </p>
+              {payload.stats.activeMenuItems}
+            </p>
           </div>
           <h3 className="text-gray-500 text-sm font-semibold">
             Active Menu Items
@@ -131,14 +127,13 @@ const RestaurantOverview = () => {
               <MdOutlineStarRate className="text-2xl" />
             </div>
             <p className="text-3xl font-black text-gray-900">
-            {payload.stats.avgRating}{" "}
-            <span className="text-lg text-gray-400 font-medium">/ 5.0</span>
-          </p>
+              {payload.stats.avgRating}{" "}
+              <span className="text-lg text-gray-400 font-medium">/ 5.0</span>
+            </p>
           </div>
           <h3 className="text-gray-500 text-sm font-semibold">
             Average Rating
           </h3>
-        
         </div>
       </div>
 

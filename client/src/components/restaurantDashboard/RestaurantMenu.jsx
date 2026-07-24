@@ -1,5 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import { MdOutlineAdd, MdImage, MdEdit, MdVisibility, MdDelete, MdStar, MdStarBorder, MdThumbUp, MdOutlineThumbUp, MdNewReleases, MdOutlineNewReleases, MdViewList, MdGridView, MdSearch } from "react-icons/md";
+import {
+  MdOutlineAdd,
+  MdImage,
+  MdEdit,
+  MdVisibility,
+  MdDelete,
+  MdStar,
+  MdStarBorder,
+  MdThumbUp,
+  MdOutlineThumbUp,
+  MdNewReleases,
+  MdOutlineNewReleases,
+  MdViewList,
+  MdGridView,
+  MdSearch,
+} from "react-icons/md";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../config/ApiConfig";
 import toast from "react-hot-toast";
@@ -10,20 +25,23 @@ import ComfirmModal from "./restaurants/ComfirmModal";
 
 const RestaurantMenu = () => {
   const { user } = useAuth();
-  
+
   const [menuList, setMenuList] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [viewMode, setViewMode] = useState("table");
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   const [addMenuModal, setAddMenuModal] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editItemId, setEditItemId] = useState(null);
 
   const [viewMenuModal, setViewMenuModal] = useState(false);
   const [viewItem, setViewItem] = useState(null);
-  const [confirmModal, setConfirmModal] = useState({ isOpen: false, itemId: null });
+  const [confirmModal, setConfirmModal] = useState({
+    isOpen: false,
+    itemId: null,
+  });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -32,7 +50,6 @@ const RestaurantMenu = () => {
     category: "",
     imageFile: null,
     imagePreview: "",
-    
   });
 
   const fileInputRef = useRef(null);
@@ -124,7 +141,7 @@ const RestaurantMenu = () => {
   const executeDeleteMenu = async () => {
     const itemId = confirmModal.itemId;
     if (!itemId) return;
-    
+
     try {
       const res = await api.delete(`/restaurant/delete-dish/${itemId}`);
       if (res.data.success) {
@@ -140,7 +157,7 @@ const RestaurantMenu = () => {
   const handleStatusChange = async (itemId, newStatus) => {
     try {
       const res = await api.patch(`/restaurant/toggle-status/${itemId}`, {
-        isAvailable: newStatus
+        isAvailable: newStatus,
       });
       if (res.data.success) {
         setMenuList(res.data.data);
@@ -155,7 +172,7 @@ const RestaurantMenu = () => {
   const handleBadgeChange = async (itemId, field, value) => {
     try {
       const res = await api.patch(`/restaurant/toggle-status/${itemId}`, {
-        [field]: value
+        [field]: value,
       });
       if (res.data.success) {
         setMenuList(res.data.data);
@@ -169,8 +186,13 @@ const RestaurantMenu = () => {
 
   const handleAddMenu = async (e) => {
     e.preventDefault();
-    
-    if (!formData.name || !formData.description || !formData.price || !formData.category) {
+
+    if (
+      !formData.name ||
+      !formData.description ||
+      !formData.price ||
+      !formData.category
+    ) {
       toast.error("Please fill all required fields");
       return;
     }
@@ -207,13 +229,18 @@ const RestaurantMenu = () => {
       }
 
       if (res.data.success) {
-        toast.success(isEditMode ? "Menu updated successfully" : "Menu added successfully");
+        toast.success(
+          isEditMode ? "Menu updated successfully" : "Menu added successfully",
+        );
         setMenuList(res.data.data); // Update with new list from backend
         handleCloseModal();
       }
     } catch (error) {
       console.error(error);
-      toast.error(error.response?.data?.message || (isEditMode ? "Failed to update menu" : "Failed to add menu"));
+      toast.error(
+        error.response?.data?.message ||
+          (isEditMode ? "Failed to update menu" : "Failed to add menu"),
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -231,8 +258,12 @@ const RestaurantMenu = () => {
     <div className="p-4 sm:p-6 bg-(--color-base-200) min-h-[83vh]">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-(--color-primary)">Menu Management</h1>
-          <p className="text-sm text-(--color-secondary-content)">Add and manage your restaurant's dishes</p>
+          <h1 className="text-2xl font-bold text-(--color-primary)">
+            Menu Management
+          </h1>
+          <p className="text-sm text-(--color-secondary-content)">
+            Add and manage your restaurant's dishes
+          </p>
         </div>
         <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-end">
           <div className="relative w-full sm:w-64">
@@ -289,7 +320,9 @@ const RestaurantMenu = () => {
           <div className="mx-auto w-16 h-16 bg-(--color-primary)/10 rounded-full flex items-center justify-center text-(--color-primary) mb-4">
             <MdOutlineAdd className="text-3xl" />
           </div>
-          <h3 className="text-lg font-semibold text-(--color-primary)">No menu items yet</h3>
+          <h3 className="text-lg font-semibold text-(--color-primary)">
+            No menu items yet
+          </h3>
           <p className="text-(--color-secondary-content) mt-1 max-w-sm mx-auto">
             Get started by adding your first delicious dish to the menu.
           </p>
@@ -317,11 +350,18 @@ const RestaurantMenu = () => {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {filteredMenu.map((item, index) => (
-                <tr key={index} className="hover:bg-gray-50/50 transition-colors">
+                <tr
+                  key={index}
+                  className="hover:bg-gray-50/50 transition-colors"
+                >
                   <td className="p-4">
                     <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
                       {item.image && item.image.url ? (
-                        <img src={item.image.url} alt={item.itemName} className="w-full h-full object-cover" />
+                        <img
+                          src={item.image.url}
+                          alt={item.itemName}
+                          className="w-full h-full object-cover"
+                        />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-gray-400">
                           <MdImage size={24} />
@@ -330,22 +370,24 @@ const RestaurantMenu = () => {
                     </div>
                   </td>
                   <td className="p-4">
-                    <div className="font-semibold text-gray-800">{item.itemName}</div>
+                    <div className="font-semibold text-gray-800">
+                      {item.itemName}
+                    </div>
                   </td>
-                  <td className="p-4 text-gray-600 text-sm">
-                    {item.category}
-                  </td>
+                  <td className="p-4 text-gray-600 text-sm">{item.category}</td>
                   <td className="p-4 font-bold text-gray-800">
                     ${item.price?.toFixed(2)}
                   </td>
                   <td className="p-4">
                     <select
                       value={item.isAvailable}
-                      onChange={(e) => handleStatusChange(item._id, e.target.value === 'true')}
+                      onChange={(e) =>
+                        handleStatusChange(item._id, e.target.value === "true")
+                      }
                       className={`text-sm px-3 py-1.5 rounded-lg border font-medium outline-none cursor-pointer ${
                         item.isAvailable
-                          ? 'bg-green-50 text-green-700 border-green-200 focus:ring-2 focus:ring-green-500/20'
-                          : 'bg-red-50 text-red-700 border-red-200 focus:ring-2 focus:ring-red-500/20'
+                          ? "bg-green-50 text-green-700 border-green-200 focus:ring-2 focus:ring-green-500/20"
+                          : "bg-red-50 text-red-700 border-red-200 focus:ring-2 focus:ring-red-500/20"
                       }`}
                     >
                       <option value="true">Available</option>
@@ -355,31 +397,59 @@ const RestaurantMenu = () => {
                   <td className="p-4">
                     <div className="flex items-center gap-1 text-amber-500">
                       <MdStar className="text-lg" />
-                      <span className="font-semibold text-gray-700">{item.rating > 0 ? item.rating.toFixed(1) : "N/A"}</span>
+                      <span className="font-semibold text-gray-700">
+                        {item.rating > 0 ? item.rating.toFixed(1) : "N/A"}
+                      </span>
                     </div>
                   </td>
                   <td className="p-4">
                     <div className="flex items-center justify-center gap-2">
                       <button
-                        onClick={() => handleBadgeChange(item._id, "isTopRated", !item.isTopRated)}
-                        className={`p-1.5 rounded-full transition-colors ${item.isTopRated ? 'text-amber-500 bg-amber-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                        onClick={() =>
+                          handleBadgeChange(
+                            item._id,
+                            "isTopRated",
+                            !item.isTopRated,
+                          )
+                        }
+                        className={`p-1.5 rounded-full transition-colors ${item.isTopRated ? "text-amber-500 bg-amber-50" : "text-gray-400 hover:bg-gray-100"}`}
                         title="Top Rated"
                       >
-                        {item.isTopRated ? <MdStar size={18} /> : <MdStarBorder size={18} />}
+                        {item.isTopRated ? (
+                          <MdStar size={18} />
+                        ) : (
+                          <MdStarBorder size={18} />
+                        )}
                       </button>
                       <button
-                        onClick={() => handleBadgeChange(item._id, "isRecommended", !item.isRecommended)}
-                        className={`p-1.5 rounded-full transition-colors ${item.isRecommended ? 'text-blue-500 bg-blue-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                        onClick={() =>
+                          handleBadgeChange(
+                            item._id,
+                            "isRecommended",
+                            !item.isRecommended,
+                          )
+                        }
+                        className={`p-1.5 rounded-full transition-colors ${item.isRecommended ? "text-blue-500 bg-blue-50" : "text-gray-400 hover:bg-gray-100"}`}
                         title="Recommended"
                       >
-                        {item.isRecommended ? <MdThumbUp size={18} /> : <MdOutlineThumbUp size={18} />}
+                        {item.isRecommended ? (
+                          <MdThumbUp size={18} />
+                        ) : (
+                          <MdOutlineThumbUp size={18} />
+                        )}
                       </button>
                       <button
-                        onClick={() => handleBadgeChange(item._id, "isNew", !item.isNew)}
-                        className={`p-1.5 rounded-full transition-colors ${item.isNew ? 'text-purple-500 bg-purple-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                        onClick={() =>
+                          handleBadgeChange(item._id, "isNew", !item.isNew)
+                        }
+                        className={`p-1.5 rounded-full transition-colors ${item.isNew ? "text-purple-500 bg-purple-50" : "text-gray-400 hover:bg-gray-100"}`}
                         title="New Item"
                       >
-                        {item.isNew ? <MdNewReleases size={18} /> : <MdOutlineNewReleases size={18} />}
+                        {item.isNew ? (
+                          <MdNewReleases size={18} />
+                        ) : (
+                          <MdOutlineNewReleases size={18} />
+                        )}
                       </button>
                     </div>
                   </td>
@@ -444,11 +514,14 @@ const RestaurantMenu = () => {
                       {item.category}
                     </div>
                     {item.isNew && (
-                      <span className="bg-purple-100 text-purple-700 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">New</span>
+                      <span className="bg-purple-100 text-purple-700 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">
+                        New
+                      </span>
                     )}
                   </div>
                   <div className="flex items-center gap-1 text-amber-500 text-xs font-medium">
-                    <MdStar /> {item.rating > 0 ? item.rating.toFixed(1) : "N/A"}
+                    <MdStar />{" "}
+                    {item.rating > 0 ? item.rating.toFixed(1) : "N/A"}
                   </div>
                 </div>
                 <h3 className="text-lg font-bold text-gray-800 mb-2 leading-tight">
@@ -459,13 +532,13 @@ const RestaurantMenu = () => {
                     value={item.isAvailable}
                     onChange={(e) => {
                       e.stopPropagation();
-                      handleStatusChange(item._id, e.target.value === 'true');
+                      handleStatusChange(item._id, e.target.value === "true");
                     }}
                     onClick={(e) => e.stopPropagation()}
                     className={`text-[10px] px-2 py-0.5 rounded-full font-bold border transition-colors outline-none cursor-pointer ${
-                      item.isAvailable 
-                        ? 'bg-green-50 text-green-600 border-green-200 hover:bg-green-100' 
-                        : 'bg-red-50 text-red-600 border-red-200 hover:bg-red-100'
+                      item.isAvailable
+                        ? "bg-green-50 text-green-600 border-green-200 hover:bg-green-100"
+                        : "bg-red-50 text-red-600 border-red-200 hover:bg-red-100"
                     }`}
                   >
                     <option value="true">Available</option>
@@ -475,32 +548,52 @@ const RestaurantMenu = () => {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleBadgeChange(item._id, "isTopRated", !item.isTopRated);
+                        handleBadgeChange(
+                          item._id,
+                          "isTopRated",
+                          !item.isTopRated,
+                        );
                       }}
-                      className={`p-1 rounded transition-colors ${item.isTopRated ? 'text-amber-500 bg-amber-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                      className={`p-1 rounded transition-colors ${item.isTopRated ? "text-amber-500 bg-amber-50" : "text-gray-400 hover:bg-gray-100"}`}
                       title="Top Rated"
                     >
-                      {item.isTopRated ? <MdStar size={16} /> : <MdStarBorder size={16} />}
+                      {item.isTopRated ? (
+                        <MdStar size={16} />
+                      ) : (
+                        <MdStarBorder size={16} />
+                      )}
                     </button>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleBadgeChange(item._id, "isRecommended", !item.isRecommended);
+                        handleBadgeChange(
+                          item._id,
+                          "isRecommended",
+                          !item.isRecommended,
+                        );
                       }}
-                      className={`p-1 rounded transition-colors ${item.isRecommended ? 'text-blue-500 bg-blue-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                      className={`p-1 rounded transition-colors ${item.isRecommended ? "text-blue-500 bg-blue-50" : "text-gray-400 hover:bg-gray-100"}`}
                       title="Recommended"
                     >
-                      {item.isRecommended ? <MdThumbUp size={16} /> : <MdOutlineThumbUp size={16} />}
+                      {item.isRecommended ? (
+                        <MdThumbUp size={16} />
+                      ) : (
+                        <MdOutlineThumbUp size={16} />
+                      )}
                     </button>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleBadgeChange(item._id, "isNew", !item.isNew);
                       }}
-                      className={`p-1 rounded transition-colors ${item.isNew ? 'text-purple-500 bg-purple-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                      className={`p-1 rounded transition-colors ${item.isNew ? "text-purple-500 bg-purple-50" : "text-gray-400 hover:bg-gray-100"}`}
                       title="New Item"
                     >
-                      {item.isNew ? <MdNewReleases size={16} /> : <MdOutlineNewReleases size={16} />}
+                      {item.isNew ? (
+                        <MdNewReleases size={16} />
+                      ) : (
+                        <MdOutlineNewReleases size={16} />
+                      )}
                     </button>
                   </div>
                   <div className="flex gap-1 border-l pl-2 ml-1 border-gray-200">
