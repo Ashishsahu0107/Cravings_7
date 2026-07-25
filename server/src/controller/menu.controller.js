@@ -44,7 +44,7 @@ export const getMenu = async (req, res, next) => {
 export const addMenuItem = async (req, res, next) => {
   try {
     const currentUser = req.user;
-    const { itemName, description, price, category } = req.body;
+    const { itemName, description, price, category, itemType } = req.body;
 
     if (!itemName || !description || !price || !category) {
       return res.status(400).json({ message: "All fields are required" });
@@ -67,6 +67,7 @@ export const addMenuItem = async (req, res, next) => {
       description,
       price: Number(price),
       category,
+      itemType: itemType || "Veg",
       image: {
         url: result.url,
         publicId: result.publicId,
@@ -159,7 +160,7 @@ export const editMenuItem = async (req, res, next) => {
   try {
     const currentUser = req.user;
     const { itemId } = req.params;
-    const { itemName, description, price, category } = req.body;
+    const { itemName, description, price, category, itemType } = req.body;
 
     if (!itemName || !description || !price || !category) {
       return res.status(400).json({ message: "All fields are required" });
@@ -184,6 +185,7 @@ export const editMenuItem = async (req, res, next) => {
     menuItem.description = description;
     menuItem.price = Number(price);
     menuItem.category = category;
+    if (itemType) menuItem.itemType = itemType;
 
     if (req.file) {
       // Delete old image if it exists

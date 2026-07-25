@@ -5,17 +5,17 @@ const EditorViewModal = ({ isOpen, onClose, viewItem }) => {
   if (!isOpen || !viewItem) return null;
 
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="bg-(--color-base-100) rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
-        <div className="relative h-48 sm:h-56 bg-gray-100">
+        <div className="relative bg-gray-100 flex items-center justify-center">
           {viewItem.image && viewItem.image.url ? (
             <img
               src={viewItem.image.url}
               alt={viewItem.itemName}
-              className="w-full h-full object-cover"
+              className="w-full h-auto max-h-[60vh] object-contain"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-gray-400">
+            <div className="w-full h-48 sm:h-56 flex items-center justify-center text-gray-400">
               <MdImage size={40} />
             </div>
           )}
@@ -29,8 +29,18 @@ const EditorViewModal = ({ isOpen, onClose, viewItem }) => {
         <div className="p-5 sm:p-6">
           <div className="flex justify-between items-start mb-2">
             <div>
-              <div className="text-xs font-semibold text-(--color-primary) uppercase tracking-wider mb-1">
-                {viewItem.category}
+              <div className="flex items-center gap-2 mb-1">
+                <div className="text-xs font-semibold text-(--color-primary) uppercase tracking-wider">
+                  {viewItem.category}
+                </div>
+                {viewItem.itemType && (
+                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                    viewItem.itemType === 'Veg' || viewItem.itemType === 'Vegan' ? 'bg-green-100 text-green-700' :
+                    viewItem.itemType === 'Egg' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
+                  }`}>
+                    {viewItem.itemType}
+                  </span>
+                )}
               </div>
               <h2 className="text-2xl font-bold text-gray-800 leading-tight">
                 {viewItem.itemName}

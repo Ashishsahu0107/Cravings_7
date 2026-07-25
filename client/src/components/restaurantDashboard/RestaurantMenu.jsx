@@ -19,7 +19,7 @@ import { useAuth } from "../../context/AuthContext";
 import api from "../../config/ApiConfig";
 import toast from "react-hot-toast";
 import RunningLoader from "../../assets/loadingAnimation.gif";
-import AddNewItemModal from "./restaurants/AddNewItemModal";
+import RestaurantMenuModal from "./RestaurantMenuModal";
 import EditorViewModal from "./restaurants/EditorViewModal";
 import ComfirmModal from "./restaurants/ComfirmModal";
 
@@ -48,6 +48,7 @@ const RestaurantMenu = () => {
     description: "",
     price: "",
     category: "",
+    itemType: "Veg",
     imageFile: null,
     imagePreview: "",
   });
@@ -102,6 +103,7 @@ const RestaurantMenu = () => {
       description: "",
       price: "",
       category: "",
+      itemType: "Veg",
       imageFile: null,
       imagePreview: "",
     });
@@ -118,6 +120,7 @@ const RestaurantMenu = () => {
       description: item.description,
       price: item.price,
       category: item.category,
+      itemType: item.itemType || "Veg",
       imageFile: null,
       imagePreview: item.image?.url || "",
     });
@@ -209,6 +212,7 @@ const RestaurantMenu = () => {
       data.append("description", formData.description);
       data.append("price", formData.price);
       data.append("category", formData.category);
+      data.append("itemType", formData.itemType);
       if (formData.imageFile) {
         data.append("image", formData.imageFile);
       }
@@ -374,7 +378,17 @@ const RestaurantMenu = () => {
                       {item.itemName}
                     </div>
                   </td>
-                  <td className="p-4 text-gray-600 text-sm">{item.category}</td>
+                  <td className="p-4 text-gray-600 text-sm">
+                    {item.category}
+                    {item.itemType && (
+                      <span className={`ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                        item.itemType === 'Veg' || item.itemType === 'Vegan' ? 'bg-green-100 text-green-700' :
+                        item.itemType === 'Egg' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
+                      }`}>
+                        {item.itemType}
+                      </span>
+                    )}
+                  </td>
                   <td className="p-4 font-bold text-gray-800">
                     ${item.price?.toFixed(2)}
                   </td>
@@ -513,6 +527,14 @@ const RestaurantMenu = () => {
                     <div className="text-xs font-medium text-(--color-primary) uppercase tracking-wider">
                       {item.category}
                     </div>
+                    {item.itemType && (
+                      <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                        item.itemType === 'Veg' || item.itemType === 'Vegan' ? 'bg-green-100 text-green-700' :
+                        item.itemType === 'Egg' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
+                      }`}>
+                        {item.itemType}
+                      </span>
+                    )}
                     {item.isNew && (
                       <span className="bg-purple-100 text-purple-700 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">
                         New
@@ -625,7 +647,7 @@ const RestaurantMenu = () => {
         </div>
       )}
 
-      <AddNewItemModal
+      <RestaurantMenuModal
         isOpen={addMenuModal}
         onClose={handleCloseModal}
         isEditMode={isEditMode}
