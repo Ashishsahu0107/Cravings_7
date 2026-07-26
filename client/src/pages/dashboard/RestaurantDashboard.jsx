@@ -5,7 +5,7 @@ import RestaurantSidebar from "../../components/restaurantDashboard/RestaurantSi
 import RestaurantOverview from "../../components/restaurantDashboard/RestaurantOverview";
 import RestaurantSetting from "../../components/restaurantDashboard/RestaurantSetting";
 import RestaurantOrders from "../../components/restaurantDashboard/RestaurantOrders";
-import RestaurantMenu from "../../components/restaurantDashboard/RestaurantMenu";
+import RestaurantMenu from "../../components/restaurantDashboard/restaurants/RestaurantMenu";
 
 const RestaurantDashboard = () => {
   const { isLogin, role } = useAuth();

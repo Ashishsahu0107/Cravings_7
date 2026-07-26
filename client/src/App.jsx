@@ -12,7 +12,7 @@ import RestaurantDashboard from "./pages/dashboard/RestaurantDashboard";
 import RiderDashboard from "./pages/dashboard/RiderDashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import Map from "./pages/Map";
-import RestaurantMenu from "./components/restaurantDashboard/RestaurantMenu";
+import RestaurantMenu from "./components/restaurantDashboard/restaurants/RestaurantMenu";
 
 const App = () => {
   return (

@@ -15,13 +15,13 @@ import {
   MdGridView,
   MdSearch,
 } from "react-icons/md";
-import { useAuth } from "../../context/AuthContext";
-import api from "../../config/ApiConfig";
+import { useAuth } from "../../../context/AuthContext";
+import api from "../../../config/ApiConfig";
 import toast from "react-hot-toast";
-import RunningLoader from "../../assets/loadingAnimation.gif";
+import RunningLoader from "../../../assets/loadingAnimation.gif";
 import RestaurantMenuModal from "./RestaurantMenuModal";
-import EditorViewModal from "./restaurants/EditorViewModal";
-import ComfirmModal from "./restaurants/ComfirmModal";
+import EditorViewModal from "./EditorViewModal";
+import ComfirmModal from "./ComfirmModal";
 
 const RestaurantMenu = () => {
   const { user } = useAuth();
