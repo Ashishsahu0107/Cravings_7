@@ -56,7 +56,7 @@ const RestaurantOverview = () => {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-gray-50/50 min-h-screen font-sans">
+    <div className="p-4 sm:p-6 lg:p-8 bg-gray-50/50 max-h-[85vh] font-sans">
       {/* Header Section */}
       <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -193,7 +193,7 @@ const RestaurantOverview = () => {
           <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
           <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
 
-          <div className="relative z-10">
+          <div>
             <h2 className="text-2xl font-black mb-2">Manager Control</h2>
             <p className="text-white/80 text-sm font-medium mb-8">
               Access quick tools to manage your restaurant's daily operations.
@@ -212,18 +212,6 @@ const RestaurantOverview = () => {
                 Restaurant Settings
                 <MdChevronRight className="text-xl group-hover:translate-x-1 transition-transform" />
               </button>
-            </div>
-          </div>
-
-          <div className="relative z-10 mt-8 pt-6 border-t border-white/20 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-              <MdAccessTime className="text-xl" />
-            </div>
-            <div>
-              <p className="text-xs text-white/70 font-semibold uppercase tracking-wider">
-                Next Payout
-              </p>
-              <p className="font-bold">Today, 5:00 PM</p>
             </div>
           </div>
         </div>
