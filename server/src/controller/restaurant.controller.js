@@ -161,7 +161,10 @@ export const updateCoreDetails = async (req, res, next) => {
     if (
       data.bankName !== undefined ||
       data.accountNumber !== undefined ||
-      data.ifscCode !== undefined
+      data.ifscCode !== undefined ||
+      data.panCard !== undefined ||
+      data.gst !== undefined ||
+      data.fssai !== undefined
     ) {
       existingRestaurant.financialDetails = {
         ...(existingRestaurant.financialDetails || {}),
@@ -177,6 +180,18 @@ export const updateCoreDetails = async (req, res, next) => {
           data.ifscCode !== undefined
             ? data.ifscCode
             : existingRestaurant.financialDetails?.ifscCode,
+        panCard:
+          data.panCard !== undefined
+            ? data.panCard
+            : existingRestaurant.financialDetails?.panCard,
+        gst:
+          data.gst !== undefined
+            ? data.gst
+            : existingRestaurant.financialDetails?.gst,
+        fssai:
+          data.fssai !== undefined
+            ? data.fssai
+            : existingRestaurant.financialDetails?.fssai,
       };
     }
 

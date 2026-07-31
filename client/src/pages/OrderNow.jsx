@@ -10,7 +10,7 @@ const OrderNow = () => {
   const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-//   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  //   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
   const fetchRestaurants = async () => {
     try {
@@ -43,7 +43,7 @@ const OrderNow = () => {
     <>
       <header>
         <div className="py-6">
-          <h1 className="text-3xl font-bold text-(--color-primary) mb-2 text-center">
+          <h1 className="text-3xl font-bold text-primary mb-2 text-center">
             Order From your Favorite Restaurants{" "}
           </h1>
         </div>

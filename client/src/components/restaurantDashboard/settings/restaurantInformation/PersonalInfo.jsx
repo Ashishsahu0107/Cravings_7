@@ -70,13 +70,13 @@ const PersonalInfo = () => {
 
   return (
     <>
-      <div className="bg-(--color-base-100) rounded-lg p-3 flex items-center gap-3">
+      <div className="rounded-lg p-2 flex items-center gap-3">
         <div className="relative">
           <div className="w-26 h-26">
             <img
               src={profilePicPreview || user?.photo?.url}
               alt="Profile"
-              className="w-full h-full rounded-xl object-cover border-2 border-(--color-primary)"
+              className="w-full h-full rounded-xl object-cover border-2 border-primary"
             />
           </div>
 
@@ -100,21 +100,21 @@ const PersonalInfo = () => {
           )}
         </div>
         <div className="w-full">
-          <div className="flex justify-between items-center mb-4 border-b border-(--color-secondary) pb-2">
-            <h3 className="text-sm font-semibold text-(--color-primary)">
+          <div className="flex justify-between items-center mb-4 border-b border-secondary pb-2">
+            <h3 className="text-sm font-semibold text-primary">
               Profile Information
             </h3>
             {!editingProfile ? (
               <div className="flex gap-3">
                 <button
                   onClick={() => setEditingProfile(true)}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-2 py-0.5 rounded text-xs"
                 >
                   <MdEdit /> Edit
                 </button>
                 <button
                   onClick={() => setIsPasswordChangeModalOpen(true)}
-                  className="flex items-center gap-2 border border-(--color-primary) text-(--color-primary) px-2 py-0.5 rounded text-xs hover:bg-(--color-primary) hover:text-(--color-primary-content)"
+                  className="flex items-center gap-2 border border-primary text-primary px-2 py-0.5 rounded text-xs hover:bg-primary hover:text-primary-content"
                 >
                   <MdOutlineLockReset /> Change Password
                 </button>
@@ -123,14 +123,14 @@ const PersonalInfo = () => {
               <div className="flex gap-2 justify-end">
                 <button
                   onClick={handleSaveProfile}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
                 >
                   {isLoading ? "Saving..." : "Save Changes"}
                 </button>
                 <button
                   onClick={handleCancelProfile}
-                  className="flex items-center gap-2 bg-(--color-secondary) text-(--color-secondary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-secondary text-secondary-content px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
                 >
                   Cancel
@@ -149,7 +149,7 @@ const PersonalInfo = () => {
                     name="fullName"
                     value={profileFormData.fullName}
                     onChange={handleProfileChange}
-                    className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingProfile ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                    className={`w-full px-1.5 py-1 border border-secondary ${editingProfile ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                     disabled={!editingProfile}
                   />
                 </div>
@@ -161,7 +161,7 @@ const PersonalInfo = () => {
                     name="email"
                     value={profileFormData.email}
                     onChange={handleProfileChange}
-                    className={`w-full px-1.5 py-1 border border-(--color-secondary) disabled:bg-(--color-base-100) cursor-not-allowed  rounded`}
+                    className={`w-full px-1.5 py-1 border border-secondary disabled:bg-(--color-base-100) cursor-not-allowed  rounded`}
                     disabled
                   />
                 </div>
@@ -173,7 +173,7 @@ const PersonalInfo = () => {
                     name="phone"
                     value={profileFormData.phone}
                     onChange={handleProfileChange}
-                    className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingProfile ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                    className={`w-full px-1.5 py-1 border border-secondary ${editingProfile ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                     disabled={!editingProfile}
                   />
                 </div>

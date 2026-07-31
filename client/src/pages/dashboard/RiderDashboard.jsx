@@ -21,7 +21,7 @@ const RiderDashboard = () => {
             Access Denied. Please log in as a Rider to view this page.
           </h1>
           <button
-            className="mt-4 px-4 py-2 bg-primary text-white rounded-md"
+            className="mt-4 px-4 py-2 bg-primary text-primary-content rounded-md"
             onClick={() => navigate("/login")}
           >
             Go to Login

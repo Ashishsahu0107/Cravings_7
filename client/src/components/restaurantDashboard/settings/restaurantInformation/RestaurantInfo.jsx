@@ -124,21 +124,21 @@ const RestaurantInfo = () => {
       {isLoadingRestaurant ? (
         <div className="flex flex-col justify-center items-center h-64">
           <img src={RunningLoader} alt="Loading..." className="w-40 h-40" />
-          <span className="text-lg text-(--color-primary) font-semibold mt-2 animate-bounce">
+          <span className="text-lg text-primary font-semibold mt-2 animate-bounce">
             Fetching Restaurant Information
           </span>
         </div>
       ) : loadingRestaurantError ? (
         <div className="flex flex-col justify-center items-center h-64">
-          <span className="text-lg text-(--color-error) font-semibold mt-2">
+          <span className="text-lg text-error font-semibold mt-2">
             {loadingRestaurantError}
           </span>
         </div>
       ) : (
-        <div className="bg-(--color-base-100) rounded-lg p-3">
-          <div className="flex justify-between items-center border-b border-(--color-secondary) pb-2 mb-2">
+        <div className="rounded-lg p-3">
+          <div className="flex justify-between items-center border-b border-secondary pb-2 mb-2">
             <div className="flex items-center gap-3">
-              <h3 className="text-sm font-semibold text-(--color-primary)">
+              <h3 className="text-sm font-semibold text-primary">
                 Restaurant Information
               </h3>
             </div>
@@ -148,7 +148,7 @@ const RestaurantInfo = () => {
                 <button
                   type="button"
                   onClick={() => setEditingRestaurant(true)}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-2 py-0.5 rounded text-xs"
                 >
                   <MdEdit /> Edit
                 </button>
@@ -158,7 +158,7 @@ const RestaurantInfo = () => {
                 <button
                   type="button"
                   onClick={handleSaveRestaurant}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
                 >
                   {isLoading ? "Saving..." : "Save Changes"}
@@ -166,7 +166,7 @@ const RestaurantInfo = () => {
                 <button
                   type="button"
                   onClick={handleCancelRestaurant}
-                  className="flex items-center gap-2 bg-(--color-secondary) text-(--color-secondary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-secondary text-secondary-content px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
                 >
                   Cancel
@@ -175,7 +175,7 @@ const RestaurantInfo = () => {
             )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 justify-center items-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-1 justify-center items-center">
             <div className="w-full">
               <label className="text-xs font-semibold">Restaurant Name</label>
               <input
@@ -183,7 +183,7 @@ const RestaurantInfo = () => {
                 name="restaurantName"
                 value={restaurantFormData?.restaurantName || ""}
                 onChange={handleRestaurantChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingRestaurant ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                 disabled={!editingRestaurant}
               />
             </div>
@@ -193,7 +193,7 @@ const RestaurantInfo = () => {
                 name="restaurantType"
                 value={restaurantFormData?.restaurantType || ""}
                 onChange={handleRestaurantChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingRestaurant ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                 disabled={!editingRestaurant}
               >
                 <option value="">Select type</option>
@@ -208,7 +208,7 @@ const RestaurantInfo = () => {
             <div className="w-full">
               <label className="text-xs font-semibold">
                 Cuisine Types{" "}
-                <span className="font-normal text-(--color-secondary)">
+                <span className="font-normal text-secondary">
                   (comma-separated)
                 </span>
               </label>
@@ -218,7 +218,7 @@ const RestaurantInfo = () => {
                 value={restaurantFormData?.cuisineTypes || ""}
                 onChange={handleRestaurantChange}
                 placeholder="e.g. Indian, Chinese, Italian"
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingRestaurant ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                 disabled={!editingRestaurant}
               />
             </div>
@@ -230,7 +230,7 @@ const RestaurantInfo = () => {
                 name="contactEmail"
                 value={restaurantFormData?.contactEmail || ""}
                 onChange={handleRestaurantChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingRestaurant ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                 disabled={!editingRestaurant}
               />
             </div>
@@ -242,7 +242,7 @@ const RestaurantInfo = () => {
                 name="contactPhone"
                 value={restaurantFormData?.contactPhone || ""}
                 onChange={handleRestaurantChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingRestaurant ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                 disabled={!editingRestaurant}
               />
             </div>
@@ -255,7 +255,7 @@ const RestaurantInfo = () => {
                   name="openingTime"
                   value={restaurantFormData?.openingTime || ""}
                   onChange={handleRestaurantChange}
-                  className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                  className={`w-full px-1.5 py-1 border border-secondary ${editingRestaurant ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                   disabled={!editingRestaurant}
                 />
               </div>
@@ -267,7 +267,7 @@ const RestaurantInfo = () => {
                   name="closingTime"
                   value={restaurantFormData?.closingTime || ""}
                   onChange={handleRestaurantChange}
-                  className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                  className={`w-full px-1.5 py-1 border border-secondary ${editingRestaurant ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                   disabled={!editingRestaurant}
                 />
               </div>
@@ -280,7 +280,7 @@ const RestaurantInfo = () => {
                 value={restaurantFormData?.description || ""}
                 onChange={handleRestaurantChange}
                 rows={2}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded resize-none`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingRestaurant ? "bg-primary-content" : "bg-(--color-base-100)"} rounded resize-none`}
                 disabled={!editingRestaurant}
               />
             </div>

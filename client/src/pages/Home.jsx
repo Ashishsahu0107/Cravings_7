@@ -275,7 +275,7 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Successful Deliveries */}
-            <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
+            <div className="bg-primary-content rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
               <div className="mb-4">
                 <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
                   2.5M+
@@ -290,7 +290,7 @@ const Home = () => {
             </div>
 
             {/* Happy Customers */}
-            <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
+            <div className="bg-primary-content rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
               <div className="mb-4">
                 <div className="text-4xl md:text-5xl font-bold text-accent mb-2">
                   500K+
@@ -305,7 +305,7 @@ const Home = () => {
             </div>
 
             {/* Partner Restaurants */}
-            <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
+            <div className="bg-primary-content rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
               <div className="mb-4">
                 <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
                   5K+
@@ -320,7 +320,7 @@ const Home = () => {
             </div>
 
             {/* Available Partners */}
-            <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
+            <div className="bg-primary-content rounded-lg p-8 shadow-md hover:shadow-lg transition text-center">
               <div className="mb-4">
                 <div className="text-4xl md:text-5xl font-bold text-accent mb-2">
                   1K+
@@ -338,7 +338,7 @@ const Home = () => {
       </section>
 
       {/* Customer Feedback & Reviews Section */}
-      <section className="bg-white py-12 md:py-16">
+      <section className="bg-primary-content py-12 md:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-(--color-content) mb-4">
@@ -365,7 +365,7 @@ const Home = () => {
                 fast. Highly impressed with Cravings' service!"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-content font-bold">
                   AJ
                 </div>
                 <div>
@@ -392,7 +392,7 @@ const Home = () => {
                 delivery. I order from Cravings every week!"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-white font-bold">
+                <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-primary-content font-bold">
                   SP
                 </div>
                 <div>
@@ -419,7 +419,7 @@ const Home = () => {
                 favorite spot through Cravings. Definitely worth it!"
               </p>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-content font-bold">
                   RK
                 </div>
                 <div>

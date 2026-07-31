@@ -108,7 +108,7 @@ const Map = () => {
 
   return (
     <div className="h-screen w-full relative z-0">
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] bg-white px-6 py-3 rounded-full shadow-lg border border-gray-100">
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] bg-primary-content px-6 py-3 rounded-full shadow-lg border border-gray-100">
         <p className="font-semibold text-gray-800 text-sm flex items-center gap-2">
           {destination ? (
             <>

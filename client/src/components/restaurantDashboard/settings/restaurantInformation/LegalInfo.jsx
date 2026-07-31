@@ -100,21 +100,21 @@ const LegalInfo = () => {
       {isLoadingLegal ? (
         <div className="flex flex-col justify-center items-center h-64">
           <img src={RunningLoader} alt="Loading..." className="w-40 h-40" />
-          <span className="text-lg text-(--color-primary) font-semibold mt-2 animate-bounce">
+          <span className="text-lg text-primary font-semibold mt-2 animate-bounce">
             Fetching Legal Information
           </span>
         </div>
       ) : loadingLegalError ? (
         <div className="flex flex-col justify-center items-center h-64">
-          <span className="text-lg text-(--color-error) font-semibold mt-2">
+          <span className="text-lg text-error font-semibold mt-2">
             {loadingLegalError}
           </span>
         </div>
       ) : (
-        <div className="bg-(--color-base-100) rounded-lg p-3">
-          <div className="flex justify-between items-center border-b border-(--color-secondary) pb-2 mb-2">
+        <div className="rounded-lg p-3">
+          <div className="flex justify-between items-center border-b border-secondary pb-2 mb-2">
             <div className="flex items-center gap-3">
-              <h3 className="text-sm font-semibold text-(--color-primary)">
+              <h3 className="text-sm font-semibold text-primary">
                 Legal Information
               </h3>
             </div>
@@ -124,7 +124,7 @@ const LegalInfo = () => {
                 <button
                   type="button"
                   onClick={() => setEditingLegal(true)}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-2 py-0.5 rounded text-xs"
                 >
                   <MdEdit /> Edit
                 </button>
@@ -134,7 +134,7 @@ const LegalInfo = () => {
                 <button
                   type="button"
                   onClick={handleSaveLegal}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
                 >
                   {isLoading ? "Saving..." : "Save Changes"}
@@ -142,7 +142,7 @@ const LegalInfo = () => {
                 <button
                   type="button"
                   onClick={handleCancelLegal}
-                  className="flex items-center gap-2 bg-(--color-secondary) text-(--color-secondary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-secondary text-secondary-content px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
                 >
                   Cancel
@@ -159,7 +159,7 @@ const LegalInfo = () => {
                 name="legalName"
                 value={legalFormData?.legalName || ""}
                 onChange={handleLegalChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingLegal ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingLegal ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                 disabled={!editingLegal}
               />
             </div>
@@ -170,7 +170,7 @@ const LegalInfo = () => {
                 name="companyType"
                 value={legalFormData?.companyType || ""}
                 onChange={handleLegalChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingLegal ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingLegal ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                 disabled={!editingLegal}
               />
             </div>

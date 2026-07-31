@@ -69,7 +69,7 @@ const Contact = () => {
 
   return (
     <div className="h-[90vh] flex items-center justify-start bg-[url('/contactPage.jpg')] bg-cover bg-center p-10 md:ps-30">
-      <div className="bg-white rounded-lg shadow-md px-10 py-6 max-w-md w-full overflow-y-auto max-h-[85vh]">
+      <div className="bg-primary-content rounded-lg shadow-md px-10 py-6 max-w-md w-full overflow-y-auto max-h-[85vh]">
         <h1 className="text-3xl font-bold text-primary mb-2 text-center">
           Contact Us
         </h1>
@@ -161,7 +161,7 @@ const Contact = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-primary text-white font-semibold rounded-md hover:bg-orange-700 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 bg-primary text-primary-content font-semibold rounded-md hover:bg-orange-700 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Sending..." : "Send Message"}
           </button>

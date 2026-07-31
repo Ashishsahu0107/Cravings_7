@@ -95,20 +95,20 @@ const SocialMedia = () => {
       {isLoadingRestaurant ? (
         <div className="flex flex-col justify-center items-center h-40">
           <img src={RunningLoader} alt="Loading..." className="w-20 h-20" />
-          <span className="text-sm text-(--color-primary) font-semibold mt-2 animate-bounce">
+          <span className="text-sm text-primary font-semibold mt-2 animate-bounce">
             Fetching Social Media
           </span>
         </div>
       ) : loadingRestaurantError ? (
         <div className="flex flex-col justify-center items-center h-40">
-          <span className="text-sm text-(--color-error) font-semibold mt-2">
+          <span className="text-sm text-error font-semibold mt-2">
             {loadingRestaurantError}
           </span>
         </div>
       ) : (
-        <div className="bg-(--color-base-100) rounded-lg p-3 mb-2 h-full flex flex-col">
-          <div className="flex justify-between items-center mb-2 border-b border-(--color-secondary) pb-2">
-            <h3 className="w-full text-sm font-semibold text-(--color-primary)">
+        <div className="rounded-lg p-3 mb-2 h-full flex flex-col">
+          <div className="flex justify-between items-center mb-2 border-b border-secondary pb-2">
+            <h3 className="w-full text-sm font-semibold text-primary">
               Social Media Links
             </h3>
 
@@ -117,14 +117,14 @@ const SocialMedia = () => {
                 <button
                   type="button"
                   onClick={addSocialMediaLink}
-                  className="flex items-center text-xs bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded"
+                  className="flex items-center text-xs primary-contentspace-nowrap bg-primary text-primary-content px-2 py-0.5 rounded"
                 >
                   + Add Link
                 </button>
                 <button
                   type="button"
                   onClick={handleSave}
-                  className="flex items-center text-xs bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded"
+                  className="flex items-center primary-contentspace-nowrap text-xs bg-primary text-primary-content px-2 py-0.5 rounded"
                   disabled={isLoading}
                 >
                   {isLoading ? "Saving..." : "Save Changes"}
@@ -132,7 +132,7 @@ const SocialMedia = () => {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="flex items-center text-xs bg-(--color-secondary) text-(--color-secondary-content) px-2 py-2.5 rounded"
+                  className="flex items-center text-xs bg-secondary text-secondary-content px-2 py-0.5 rounded"
                   disabled={isLoading}
                 >
                   Cancel
@@ -142,7 +142,7 @@ const SocialMedia = () => {
               <button
                 type="button"
                 onClick={() => setEditingSocial(true)}
-                className="flex items-center text-xs bg-(--color-primary) text-(--color-primary-content) px-2 py-2.5 rounded"
+                className="flex items-center text-xs bg-primary text-primary-content px-2 py-0.5 rounded"
               >
                 <MdEdit /> Edit
               </button>
@@ -161,7 +161,7 @@ const SocialMedia = () => {
                   onChange={(e) =>
                     handleSocialMediaChange(index, "platform", e.target.value)
                   }
-                  className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingSocial ? "bg-white" : "bg-(--color-base-100)"} rounded text-sm`}
+                  className={`w-full px-1.5 py-1 border border-secondary ${editingSocial ? "bg-primary-content" : "bg-base-100"} rounded text-sm`}
                 />
                 <div className="flex gap-2">
                   <input
@@ -171,7 +171,7 @@ const SocialMedia = () => {
                     onChange={(e) =>
                       handleSocialMediaChange(index, "url", e.target.value)
                     }
-                    className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingSocial ? "bg-white" : "bg-(--color-base-100)"} rounded text-sm`}
+                    className={`w-full px-1.5 py-1 border border-secondary ${editingSocial ? "bg-primary-content" : "bg-base-100"} rounded text-sm`}
                   />
 
                   {editingSocial && (
@@ -187,7 +187,7 @@ const SocialMedia = () => {
               </div>
             ))}
             {socialMediaLinks.length === 0 && (
-              <p className="text-xs text-(--color-secondary)">
+              <p className="text-xs text-secondary">
                 No social media links added.
               </p>
             )}

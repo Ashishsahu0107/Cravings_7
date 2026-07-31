@@ -90,7 +90,7 @@ const Register = () => {
 
   return (
     <div className="h-[90vh] bg-[url('/foodTable.webp')] flex items-center justify-end bg-cover bg-center p-10 md:pe-30">
-      <div className="bg-white rounded-lg shadow-md px-10 py-6 max-w-md w-full overflow-y-auto max-h-[85vh]">
+      <div className="bg-primary-content rounded-lg shadow-md px-10 py-6 max-w-md w-full overflow-y-auto max-h-[85vh]">
         <h1 className="text-3xl font-bold text-primary mb-2 text-center">
           Create Account
         </h1>
@@ -287,7 +287,7 @@ const Register = () => {
           {/* Register Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-primary text-white font-semibold rounded-md hover:bg-orange-700 transition-colors duration-300 mb-4"
+            className="w-full py-3 bg-primary text-primary-content font-semibold rounded-md hover:bg-orange-700 transition-colors duration-300 mb-4"
           >
             {loading ? "Registering..." : "Register"}
           </button>

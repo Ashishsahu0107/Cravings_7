@@ -23,7 +23,7 @@ const RestaurantDashboard = () => {
             page.
           </h1>
           <button
-            className="mt-4 px-4 py-2 bg-primary text-white rounded-md"
+            className="mt-4 px-4 py-2 bg-primary text-primary-content rounded-md"
             onClick={() => navigate("/login")}
           >
             Go to Login
@@ -35,7 +35,7 @@ const RestaurantDashboard = () => {
 
   return (
     <>
-      <div className="h-[91vh] flex gap-2 p-2">
+      <div className="h-[90vh] flex gap-2 p-2">
         <div
           className={`transition-all duration-300 ${isCollapsed ? "w-20" : "w-64"} bg-base-200 p-4 rounded-lg shadow-md h-full`}
         >
@@ -46,7 +46,7 @@ const RestaurantDashboard = () => {
             setIsCollapsed={setIsCollapsed}
           />
         </div>
-        <div className="flex-1 transition-all duration-300 bg-base-100 p-4 rounded-lg shadow-md h-full overflow-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-base-200 [&::-webkit-scrollbar-thumb]:bg-(--color-primary) [&::-webkit-scrollbar-thumb]:rounded-full">
+        <div className="flex-1 transition-all duration-300 bg-base-100 p-4 rounded-lg shadow-md h-full overflow-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-base-200 [&::-webkit-scrollbar-thumb]:bg-primary [&::-webkit-scrollbar-thumb]:rounded-full">
           {activeTab === "overview" && <RestaurantOverview />}
           {activeTab === "orders" && <RestaurantOrders />}
           {activeTab === "settings" && <RestaurantSetting />}

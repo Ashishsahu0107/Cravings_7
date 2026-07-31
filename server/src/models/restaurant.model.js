@@ -28,9 +28,6 @@ const RestaurantSchema = mongoose.Schema(
       type: {
         legalName: { type: String },
         companyType: { type: String },
-        gstCertificate: { type: String },
-        fssaiCertificate: { type: String },
-        panCard: { type: String },
       },
     },
     financialDetails: {
@@ -38,6 +35,9 @@ const RestaurantSchema = mongoose.Schema(
         bankName: { type: String },
         accountNumber: { type: String },
         ifscCode: { type: String },
+        panCard: { type: String },
+        gst: { type: String },
+        fssai: { type: String },
       },
     },
     contactDetails: {
