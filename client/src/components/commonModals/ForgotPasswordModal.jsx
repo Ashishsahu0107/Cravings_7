@@ -65,7 +65,7 @@ const ForgotPasswordModal = ({ open, onClose }) => {
   return (
     <>
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-999">
-        <div className="bg-white w-xl rounded shadow max-h-[80vh] overflow-y-auto relative">
+        <div className="bg-primary-content w-xl rounded shadow max-h-[80vh] overflow-y-auto relative">
           <header className="flex justify-between p-4 border-b border-secondary">
             <div className="font-bold text-xl text-primary">
               Forgot Password

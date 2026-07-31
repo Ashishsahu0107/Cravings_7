@@ -48,7 +48,7 @@ const RestaurantOverview = () => {
     return (
       <div className="flex flex-col justify-center items-center h-full min-h-screen bg-gray-50/50">
         <img src={RunningLoader} alt="Loading..." className="w-20 h-20" />
-        <span className="text-sm text-(--color-primary) font-semibold mt-2 animate-bounce">
+        <span className="text-sm text-primary font-semibold mt-2 animate-bounce">
           Fetching Dashboard...
         </span>
       </div>
@@ -66,8 +66,8 @@ const RestaurantOverview = () => {
         </div>
         <div className="flex items-center gap-3">
           <span className="flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-success opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-success"></span>
           </span>
           <span className="text-sm font-semibold text-gray-700">
             Accepting Orders
@@ -78,7 +78,7 @@ const RestaurantOverview = () => {
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-5">
         {/* Revenue Card */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+        <div className="bg-primary-content p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 group-hover:scale-110 transition-transform">
               <MdAttachMoney className="text-2xl" />
@@ -91,7 +91,7 @@ const RestaurantOverview = () => {
         </div>
 
         {/* Orders Card */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+        <div className="bg-primary-content p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
               <MdOutlineShoppingBag className="text-2xl" />
@@ -104,7 +104,7 @@ const RestaurantOverview = () => {
         </div>
 
         {/* Menu Items Card */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+        <div className="bg-primary-content p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform">
               <MdOutlineRestaurantMenu className="text-2xl" />
@@ -119,7 +119,7 @@ const RestaurantOverview = () => {
         </div>
 
         {/* Rating Card */}
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+        <div className="bg-primary-content p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform">
               <MdOutlineStarRate className="text-2xl" />
@@ -138,14 +138,14 @@ const RestaurantOverview = () => {
       {/* Main Content Area */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Recent Orders Table */}
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="lg:col-span-2 bg-primary-content rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-6 border-b border-gray-100 flex items-center justify-between">
             <h2 className="text-lg font-bold text-gray-900">Recent Orders</h2>
-            <button className="text-sm font-semibold text-(--color-primary) hover:text-(--color-primary)/80 flex items-center transition-colors">
+            <button className="text-sm font-semibold text-primary hover:text-primary/80 flex items-center transition-colors">
               View All <MdChevronRight className="text-lg" />
             </button>
           </div>
-          <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-(--color-primary) [&::-webkit-scrollbar-thumb]:rounded-full">
+          <div className="overflow-x-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-primary [&::-webkit-scrollbar-thumb]:rounded-full">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-50/50 text-gray-500 text-sm">
@@ -189,26 +189,26 @@ const RestaurantOverview = () => {
         </div>
 
         {/* Side Panel: Live Activity or Quick Actions */}
-        <div className="bg-gradient-to-br from-(--color-primary) to-blue-700 rounded-2xl shadow-lg p-8 text-white relative overflow-hidden flex flex-col justify-between">
-          <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
-          <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+        <div className="bg-gradient-to-br from-primary to-blue-700 rounded-2xl shadow-lg p-8 text-primary-content relative overflow-hidden flex flex-col justify-between">
+          <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-primary-content/10 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-40 h-40 bg-primary-content/10 rounded-full blur-2xl"></div>
 
           <div>
             <h2 className="text-2xl font-black mb-2">Manager Control</h2>
-            <p className="text-white/80 text-sm font-medium mb-8">
+            <p className="text-primary-content/80 text-sm font-medium mb-8">
               Access quick tools to manage your restaurant's daily operations.
             </p>
 
             <div className="space-y-3">
-              <button className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-between group">
+              <button className="w-full bg-primary-content/10 hover:bg-primary-content/20 backdrop-blur-md border border-primary-content/20 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-between group">
                 Manage Menu
                 <MdChevronRight className="text-xl group-hover:translate-x-1 transition-transform" />
               </button>
-              <button className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-between group">
+              <button className="w-full bg-primary-content/10 hover:bg-primary-content/20 backdrop-blur-md border border-primary-content/20 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-between group">
                 View All Orders
                 <MdChevronRight className="text-xl group-hover:translate-x-1 transition-transform" />
               </button>
-              <button className="w-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-between group">
+              <button className="w-full bg-primary-content/10 hover:bg-primary-content/20 backdrop-blur-md border border-primary-content/20 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-between group">
                 Restaurant Settings
                 <MdChevronRight className="text-xl group-hover:translate-x-1 transition-transform" />
               </button>

@@ -62,7 +62,7 @@ const CarouselComponent = () => {
       {/* Previous Button */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 rounded-full transition z-10 backdrop-blur-sm"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-primary-content/30 hover:bg-primary-content/50 text-primary-content p-2 rounded-full transition z-10 backdrop-blur-sm"
         aria-label="Previous slide"
       >
         <IoChevronBack size={24} />
@@ -71,7 +71,7 @@ const CarouselComponent = () => {
       {/* Next Button */}
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 rounded-full transition z-10 backdrop-blur-sm"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-primary-content/30 hover:bg-primary-content/50 text-primary-content p-2 rounded-full transition z-10 backdrop-blur-sm"
         aria-label="Next slide"
       >
         <IoChevronForward size={24} />
@@ -85,8 +85,8 @@ const CarouselComponent = () => {
             onClick={() => goToSlide(index)}
             className={`w-2 h-2 rounded-full transition ${
               index === currentSlide
-                ? "bg-white w-8"
-                : "bg-white/50 hover:bg-white/75"
+                ? "bg-primary-content w-8"
+                : "bg-primary-content/50 hover:bg-primary-content/75"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />

@@ -67,7 +67,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-99 flex items-center justify-between px-12 py-1 bg-primary text-white w-full h-16 shadow-md">
+      <div className="sticky top-0 z-99 flex items-center justify-between px-12 py-1 bg-primary text-primary-content w-full h-16 shadow-md">
         <div className="h-full">
           <Link to="/">
             <img src={logoLight} alt="Logo" className="w-fit h-full" />{" "}
@@ -75,7 +75,7 @@ const Navbar = () => {
         </div>
         <div className="flex itmes-center ">
           <div className="flex items-center">
-            <label className="flex items-center gap-2 rounded-md border border-white/20 bg-base-100/10 px-3 py-1 text-sm text-white">
+            <label className="flex items-center gap-2 rounded-md border border-primary-content/20 bg-base-100/10 px-3 py-1 text-sm text-primary-content">
               <FaPalette className="shrink-0" />
               <span className="hidden sm:inline">Theme</span>
               <select

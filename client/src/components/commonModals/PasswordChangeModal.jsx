@@ -56,7 +56,7 @@ const PasswordChangeModal = ({ open, onClose }) => {
         className="fixed inset-0 z-999 bg-black/60 backdrop-blur-xs flex justify-center items-center"
         // onClick={handleCloseModal}
       >
-        <div className="bg-white w-xl rounded shadow max-h-[80vh] overflow-y-auto relative">
+        <div className="bg-primary-content w-xl rounded shadow max-h-[80vh] overflow-y-auto relative">
           <header className="flex justify-between p-4 border-b border-secondary">
             <div className="font-bold text-xl text-primary">
               Change Password

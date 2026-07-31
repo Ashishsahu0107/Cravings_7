@@ -5,7 +5,7 @@ const ComfirmModal = ({ isOpen, onClose, onConfirm, message }) => {
 
   return (
     <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 animate-in slide-in-from-bottom-4 duration-300">
+      <div className="bg-primary-content rounded-2xl shadow-xl w-full max-w-sm p-6 animate-in slide-in-from-bottom-4 duration-300">
         <h3 className="text-lg font-bold text-gray-900 mb-2">Confirm Action</h3>
         <p className="text-gray-600 mb-6">
           {message || "Are you sure you want to perform this action?"}
@@ -22,7 +22,7 @@ const ComfirmModal = ({ isOpen, onClose, onConfirm, message }) => {
               onConfirm();
               onClose();
             }}
-            className="px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors"
+            className="px-4 py-2 bg-error-600 text-primary-content font-medium rounded-lg hover:bg-error-700 transition-colors"
           >
             Confirm
           </button>
