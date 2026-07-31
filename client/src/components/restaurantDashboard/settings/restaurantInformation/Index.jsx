@@ -12,21 +12,21 @@ const Index = () => {
       <RestaurantInfo />
       <LegalInfo />
 
-      {/* <div className="flex gap-2 border-b border-(--color-secondary) pb-2">
+      {/* <div className="flex gap-2 border-b border-secondary pb-2">
         <button
-          className={`px-3 py-1 text-sm font-semibold rounded ${activeSubTab === 'personal' ? 'bg-(--color-primary) text-(--color-primary-content)' : 'text-(--color-primary) hover:bg-(--color-primary)/10'}`}
+          className={`px-3 py-1 text-sm font-semibold rounded ${activeSubTab === 'personal' ? 'bg-primary text-primary-content' : 'text-primary hover:bg-primary/10'}`}
           onClick={() => setActiveSubTab('personal')}
         >
           Personal Info
         </button>
         <button
-          className={`px-3 py-1 text-sm font-semibold rounded ${activeSubTab === 'restaurant' ? 'bg-(--color-primary) text-(--color-primary-content)' : 'text-(--color-primary) hover:bg-(--color-primary)/10'}`}
+          className={`px-3 py-1 text-sm font-semibold rounded ${activeSubTab === 'restaurant' ? 'bg-primary text-primary-content' : 'text-primary hover:bg-primary/10'}`}
           onClick={() => setActiveSubTab('restaurant')}
         >
           Restaurant Info
         </button>
         <button
-          className={`px-3 py-1 text-sm font-semibold rounded ${activeSubTab === 'legal' ? 'bg-(--color-primary) text-(--color-primary-content)' : 'text-(--color-primary) hover:bg-(--color-primary)/10'}`}
+          className={`px-3 py-1 text-sm font-semibold rounded ${activeSubTab === 'legal' ? 'bg-primary text-primary-content' : 'text-primary hover:bg-primary/10'}`}
           onClick={() => setActiveSubTab('legal')}
         >
           Legal Info

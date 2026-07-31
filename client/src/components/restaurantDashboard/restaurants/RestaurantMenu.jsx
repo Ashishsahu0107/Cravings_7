@@ -22,6 +22,8 @@ import RunningLoader from "../../../assets/loadingAnimation.gif";
 import RestaurantMenuModal from "./RestaurantMenuModal";
 import EditorViewModal from "./EditorViewModal";
 import ComfirmModal from "./ComfirmModal";
+import Button from "../../ui/Button";
+import SearchInput from "../../ui/SearchInput";
 
 const RestaurantMenu = () => {
   const { user } = useAuth();
@@ -259,53 +261,43 @@ const RestaurantMenu = () => {
   });
 
   return (
-    <div className="p-4 sm:p-6 bg-(--color-base-200) min-h-[83vh]">
+    <div className="p-4 sm:p-6 bg-base-200 min-h-[83vh]">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-(--color-primary)">
-            Menu Management
-          </h1>
-          <p className="text-sm text-(--color-secondary-content)">
+          <h1 className="text-2xl font-bold text-primary">Menu Management</h1>
+          <p className="text-sm text-secondary">
             Add and manage your restaurant's dishes
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-end">
-          <div className="relative w-full sm:w-64">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-              <MdSearch size={20} />
-            </div>
-            <input
-              type="text"
-              placeholder="Search dishes, types..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary)/20 focus:border-(--color-primary) transition-all shadow-sm"
-            />
-          </div>
+          <SearchInput
+            placeholder="Search dishes, types..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onClear={() => setSearchQuery("")}
+            containerClassName="w-full sm:w-64"
+          />
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-              <button
+            <div className="hidden sm:flex bg-primary-content rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+              <Button
                 onClick={() => setViewMode("table")}
-                className={`p-2 transition-colors ${viewMode === "table" ? "bg-(--color-primary) text-white" : "text-gray-500 hover:bg-gray-50"}`}
+                variant={viewMode === "table" ? "primary" : "outline"}
                 title="Table View"
-              >
-                <MdViewList size={20} />
-              </button>
-              <button
+                leftIcon={<MdViewList size={20} />}
+              />
+              <Button
                 onClick={() => setViewMode("grid")}
-                className={`p-2 transition-colors ${viewMode === "grid" ? "bg-(--color-primary) text-white" : "text-gray-500 hover:bg-gray-50"}`}
+                variant={viewMode === "grid" ? "primary" : "outline"}
                 title="Grid View"
-              >
-                <MdGridView size={20} />
-              </button>
+                leftIcon={<MdGridView size={20} />}
+              />
             </div>
-            <button
+            <Button
               onClick={() => setAddMenuModal(true)}
-              className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-5 py-2.5 rounded-lg font-medium shadow hover:-translate-y-0.5 transition-transform"
-            >
-              <MdOutlineAdd className="text-xl" />
-              Add New Menu
-            </button>
+              variant={"primary"}
+              leftIcon={<MdOutlineAdd className="text-xl" />}
+              value={"Add New Men"}
+            />
           </div>
         </div>
       </div>
@@ -315,30 +307,30 @@ const RestaurantMenu = () => {
       {isFetching ? (
         <div className="flex flex-col justify-center items-center h-64">
           <img src={RunningLoader} alt="Loading..." className="w-20 h-20" />
-          <span className="text-sm text-(--color-primary) font-semibold mt-2 animate-bounce">
+          <span className="text-sm text-primary font-semibold mt-2 animate-bounce">
             Fetching Menu...
           </span>
         </div>
       ) : menuList.length === 0 ? (
-        <div className="bg-(--color-base-100) rounded-2xl border border-(--color-secondary)/20 shadow-sm p-12 text-center">
-          <div className="mx-auto w-16 h-16 bg-(--color-primary)/10 rounded-full flex items-center justify-center text-(--color-primary) mb-4">
+        <div className="bg-base-100 rounded-2xl border border-secondary/20 shadow-sm p-12 text-center">
+          <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4">
             <MdOutlineAdd className="text-3xl" />
           </div>
-          <h3 className="text-lg font-semibold text-(--color-primary)">
+          <h3 className="text-lg font-semibold text-primary">
             No menu items yet
           </h3>
-          <p className="text-(--color-secondary-content) mt-1 max-w-sm mx-auto">
+          <p className="text-secondary-content mt-1 max-w-sm mx-auto">
             Get started by adding your first delicious dish to the menu.
           </p>
           <button
             onClick={() => setAddMenuModal(true)}
-            className="mt-6 px-6 py-2 bg-transparent border-2 border-(--color-primary) text-(--color-primary) rounded-lg font-medium hover:bg-(--color-primary) hover:text-(--color-primary-content) transition-colors"
+            className="mt-6 px-6 py-2 bg-transparent border-2 border-primary text-primary rounded-lg font-medium hover:bg-primary hover:text-primary-content transition-colors"
           >
             Add Menu Item
           </button>
         </div>
       ) : viewMode === "table" ? (
-        <div className="bg-(--color-base-100) rounded-2xl shadow-sm border border-(--color-secondary)/20 overflow-x-auto">
+        <div className="rounded-2xl shadow-sm border border-secondary/20 overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-100 text-sm font-medium text-primary uppercase tracking-wider">
@@ -380,11 +372,16 @@ const RestaurantMenu = () => {
                   </td>
                   <td className="p-4 text-gray-600 text-sm">
                     {item.category}
-                    {item.itemType && (
-                      <span className={`ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase ${
-                        item.itemType === 'Veg' || item.itemType === 'Vegan' ? 'bg-green-100 text-green-700' :
-                        item.itemType === 'Egg' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
-                      }`}>
+                    {item.itemType && ( 
+                      <span
+                        className={`ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                          item.itemType === "Veg" || item.itemType === "Vegan"
+                            ? "bg-green-100 text-green-700"
+                            : item.itemType === "Egg"
+                              ? "bg-yellow-100 text-yellow-700"
+                              : "bg-error-100 text-red-700"
+                        }`}
+                      >
                         {item.itemType}
                       </span>
                     )}
@@ -401,7 +398,7 @@ const RestaurantMenu = () => {
                       className={`text-sm px-3 py-1.5 rounded-lg border font-medium outline-none cursor-pointer ${
                         item.isAvailable
                           ? "bg-green-50 text-green-700 border-green-200 focus:ring-2 focus:ring-green-500/20"
-                          : "bg-red-50 text-red-700 border-red-200 focus:ring-2 focus:ring-red-500/20"
+                          : "bg-error-50 text-red-700 border-red-200 focus:ring-2 focus:ring-red-500/20"
                       }`}
                     >
                       <option value="true">Available</option>
@@ -485,7 +482,7 @@ const RestaurantMenu = () => {
                       </button>
                       <button
                         onClick={() => openDeleteConfirm(item._id)}
-                        className="p-2 rounded-full text-red-600 hover:bg-red-50 transition-colors"
+                        className="p-2 rounded-full text-red-600 hover:bg-error-50 transition-colors"
                         title="Delete"
                       >
                         <MdDelete size={20} />
@@ -502,7 +499,7 @@ const RestaurantMenu = () => {
           {filteredMenu.map((item, index) => (
             <div
               key={index}
-              className="bg-(--color-base-100) rounded-2xl overflow-hidden border border-(--color-secondary)/20 shadow-sm hover:shadow-md transition-shadow group flex flex-col cursor-pointer"
+              className="rounded-2xl overflow-hidden border border-secondary/20 shadow-sm hover:shadow-md transition-shadow group flex flex-col cursor-pointer"
               onClick={() => handleOpenViewModal(item)}
             >
               <div className="relative h-48 bg-gray-100">
@@ -517,21 +514,26 @@ const RestaurantMenu = () => {
                     <MdImage size={40} />
                   </div>
                 )}
-                <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-bold text-gray-800 shadow-sm">
+                <div className="absolute top-3 right-3 bg-primary-content/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-bold text-gray-800 shadow-sm">
                   ${item.price?.toFixed(2)}
                 </div>
               </div>
               <div className="p-4 flex-1 flex flex-col">
                 <div className="flex justify-between items-start mb-1">
                   <div className="flex items-center gap-2">
-                    <div className="text-xs font-medium text-(--color-primary) uppercase tracking-wider">
+                    <div className="text-xs font-medium text-primary uppercase tracking-wider">
                       {item.category}
                     </div>
                     {item.itemType && (
-                      <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${
-                        item.itemType === 'Veg' || item.itemType === 'Vegan' ? 'bg-green-100 text-green-700' :
-                        item.itemType === 'Egg' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
-                      }`}>
+                      <span
+                        className={`text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                          item.itemType === "Veg" || item.itemType === "Vegan"
+                            ? "bg-green-100 text-green-700"
+                            : item.itemType === "Egg"
+                              ? "bg-yellow-100 text-yellow-700"
+                              : "bg-error-100 text-red-700"
+                        }`}
+                      >
                         {item.itemType}
                       </span>
                     )}
@@ -560,7 +562,7 @@ const RestaurantMenu = () => {
                     className={`text-[10px] px-2 py-0.5 rounded-full font-bold border transition-colors outline-none cursor-pointer ${
                       item.isAvailable
                         ? "bg-green-50 text-green-600 border-green-200 hover:bg-green-100"
-                        : "bg-red-50 text-red-600 border-red-200 hover:bg-red-100"
+                        : "bg-error-50 text-red-600 border-red-200 hover:bg-error-100"
                     }`}
                   >
                     <option value="true">Available</option>
@@ -634,7 +636,7 @@ const RestaurantMenu = () => {
                         e.stopPropagation();
                         openDeleteConfirm(item._id);
                       }}
-                      className="text-gray-500 hover:text-red-600 transition-colors p-1 rounded hover:bg-red-50"
+                      className="text-gray-500 hover:text-red-600 transition-colors p-1 rounded hover:bg-error-50"
                       title="Delete"
                     >
                       <MdDelete size={16} />

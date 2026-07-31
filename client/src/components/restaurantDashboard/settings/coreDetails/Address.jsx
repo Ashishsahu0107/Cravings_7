@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdMyLocation } from "react-icons/md";
 import { useAuth } from "../../../../context/AuthContext";
 import api from "../../../../config/ApiConfig";
 import toast from "react-hot-toast";
@@ -88,6 +88,27 @@ const Address = () => {
     }
   };
 
+  const handleGetCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      toast.error("Geolocation is not supported by your browser");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setAddressFormData((prev) => ({
+          ...prev,
+          geoLat: position.coords.latitude.toString(),
+          geoLon: position.coords.longitude.toString(),
+        }));
+        toast.success("Location retrieved successfully!");
+      },
+      (error) => {
+        toast.error("Failed to retrieve location: " + error.message);
+      },
+    );
+  };
+
   const handleCancel = () => {
     if (restaurantData) {
       setAddressFormData({
@@ -108,21 +129,21 @@ const Address = () => {
       {isLoadingRestaurant ? (
         <div className="flex flex-col justify-center items-center h-40">
           <img src={RunningLoader} alt="Loading..." className="w-20 h-20" />
-          <span className="text-sm text-(--color-primary) font-semibold mt-2 animate-bounce">
+          <span className="text-sm text-primary font-semibold mt-2 animate-bounce">
             Fetching Address
           </span>
         </div>
       ) : loadingRestaurantError ? (
         <div className="flex flex-col justify-center items-center h-40">
-          <span className="text-sm text-(--color-error) font-semibold mt-2">
+          <span className="text-sm text-error font-semibold mt-2">
             {loadingRestaurantError}
           </span>
         </div>
       ) : (
-        <div className="bg-(--color-base-100) rounded-lg p-3 mb-2">
-          <div className="flex justify-between items-center border-b border-(--color-secondary) pb-2 mb-2">
+        <div className="rounded-lg p-3 mb-2">
+          <div className="flex justify-between items-center border-b border-secondary pb-2 mb-2">
             <div className="flex items-center gap-3">
-              <h3 className="w-full text-sm font-semibold text-(--color-primary)">
+              <h3 className="w-full text-sm font-semibold text-primary">
                 Address
               </h3>
             </div>
@@ -132,7 +153,7 @@ const Address = () => {
                 <button
                   type="button"
                   onClick={() => setEditingAddress(true)}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-2 py-0.5 rounded text-xs"
                 >
                   <MdEdit /> Edit
                 </button>
@@ -141,8 +162,16 @@ const Address = () => {
               <div className="flex gap-2 justify-end">
                 <button
                   type="button"
+                  onClick={handleGetCurrentLocation}
+                  className="flex items-center gap-2 bg-primary text-primary-content px-2 py-0.5 rounded text-xs"
+                  disabled={isLoading}
+                >
+                  <MdMyLocation /> Current Location
+                </button>
+                <button
+                  type="button"
                   onClick={handleSave}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
                 >
                   {isLoading ? "Saving..." : "Save Changes"}
@@ -150,7 +179,7 @@ const Address = () => {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="flex items-center gap-2 bg-(--color-secondary) text-(--color-secondary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-secondary text-secondary-content px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
                 >
                   Cancel
@@ -161,7 +190,7 @@ const Address = () => {
 
           <fieldset
             disabled={!editingAddress}
-            className="grid grid-cols-1 md:grid-cols-3 gap-2 justify-center items-center border-0 p-0 m-0"
+            className="grid grid-cols-1 md:grid-cols-3 gap-1 justify-center items-center"
           >
             <div className="w-full">
               <label className="text-xs font-semibold">Address</label>
@@ -170,7 +199,7 @@ const Address = () => {
                 name="address"
                 value={addressFormData.address}
                 onChange={handleChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingAddress ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingAddress ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
               />
             </div>
             <div className="w-full">
@@ -180,7 +209,7 @@ const Address = () => {
                 name="city"
                 value={addressFormData.city}
                 onChange={handleChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingAddress ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingAddress ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
               />
             </div>
             <div className="w-full">
@@ -190,7 +219,7 @@ const Address = () => {
                 name="state"
                 value={addressFormData.state}
                 onChange={handleChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingAddress ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingAddress ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
               />
             </div>
             <div className="w-full">
@@ -200,7 +229,7 @@ const Address = () => {
                 name="pinCode"
                 value={addressFormData.pinCode}
                 onChange={handleChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingAddress ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingAddress ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
               />
             </div>
             <div className="w-full">
@@ -210,7 +239,7 @@ const Address = () => {
                 name="country"
                 value={addressFormData.country}
                 onChange={handleChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingAddress ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingAddress ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
               />
             </div>
 
@@ -223,7 +252,7 @@ const Address = () => {
                   value={addressFormData.geoLat}
                   onChange={handleChange}
                   placeholder="e.g. 28.6139"
-                  className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingAddress ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                  className={`w-full px-1.5 py-1 border border-secondary ${editingAddress ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                 />
               </div>
 
@@ -235,7 +264,7 @@ const Address = () => {
                   value={addressFormData.geoLon}
                   onChange={handleChange}
                   placeholder="e.g. 77.2090"
-                  className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingAddress ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                  className={`w-full px-1.5 py-1 border border-secondary ${editingAddress ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                 />
               </div>
             </div>

@@ -17,14 +17,14 @@ const RestaurantMenuModal = ({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-(--color-base-100) rounded-2xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom-4 duration-300">
+      <div className="bg-primary-content rounded-2xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom-4 duration-300">
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
           <h2 className="text-xl font-bold text-gray-800">
             {isEditMode ? "Edit Dish" : "Add New Dish"}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50"
+            className="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-error-50"
           >
             <MdClose className="text-2xl" />
           </button>
@@ -57,7 +57,7 @@ const RestaurantMenuModal = ({
                           if (fileInputRef.current)
                             fileInputRef.current.value = "";
                         }}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow hover:bg-red-600 transition"
+                        className="absolute -top-2 -right-2 bg-error-500 text-primary-content rounded-full p-1 shadow hover:bg-error-600 transition"
                       >
                         <MdClose size={14} />
                       </button>
@@ -68,7 +68,7 @@ const RestaurantMenuModal = ({
                       <div className="flex text-sm text-gray-600 justify-center mt-2">
                         <label
                           htmlFor="file-upload"
-                          className="relative cursor-pointer bg-transparent rounded-md font-medium text-(--color-primary) hover:text-(--color-primary)/80 focus-within:outline-none"
+                          className="relative cursor-pointer bg-transparent rounded-md font-medium text-primary hover:text-primary/80 focus-within:outline-none"
                         >
                           <span>Upload a file</span>
                           <input
@@ -104,7 +104,7 @@ const RestaurantMenuModal = ({
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="e.g. Margherita Pizza"
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-(--color-primary)/50 focus:border-(--color-primary) outline-none transition-all bg-white text-black"
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all bg-primary-content text-black"
                   required
                 />
               </div>
@@ -118,10 +118,12 @@ const RestaurantMenuModal = ({
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-(--color-primary)/50 focus:border-(--color-primary) outline-none transition-all bg-white text-black"
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all bg-primary-content text-black"
                     required
                   >
-                    <option value="" disabled>Select Category</option>
+                    <option value="" disabled>
+                      Select Category
+                    </option>
                     <option value="Starters">Starters</option>
                     <option value="Main Course">Main Course</option>
                     <option value="Desserts">Desserts</option>
@@ -139,7 +141,7 @@ const RestaurantMenuModal = ({
                     name="itemType"
                     value={formData.itemType || "Veg"}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-(--color-primary)/50 focus:border-(--color-primary) outline-none transition-all bg-white text-black"
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all bg-primary-content text-black"
                     required
                   >
                     <option value="Veg">Veg</option>
@@ -160,7 +162,7 @@ const RestaurantMenuModal = ({
                     step="0.01"
                     min="0"
                     placeholder="0.00"
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-(--color-primary)/50 focus:border-(--color-primary) outline-none transition-all bg-white text-black"
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all bg-primary-content text-black"
                     required
                   />
                 </div>
@@ -176,7 +178,7 @@ const RestaurantMenuModal = ({
                   onChange={handleChange}
                   rows="4"
                   placeholder="Describe the ingredients and flavor..."
-                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-(--color-primary)/50 focus:border-(--color-primary) outline-none transition-all resize-none bg-white text-black h-[116px]"
+                  className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all resize-none bg-primary-content text-black h-[116px]"
                   required
                 />
               </div>
@@ -198,7 +200,7 @@ const RestaurantMenuModal = ({
             >
               {isSubmitting ? (
                 <>
-                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                  <span className="w-4 h-4 border-2 border-primary-content/30 border-t-primary-content rounded-full animate-spin"></span>
                   Saving...
                 </>
               ) : isEditMode ? (

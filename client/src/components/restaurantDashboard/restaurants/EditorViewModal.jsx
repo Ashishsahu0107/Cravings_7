@@ -5,8 +5,8 @@ const EditorViewModal = ({ isOpen, onClose, viewItem }) => {
   if (!isOpen || !viewItem) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-(--color-base-100) rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-base-100 rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in slide-in-from-bottom-4 duration-300">
         <div className="relative bg-gray-100 flex items-center justify-center">
           {viewItem.image && viewItem.image.url ? (
             <img
@@ -21,7 +21,7 @@ const EditorViewModal = ({ isOpen, onClose, viewItem }) => {
           )}
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 text-white bg-black/40 hover:bg-black/60 transition-colors p-1.5 rounded-full"
+            className="absolute top-3 right-3 text-primary-content bg-black/40 hover:bg-black/60 transition-colors p-1.5 rounded-full"
           >
             <MdClose className="text-xl" />
           </button>
@@ -30,14 +30,20 @@ const EditorViewModal = ({ isOpen, onClose, viewItem }) => {
           <div className="flex justify-between items-start mb-2">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <div className="text-xs font-semibold text-(--color-primary) uppercase tracking-wider">
+                <div className="text-xs font-semibold text-primary uppercase tracking-wider">
                   {viewItem.category}
                 </div>
                 {viewItem.itemType && (
-                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase ${
-                    viewItem.itemType === 'Veg' || viewItem.itemType === 'Vegan' ? 'bg-green-100 text-green-700' :
-                    viewItem.itemType === 'Egg' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
-                  }`}>
+                  <span
+                    className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                      viewItem.itemType === "Veg" ||
+                      viewItem.itemType === "Vegan"
+                        ? "bg-success/15 text-success"
+                        : viewItem.itemType === "Egg"
+                          ? "bg-warning/15 text-warning"
+                          : "bg-error/15 text-error"
+                    }`}
+                  >
                     {viewItem.itemType}
                   </span>
                 )}
@@ -46,14 +52,14 @@ const EditorViewModal = ({ isOpen, onClose, viewItem }) => {
                 {viewItem.itemName}
               </h2>
             </div>
-            <div className="text-xl font-bold text-(--color-primary)">
+            <div className="text-xl font-bold text-primary">
               ${viewItem.price?.toFixed(2)}
             </div>
           </div>
 
-          <div className="flex items-center gap-4 my-4 pb-4 border-b border-gray-100">
+          <div className="flex items-center gap-4 my-4 pb-4 border-b border-base-300">
             <span
-              className={`text-xs px-2.5 py-1 rounded-full font-bold ${viewItem.isAvailable ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
+              className={`text-xs px-2.5 py-1 rounded-full font-bold ${viewItem.isAvailable ? "bg-green-100 text-green-700" : "bg-error-100 text-red-700"}`}
             >
               {viewItem.isAvailable ? "Available" : "Unavailable"}
             </span>

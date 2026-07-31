@@ -109,21 +109,21 @@ const BankingDocs = () => {
       {isLoadingRestaurant ? (
         <div className="flex flex-col justify-center items-center h-40">
           <img src={RunningLoader} alt="Loading..." className="w-20 h-20" />
-          <span className="text-sm text-(--color-primary) font-semibold mt-2 animate-bounce">
+          <span className="text-sm text-primary font-semibold mt-2 animate-bounce">
             Fetching Banking Information
           </span>
         </div>
       ) : loadingRestaurantError ? (
         <div className="flex flex-col justify-center items-center h-40">
-          <span className="text-sm text-(--color-error) font-semibold mt-2">
+          <span className="text-sm text-error font-semibold mt-2">
             {loadingRestaurantError}
           </span>
         </div>
       ) : (
-        <div className="bg-(--color-base-100) rounded-lg p-3 mb-2">
-          <div className="flex justify-between items-center border-b border-(--color-secondary) pb-2 mb-2">
+        <div className="rounded-lg p-3 mb-2">
+          <div className="flex justify-between items-center border-b border-secondary pb-2 mb-2">
             <div className="flex items-center gap-3">
-              <h3 className="w-full text-sm font-semibold text-(--color-primary)">
+              <h3 className="w-full text-sm font-semibold text-primary">
                 Banking & Documents
               </h3>
             </div>
@@ -133,7 +133,7 @@ const BankingDocs = () => {
                 <button
                   type="button"
                   onClick={() => setEditingBanking(true)}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-2 py-0.5 rounded text-xs"
                 >
                   <MdEdit /> Edit
                 </button>
@@ -143,7 +143,7 @@ const BankingDocs = () => {
                 <button
                   type="button"
                   onClick={handleSave}
-                  className="flex items-center gap-2 bg-(--color-primary) text-(--color-primary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-primary text-primary-content px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
                 >
                   {isLoading ? "Saving..." : "Save Changes"}
@@ -151,7 +151,7 @@ const BankingDocs = () => {
                 <button
                   type="button"
                   onClick={handleCancel}
-                  className="flex items-center gap-2 bg-(--color-secondary) text-(--color-secondary-content) px-2 py-0.5 rounded text-xs"
+                  className="flex items-center gap-2 bg-secondary text-secondary-content px-2 py-0.5 rounded text-xs"
                   disabled={isLoading}
                 >
                   Cancel
@@ -162,7 +162,7 @@ const BankingDocs = () => {
 
           <fieldset
             disabled={!editingBanking}
-            className="grid grid-cols-1 md:grid-cols-3 gap-2 justify-center items-center border-0 p-0 m-0"
+            className="grid grid-cols-1 md:grid-cols-3 gap-1 justify-center items-center"
           >
             <div className="w-full">
               <label className="text-xs font-semibold">Bank Name</label>
@@ -171,7 +171,7 @@ const BankingDocs = () => {
                 name="bankName"
                 value={bankingFormData.bankName}
                 onChange={handleChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingBanking ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingBanking ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
               />
             </div>
             <div className="w-full">
@@ -181,7 +181,7 @@ const BankingDocs = () => {
                 name="accountNumber"
                 value={bankingFormData.accountNumber}
                 onChange={handleChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingBanking ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingBanking ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
               />
             </div>
             <div className="w-full">
@@ -191,7 +191,7 @@ const BankingDocs = () => {
                 name="ifscCode"
                 value={bankingFormData.ifscCode}
                 onChange={handleChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingBanking ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingBanking ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
               />
             </div>
             <div className="w-full">
@@ -201,7 +201,7 @@ const BankingDocs = () => {
                 name="panCard"
                 value={bankingFormData.panCard}
                 onChange={handleChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingBanking ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingBanking ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
               />
             </div>
             <div className="w-full">
@@ -211,7 +211,7 @@ const BankingDocs = () => {
                 name="gst"
                 value={bankingFormData.gst}
                 onChange={handleChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingBanking ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingBanking ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
               />
             </div>
 
@@ -222,7 +222,7 @@ const BankingDocs = () => {
                 name="fssai"
                 value={bankingFormData.fssai}
                 onChange={handleChange}
-                className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingBanking ? "bg-white" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full px-1.5 py-1 border border-secondary ${editingBanking ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
               />
             </div>
           </fieldset>

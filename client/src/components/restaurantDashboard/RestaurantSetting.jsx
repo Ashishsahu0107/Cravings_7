@@ -97,7 +97,7 @@ const RestaurantSetting = () => {
                 ${
                   isRestaurantOpen
                     ? "bg-green-100 text-green-700"
-                    : "bg-red-100 text-red-700"
+                    : "bg-error-100 text-red-700"
                 }`}
             >
               {/* Animated Dot */}
@@ -111,7 +111,7 @@ const RestaurantSetting = () => {
                   duration: 1.4,
                 }}
                 className={`w-3 h-3 rounded-full ${
-                  isRestaurantOpen ? "bg-green-500" : "bg-red-500"
+                  isRestaurantOpen ? "bg-green-500" : "bg-error-500"
                 }`}
               />
 
@@ -143,7 +143,7 @@ const RestaurantSetting = () => {
                 after:left-1
                 after:w-5
                 after:h-5
-                after:bg-white
+                after:bg-primary-content
                 after:rounded-full
                 after:transition-all
                 after:duration-300
