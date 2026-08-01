@@ -34,7 +34,7 @@ const Home = () => {
     const loadRestaurants = async () => {
       try {
         setLoading(true);
-        const response = await api.get("/public/resta");
+        const response = await api.get("/public/restaurants");
 
         // Map API response to match component's expected format
         const formattedRestaurants = response.data.data.map((restaurant) => ({
@@ -216,7 +216,7 @@ const Home = () => {
 
                     {/* Cuisines */}
                     <div className="flex flex-wrap gap-2 mb-3">
-                      {restaurant.cuisines.split(",").map((cuisine, idx) => (
+                      {restaurant?.cuisineTypes?.map((cuisine, idx) => (
                         <span
                           key={idx}
                           className="text-xs bg-base-300 text-base-content px-2 py-1 rounded capitalize"
