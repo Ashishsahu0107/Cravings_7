@@ -3,6 +3,7 @@ import CustomerSidebar from "../../components/customerDashboard/CustomerSidebar"
 import CustomerOverview from "../../components/customerDashboard/CustomerOverview";
 import CustomerOrders from "../../components/customerDashboard/CustomerOrders";
 import CustomerSetting from "../../components/customerDashboard/CustomerSetting";
+import OrderNow from "../OrderNow";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
@@ -44,9 +45,10 @@ const CustomerDashboard = () => {
             setIsCollapsed={setIsCollapsed}
           />
         </div>
-        <div className="flex-1 transition-all duration-300 bg-base-100 p-4 rounded-lg shadow-md h-full overflow-hidden">
+        <div className="flex-1 transition-all duration-300 bg-base-100 p-4 rounded-lg shadow-md h-full overflow-y-auto overflow-x-hidden">
           {activeTab === "overview" && <CustomerOverview />}
           {activeTab === "orders" && <CustomerOrders />}
+          {activeTab === "restaurants" && <OrderNow />}
           {activeTab === "settings" && <CustomerSetting />}
         </div>
       </div>

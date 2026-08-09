@@ -189,7 +189,7 @@ const Home = () => {
               {filteredRestaurants.map((restaurant) => (
                 <div
                   key={restaurant.id}
-                  onClick={() => navigate(`/restaurant-menu/${restaurant.id}`)}
+                  onClick={() => navigate(`/restaurant-details/${restaurant.id}`)}
                   className="flex flex-col bg-base-100 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer transform hover:scale-105"
                 >
                   {/* Restaurant Image */}
@@ -231,7 +231,7 @@ const Home = () => {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/restaurant-menu/${restaurant.id}`);
+                          navigate(`/restaurant-details/${restaurant.id}`);
                         }}
                         className="w-full bg-primary text-primary-content px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition"
                       >
