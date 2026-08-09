@@ -1,6 +1,8 @@
 import Restaurant from "../models/restaurant.model.js";
 import Order from "../models/order.model.js";
 import Menu from "../models/menu.model.js";
+import Customer from "../models/customer.model.js";
+import User from "../models/user.model.js";
 import {
   UploadSingleImage,
   uploadMultipleImages,
@@ -487,6 +489,7 @@ export const getDashboardOverview = async (req, res, next) => {
     });
 
     const payload = {
+      restaurantId: restaurant._id,
       stats: {
         totalRevenue: stats.totalRevenue || 0,
         totalOrders: stats.totalOrders || 0,
