@@ -1,8 +1,9 @@
 import React from "react";
-import { MdDashboard, MdMenu, MdChevronLeft } from "react-icons/md";
+import { MdDashboard, MdMenu, MdChevronLeft, MdRestaurant } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const CustomerSidebar = ({
   activeTab,
@@ -10,9 +11,12 @@ const CustomerSidebar = ({
   isCollapsed,
   setIsCollapsed,
 }) => {
+  const navigate = useNavigate();
+  
   const mainTabs = [
     { name: "Overview", value: "overview", icon: <MdDashboard /> },
     { name: "Orders", value: "orders", icon: <FaShoppingCart /> },
+    { name: "Restaurants", value: "restaurants", icon: <MdRestaurant /> },
   ];
 
   const settingsTab = {
@@ -29,7 +33,13 @@ const CustomerSidebar = ({
           ? "bg-primary text-primary-content font-semibold"
           : "hover:bg-secondary hover:text-secondary-content transition-colors duration-200"
       } ${isCollapsed ? "justify-center" : ""}`}
-      onClick={() => setActiveTab(tab.value)}
+      onClick={() => {
+        if (tab.action) {
+          tab.action();
+        } else {
+          setActiveTab(tab.value);
+        }
+      }}
       title={isCollapsed ? tab.name : ""}
     >
       <div className="text-xl">{tab.icon}</div>

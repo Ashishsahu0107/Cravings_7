@@ -4,14 +4,16 @@ import {
   MdAttachMoney,
   MdOutlineShoppingBag,
   MdOutlineStarRate,
-  MdAccessTime,
   MdChevronRight,
 } from "react-icons/md";
 import api from "../../config/ApiConfig";
 import RunningLoader from "../../assets/loadingAnimation.gif";
 import toast from "react-hot-toast";
 
+import { useNavigate } from "react-router-dom";
+
 const RestaurantOverview = () => {
+  const navigate = useNavigate();
   const [payload, setPayload] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -198,7 +200,6 @@ const RestaurantOverview = () => {
             <p className="text-primary-content/80 text-sm font-medium mb-8">
               Access quick tools to manage your restaurant's daily operations.
             </p>
-
             <div className="space-y-3">
               <button className="w-full bg-primary-content/10 hover:bg-primary-content/20 backdrop-blur-md border border-primary-content/20 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-between group">
                 Manage Menu
@@ -210,6 +211,15 @@ const RestaurantOverview = () => {
               </button>
               <button className="w-full bg-primary-content/10 hover:bg-primary-content/20 backdrop-blur-md border border-primary-content/20 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-between group">
                 Restaurant Settings
+                <MdChevronRight className="text-xl group-hover:translate-x-1 transition-transform" />
+              </button>
+              <button
+                onClick={() => {
+                  window.open(`/restaurant-details/${payload.restaurantId}`);
+                }}
+                className="w-full bg-primary-content/10 hover:bg-primary-content/20 backdrop-blur-md border border-primary-content/20 py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-between group text-green-200"
+              >
+                View Public Page
                 <MdChevronRight className="text-xl group-hover:translate-x-1 transition-transform" />
               </button>
             </div>

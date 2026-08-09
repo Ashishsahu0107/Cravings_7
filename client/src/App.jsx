@@ -1,6 +1,6 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -15,8 +15,12 @@ import Map from "./pages/Map";
 import RestaurantMenu from "./components/restaurantDashboard/restaurants/RestaurantMenu";
 import OrderNow from "./pages/OrderNow";
 import RestaurantDetailsPage from "./pages/RestaurantDetailsPage";
+import CartPage from "./pages/CartPage";
+import { useAuth } from "./context/AuthContext";
 
 const App = () => {
+  const { isLogin } = useAuth();
+  const location = useLocation();
   return (
     <>
       <Toaster />
@@ -39,8 +43,9 @@ const App = () => {
           path="/restaurant-details/:restaurantId"
           element={<RestaurantDetailsPage />}
         />
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
-      <Footer />
+      {location.pathname === "/" && <Footer />}
     </>
   );
 };
