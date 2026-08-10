@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import api from "../../config/ApiConfig";
 import toast from "react-hot-toast";
+import Select from "../ui/Select";
 
 const RestaurantOrders = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    fetchOrders();
-  }, []);
 
   const fetchOrders = async () => {
     try {
@@ -16,13 +13,17 @@ const RestaurantOrders = () => {
       if (res.data.success) {
         setOrders(res.data.data);
       }
-    } catch (error) {
-      console.error("Failed to fetch restaurant orders", error);
-      toast.error("Failed to load live orders");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to load orders");
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
@@ -116,17 +117,17 @@ const RestaurantOrders = () => {
                           <div className="text-xs opacity-70">{new Date(order.createdAt).toLocaleDateString()}</div>
                         </td>
                         <td className="py-4">
-                          <select 
+                          <Select 
                             value={order.orderStatus}
                             onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                            className={`select select-sm select-bordered w-full max-w-[150px] font-semibold capitalize ${getStatusColor(order.orderStatus)}`}
+                            className={`w-full max-w-[150px] font-semibold capitalize ${getStatusColor(order.orderStatus)}`}
                           >
                             {orderStatuses.map(status => (
                               <option key={status} value={status} className="bg-base-100 text-gray-900 capitalize">
                                 {status}
                               </option>
                             ))}
-                          </select>
+                          </Select>
                         </td>
                       </tr>
                     );

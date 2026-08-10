@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import api from "../../config/ApiConfig";
 import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
+import Loader from "../Loader";
 
 const CustomerOrders = () => {
   const { user } = useAuth();
   const [orders, setOrders] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+        setIsLoading(true);
+
         if (user?._id) {
           const res = await api.get(`/order/customer/${user._id}`);
           if (res.data.success) {
@@ -46,9 +49,17 @@ const CustomerOrders = () => {
     }
   };
 
+  if(isLoading){
+    return (
+      <>
+        <Loader/>
+      </>
+    );
+  }
+
   return (
     <div className="overflow-y-auto h-full">
-      <h2 className="text-2xl font-bold mb-6">My Orders</h2>
+      <h2 className="text-2xl font-bold text-primary mb-6">My Orders</h2>
       <div className="bg-base-200 p-4 rounded-lg">
         {isLoading ? (
           <div className="flex justify-center p-8">
@@ -74,7 +85,7 @@ const CustomerOrders = () => {
                 </tr>
               ) : (
                 orders.map((order) => (
-                  <tr key={order._id} className="border-b border-secondary hover:bg-base-300 transition-colors">
+                  <tr key={order._id} className="border-b border-secondary transition-colors">
                     <td className="py-3 font-mono text-xs font-bold text-gray-500">#{order._id.substring(order._id.length - 6).toUpperCase()}</td>
                     <td className="py-3 font-medium text-gray-800">
                       {order.restaurantId?.restaurantName || "Unknown Restaurant"}
