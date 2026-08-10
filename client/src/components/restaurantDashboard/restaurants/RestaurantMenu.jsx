@@ -24,6 +24,8 @@ import EditorViewModal from "./EditorViewModal";
 import ComfirmModal from "./ComfirmModal";
 import Button from "../../ui/Button";
 import SearchInput from "../../ui/SearchInput";
+import Select from "../../ui/Select";
+import Badge from "../../ui/Badge";
 
 const RestaurantMenu = () => {
   const { user } = useAuth();
@@ -387,23 +389,25 @@ const RestaurantMenu = () => {
                     )}
                   </td>
                   <td className="p-4 font-bold text-gray-800">
-                    ${item.price?.toFixed(2)}
+                    ₹{item.price?.toFixed(2)}
                   </td>
                   <td className="p-4">
-                    <select
-                      value={item.isAvailable}
-                      onChange={(e) =>
-                        handleStatusChange(item._id, e.target.value === "true")
-                      }
-                      className={`text-sm px-3 py-1.5 rounded-lg border font-medium outline-none cursor-pointer ${
-                        item.isAvailable
-                          ? "bg-green-50 text-green-700 border-green-200 focus:ring-2 focus:ring-green-500/20"
-                          : "bg-error-50 text-red-700 border-red-200 focus:ring-2 focus:ring-red-500/20"
-                      }`}
-                    >
-                      <option value="true">Available</option>
-                      <option value="false">Unavailable</option>
-                    </select>
+                    <div onClick={(e) => e.stopPropagation()} className="w-32">
+                      <Select
+                        value={item.isAvailable}
+                        onChange={(e) =>
+                          handleStatusChange(item._id, e.target.value === "true")
+                        }
+                        className={`text-sm ${
+                          item.isAvailable
+                            ? "bg-green-50 text-green-700 border-green-200"
+                            : "bg-error-50 text-red-700 border-red-200"
+                        }`}
+                      >
+                        <option value="true">Available</option>
+                        <option value="false">Unavailable</option>
+                      </Select>
+                    </div>
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-1 text-amber-500">
@@ -515,7 +519,7 @@ const RestaurantMenu = () => {
                   </div>
                 )}
                 <div className="absolute top-3 right-3 bg-primary-content/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-bold text-gray-800 shadow-sm">
-                  ${item.price?.toFixed(2)}
+                  ₹{item.price?.toFixed(2)}
                 </div>
               </div>
               <div className="p-4 flex-1 flex flex-col">
@@ -552,22 +556,22 @@ const RestaurantMenu = () => {
                   {item.itemName}
                 </h3>
                 <div className="flex justify-between items-center mt-auto pt-3 border-t border-gray-100">
-                  <select
-                    value={item.isAvailable}
-                    onChange={(e) => {
-                      e.stopPropagation();
-                      handleStatusChange(item._id, e.target.value === "true");
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                    className={`text-[10px] px-2 py-0.5 rounded-full font-bold border transition-colors outline-none cursor-pointer ${
-                      item.isAvailable
-                        ? "bg-green-50 text-green-600 border-green-200 hover:bg-green-100"
-                        : "bg-error-50 text-red-600 border-red-200 hover:bg-error-100"
-                    }`}
-                  >
-                    <option value="true">Available</option>
-                    <option value="false">Out of Stock</option>
-                  </select>
+                  <div onClick={(e) => e.stopPropagation()} className="w-28">
+                    <Select
+                      value={item.isAvailable}
+                      onChange={(e) => {
+                        handleStatusChange(item._id, e.target.value === "true");
+                      }}
+                      className={`text-[10px] font-bold ${
+                        item.isAvailable
+                          ? "bg-green-50 text-green-600 border-green-200 hover:bg-green-100"
+                          : "bg-error-50 text-red-600 border-red-200 hover:bg-error-100"
+                      }`}
+                    >
+                      <option value="true">Available</option>
+                      <option value="false">Out of Stock</option>
+                    </Select>
+                  </div>
                   <div className="flex gap-1 items-center">
                     <button
                       onClick={(e) => {

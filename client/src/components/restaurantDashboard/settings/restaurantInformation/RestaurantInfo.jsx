@@ -4,6 +4,7 @@ import { useAuth } from "../../../../context/AuthContext";
 import api from "../../../../config/ApiConfig";
 import toast from "react-hot-toast";
 import RunningLoader from "../../../../assets/loadingAnimation.gif";
+import Select from "../../../ui/Select";
 
 const RestaurantInfo = () => {
   const { user } = useAuth();
@@ -189,11 +190,11 @@ const RestaurantInfo = () => {
             </div>
             <div className="w-full">
               <label className="text-xs font-semibold">Restaurant Type</label>
-              <select
+              <Select
                 name="restaurantType"
                 value={restaurantFormData?.restaurantType || ""}
                 onChange={handleRestaurantChange}
-                className={`w-full px-1.5 py-1 border border-secondary ${editingRestaurant ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
+                className={`w-full ${editingRestaurant ? "bg-primary-content" : "bg-(--color-base-100)"} rounded`}
                 disabled={!editingRestaurant}
               >
                 <option value="">Select type</option>
@@ -202,7 +203,7 @@ const RestaurantInfo = () => {
                 <option value="jain">Jain</option>
                 <option value="vegan">Vegan</option>
                 <option value="both">Both</option>
-              </select>
+              </Select>
             </div>
 
             <div className="w-full">

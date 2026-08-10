@@ -9,14 +9,14 @@ const Badge = ({
 }) => {
   const baseStyles = "inline-flex items-center justify-center font-semibold rounded-full transition-all duration-200";
 
-  const size = {
+  const sizeStyles = {
     xs: "px-1.5 py-0.5 text-[10px]",
     sm: "px-2 py-0.5 text-xs",
     md: "px-2.5 py-1 text-xs",
     lg: "px-3 py-1.5 text-sm",
   };
 
-  const variant = {
+  const variantStyles = {
     primary: "bg-primary/10 text-primary border border-primary/20",
     secondary: "bg-secondary/10 text-secondary border border-secondary/20",
     neutral: "bg-base-200 text-base-content border border-base-300",
@@ -28,7 +28,7 @@ const Badge = ({
 
   return (
     <span
-      className={`${baseStyles} ${size[size] || size.md} ${variant[variant] || variant.primary} ${className}`}
+      className={`${baseStyles} ${sizeStyles[size] || sizeStyles.md} ${variantStyles[variant] || variantStyles.primary} ${className}`}
       {...props}
     >
       {children}
