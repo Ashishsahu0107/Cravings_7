@@ -189,7 +189,9 @@ const Home = () => {
               {filteredRestaurants.map((restaurant) => (
                 <div
                   key={restaurant.id}
-                  onClick={() => navigate(`/restaurant-details/${restaurant.id}`)}
+                  onClick={() =>
+                    navigate(`/restaurant-details/${restaurant.id}`)
+                  }
                   className="flex flex-col bg-base-100 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer transform hover:scale-105"
                 >
                   {/* Restaurant Image */}

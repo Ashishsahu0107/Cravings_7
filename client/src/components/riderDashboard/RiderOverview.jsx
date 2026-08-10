@@ -11,7 +11,7 @@ const RiderOverview = () => {
         </div>
         <div className="bg-base-200 p-4 rounded-lg">
           <p className="text-neutral text-sm">Total Spent</p>
-          <p className="text-3xl font-bold">$245</p>
+          <p className="text-3xl font-bold">₹245</p>
         </div>
       </div>
       <div className="bg-base-200 p-4 rounded-lg">
