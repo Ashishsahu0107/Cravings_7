@@ -13,7 +13,6 @@ import {
   MdOutlineNewReleases,
   MdViewList,
   MdGridView,
-  MdSearch,
 } from "react-icons/md";
 import { useAuth } from "../../../context/AuthContext";
 import api from "../../../config/ApiConfig";
@@ -25,7 +24,6 @@ import ComfirmModal from "./ComfirmModal";
 import Button from "../../ui/Button";
 import SearchInput from "../../ui/SearchInput";
 import Select from "../../ui/Select";
-import Badge from "../../ui/Badge";
 
 const RestaurantMenu = () => {
   const { user } = useAuth();
