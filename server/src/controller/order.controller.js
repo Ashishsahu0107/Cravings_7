@@ -1,7 +1,5 @@
 import Order from "../models/order.model.js";
 import Restaurant from "../models/restaurant.model.js";
-import Customer from "../models/customer.model.js";
-import User from "../models/user.model.js";
 
 export const createOrder = async (req, res) => {
   try {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import api from "../config/ApiConfig";
+import Select from "../components/ui/Select";
 
 const Register = () => {
   const userType = useParams().userType; // Get userType from URL params (if needed)
@@ -185,19 +186,19 @@ const Register = () => {
           {/* Gender & Date of Birth */}
           <div className="mb-4 grid grid-cols-2 gap-4">
             <div>
-              <select
+              <Select
                 name="gender"
                 value={formData.gender}
                 onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-md text-sm text-neutral focus:outline-none focus:ring-2 focus:ring-primary ${
-                  errors.gender ? "border-error border-2" : "border-base-300"
+                className={`w-full ${
+                  errors.gender ? "border-error border-2" : ""
                 }`}
               >
                 <option value="">Select gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
-              </select>
+              </Select>
               {errors.gender && (
                 <span className="text-error text-xs mt-1 block">
                   {errors.gender}
