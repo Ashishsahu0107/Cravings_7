@@ -1,6 +1,9 @@
 import Razorpay from "razorpay";
 import crypto from "crypto";
+import Order from "../models/order.model.js";
+import Customer from "../models/customer.model.js";
 
+// Triggering server restart to load new .env variables
 export const createOrder = async (req, res, next) => {
   try {
     const { amount } = req.body;
@@ -48,6 +51,7 @@ export const verifyPayment = async (req, res, next) => {
 
     if (isAuthentic) {
       // In a real app, we would update the Order status in the DB here
+
       res.status(200).json({ success: true, message: "Payment verified successfully" });
     } else {
       res.status(400).json({ success: false, message: "Invalid Signature" });
