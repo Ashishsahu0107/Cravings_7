@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { FaPowerOff, FaPalette } from "react-icons/fa";
 import toast from "react-hot-toast";
 import api from "../config/ApiConfig";
+import Select from "./ui/Select";
 
 const themeOptions = [
   { value: "light", label: "Light" },
@@ -78,7 +79,7 @@ const Navbar = () => {
             <label className="flex items-center gap-2 rounded-md border border-primary-content/20 bg-base-100/10 px-3 py-1 text-sm text-primary-content">
               <FaPalette className="shrink-0" />
               <span className="hidden sm:inline">Theme</span>
-              <select
+              <Select
                 value={theme}
                 onChange={(event) => setTheme(event.target.value)}
                 className="bg-transparent outline-none "
@@ -93,7 +94,7 @@ const Navbar = () => {
                     {option.label}
                   </option>
                 ))}
-              </select>
+              </Select>
             </label>
           </div>
 

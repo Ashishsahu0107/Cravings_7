@@ -53,7 +53,7 @@ const EditorViewModal = ({ isOpen, onClose, viewItem }) => {
               </h2>
             </div>
             <div className="text-xl font-bold text-primary">
-              ${viewItem.price?.toFixed(2)}
+              ₹{viewItem.price?.toFixed(2)}
             </div>
           </div>
 

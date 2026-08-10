@@ -31,7 +31,7 @@ const CustomerSidebar = ({
       className={`cursor-pointer p-2 rounded text-neutral flex items-center gap-3 ${
         activeTab === tab.value
           ? "bg-primary text-primary-content font-semibold"
-          : "hover:bg-secondary hover:text-secondary-content transition-colors duration-200"
+          : "hover:bg-primary/20 hover:text-primary transition-colors duration-200"
       } ${isCollapsed ? "justify-center" : ""}`}
       onClick={() => {
         if (tab.action) {
