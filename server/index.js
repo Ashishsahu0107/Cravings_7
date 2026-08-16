@@ -2,6 +2,8 @@ import cloudinary from "./src/config/cloudinary.config.js";
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./src/config/dbConnection.config.js";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 import AuthRouter from "./src/router/auth.route.js";
 import PublicRouter from "./src/router/public.route.js";
@@ -56,7 +58,41 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, async () => {
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:5173",
+    credentials: true,
+  },
+});
+
+export { io }; // Export for use in controllers
+
+io.on("connection", (socket) => {
+  console.log("New client connected", socket.id);
+
+  socket.on("join_rider", (riderId) => {
+    socket.join(`rider:${riderId}`);
+    socket.join("riders_pool"); // For general broadcasts
+    console.log(`Rider ${riderId} joined`);
+  });
+
+  socket.on("rider_location_update", (data) => {
+    // Expected { riderId, lat, lon }
+    io.emit("location_update", data); // broadcast to others if needed
+  });
+
+  socket.on("rider_status_change", (data) => {
+    // Expected { riderId, status }
+    io.emit("status_change", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnected", socket.id);
+  });
+});
+
+httpServer.listen(port, async () => {
   console.log("Server Started on port:", port);
   connectDB();
   try {
