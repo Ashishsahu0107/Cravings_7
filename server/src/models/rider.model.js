@@ -53,10 +53,82 @@ const RiderSchema = mongoose.Schema(
         lon: { type: String },
       },
     },
+    walletBalance: { type: Number, default: 0 },
+    pendingBalance: { type: Number, default: 0 },
+    totalEarnings: { type: Number, default: 0 },
+    deliveriesCompleted: { type: Number, default: 0 },
+    acceptanceRate: { type: Number, default: 100 },
+    completionRate: { type: Number, default: 100 },
+    onlineStatus: {
+      type: String,
+      enum: ["online", "offline", "busy", "on_delivery"],
+      default: "offline",
+    },
+    activeHoursToday: { type: Number, default: 0 },
+    lastOnlineAt: { type: Date },
   },
   { timestamps: true },
 );
 
 const Rider = mongoose.model("rider", RiderSchema);
 
+const RiderEarningsSchema = mongoose.Schema(
+  {
+    riderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "rider",
+      required: true,
+    },
+    date: {
+      type: Date,
+      required: true,
+    },
+    deliveryFee: { type: Number, default: 0 },
+    tips: { type: Number, default: 0 },
+    bonuses: { type: Number, default: 0 },
+    deductions: { type: Number, default: 0 },
+    netEarnings: { type: Number, default: 0 },
+    deliveryCount: { type: Number, default: 0 },
+  },
+  { timestamps: true }
+);
+
+const RiderEarnings = mongoose.model("riderEarnings", RiderEarningsSchema);
+
+const RiderTransactionSchema = mongoose.Schema(
+  {
+    riderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "rider",
+      required: true,
+    },
+    orderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "order",
+      required: false,
+    },
+    type: {
+      type: String,
+      enum: ["delivery_fee", "tip", "bonus", "withdrawal", "deduction"],
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "processing", "completed", "failed", "reversed"],
+      default: "completed",
+    },
+    description: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
+
+const RiderTransaction = mongoose.model("riderTransaction", RiderTransactionSchema);
+
 export default Rider;
+export { RiderEarnings, RiderTransaction };
