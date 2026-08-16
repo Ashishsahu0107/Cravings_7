@@ -139,7 +139,8 @@ const Navbar = () => {
               >
                 Register
               </Link>
-            </div>
+              </div>
+        
           )}
         </div>
       </div>

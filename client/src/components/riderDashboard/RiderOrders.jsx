@@ -7,6 +7,7 @@ const RiderOrders = () => {
       <div className="bg-base-200 p-4 rounded-lg">
         <table className="w-full">
           <thead>
+            
             <tr className="border-b border-secondary">
               <th className="text-left py-2">Order ID</th>
               <th className="text-left py-2">Restaurant</th>
