@@ -34,16 +34,15 @@ const CustomerOrders = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case "pending": return "badge-warning";
-      case "accepted":
-      case "preparing":
-      case "ready": return "badge-info";
-      case "pickedUp":
-      case "onTheWay":
-      case "outForDelivery": return "badge-primary";
+      case "accepted": return "badge-info";
+      case "preparing": return "badge-warning";
+      case "ready": return "badge-success";
+      case "pickedUp": return "badge-info";
+      case "onTheWay": return "badge-primary";
       case "delivered": return "badge-success";
-      case "cancelled":
-      case "failed":
-      case "rejected":
+      case "cancelled": return "badge-error";
+      case "failed": return "badge-error";
+      case "rejected": return "badge-error";
       case "undeliverable": return "badge-error";
       default: return "badge-neutral";
     }
@@ -94,7 +93,7 @@ const CustomerOrders = () => {
                       ₹{order.billDetails?.finalAmount?.toFixed(2) || "0.00"}
                     </td>
                     <td className="py-3">
-                      <span className={`badge ${getStatusColor(order.orderStatus)} badge-sm font-semibold capitalize`}>
+                      <span className={`badge ${getStatusColor(order.orderStatus)} badge-sm w-20  font-semibold capitalize`}>
                         {order.orderStatus}
                       </span>
                     </td>

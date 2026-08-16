@@ -47,7 +47,6 @@ const RestaurantOrders = () => {
       case "ready": return "text-blue-600 bg-blue-100";
       case "pickedUp":
       case "onTheWay":
-      case "outForDelivery": return "text-indigo-600 bg-indigo-100";
       case "delivered": return "text-emerald-600 bg-emerald-100";
       case "cancelled":
       case "failed":
@@ -59,11 +58,11 @@ const RestaurantOrders = () => {
 
   const orderStatuses = [
     "pending", "accepted", "preparing", "ready", "pickedUp", 
-    "onTheWay", "outForDelivery", "delivered", "cancelled", "rejected"
+    "onTheWay", "delivered", "cancelled", "rejected"
   ];
 
   return (
-    <div className="overflow-y-auto h-full p-2">
+    <div className="overflow-y-auto  h-full p-2">
       <h2 className="text-2xl font-bold mb-6 text-gray-900">Live Orders</h2>
       <div className="bg-base-100 p-6 rounded-2xl shadow-sm border border-base-200">
         {isLoading ? (
@@ -71,7 +70,7 @@ const RestaurantOrders = () => {
             <span className="loading loading-spinner loading-lg text-primary"></span>
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div>
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-gray-100 text-gray-500 text-sm">

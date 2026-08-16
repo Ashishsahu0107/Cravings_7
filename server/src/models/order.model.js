@@ -38,7 +38,6 @@ const OrderSchema = mongoose.Schema(
         "ready",
         "pickedUp",
         "onTheWay",
-        "outForDelivery",
         "undeliverable",
         "delivered",
         "cancelled",

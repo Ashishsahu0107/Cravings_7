@@ -471,7 +471,7 @@ export const getDashboardOverview = async (req, res, next) => {
       // Map status
       let mappedStatus = "Preparing";
       if (
-        ["pickedUp", "onTheWay", "outForDelivery"].includes(order.orderStatus)
+        ["pickedUp", "onTheWay"].includes(order.orderStatus)
       )
         mappedStatus = "Ready";
       if (order.orderStatus === "delivered") mappedStatus = "Delivered";
